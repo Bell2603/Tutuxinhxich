@@ -82,6 +82,13 @@ Database có ràng buộc bảo vệ dữ liệu (VD giá gốc phải lớn hơ
 - Khách tự hủy được đơn khi đơn còn "Chờ xác nhận".
 - Thanh toán hiện là **giả lập** (COD / chuyển khoản mô phỏng), không phát sinh tiền thật.
 
+## Quản lý đánh giá
+
+- Khách chỉ viết được đánh giá khi đơn chứa chiếc khăn đó ở trạng thái **Đã giao** (database kiểm tra). Mỗi khách 1 đánh giá/sản phẩm, có thể sửa/xóa.
+- `/admin/danh-gia`: tắt công tắc để **ẩn** đánh giá vi phạm (spam, ngôn từ không phù hợp). Đánh giá ẩn không tính vào điểm trung bình; người viết vẫn thấy kèm ghi chú "đang được ẩn".
+- Trang chủ tự hiển thị 3 đánh giá thật mới nhất (4–5 sao) khi có đủ; trước đó là nội dung demo được ghi rõ.
+- Dữ liệu: bảng `public.product_reviews` (cột `rating`, `content`, `author_name`, `is_visible`).
+
 ## Thêm quản trị viên
 
 Người cần quyền admin tự đăng ký tài khoản trên website, sau đó chạy trong **Supabase Studio → SQL Editor**:

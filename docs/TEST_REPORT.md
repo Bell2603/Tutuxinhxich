@@ -9,9 +9,9 @@ Cập nhật: 2026-10-15 · Môi trường: macOS (arm64), Node 24.13, Supabase 
 | Lint                                                  | `npm run lint`             | ✅ 0 lỗi, 0 cảnh báo                  |
 | Typecheck                                             | `npm run typecheck`        | ✅                                    |
 | Định dạng                                             | `npm run format:check`     | ✅                                    |
-| Unit (Vitest, jsdom)                                  | `npm run test:unit`        | ✅ 64/64                              |
-| Integration (Vitest + Supabase local)                 | `npm run test:integration` | ✅ 30/30                              |
-| E2E (Playwright, build production, desktop + Pixel 7) | `npm run test:e2e`         | ✅ 63/63                              |
+| Unit (Vitest, jsdom)                                  | `npm run test:unit`        | ✅ 69/69                              |
+| Integration (Vitest + Supabase local)                 | `npm run test:integration` | ✅ 38/38                              |
+| E2E (Playwright, build production, desktop + Pixel 7) | `npm run test:e2e`         | ✅ 66/66                              |
 | Production build                                      | `npm run build`            | ✅ mọi trang là Partial Prerender (◐) |
 
 ## Phạm vi theo yêu cầu bắt buộc
@@ -48,6 +48,8 @@ Cập nhật: 2026-10-15 · Môi trường: macOS (arm64), Node 24.13, Supabase 
 | Quên/đặt lại mật khẩu | E2E: yêu cầu link → đọc email trong Mailpit → đặt mật khẩu mới → đăng nhập; email lạ nhận cùng thông báo; link hết hạn |
 | Đổi mật khẩu | Unit schema; E2E sai mật khẩu hiện tại bị từ chối, đổi thành công đăng nhập được |
 | Checkout điền sẵn | E2E đơn thứ hai tự điền địa chỉ đơn trước |
+
+| Đánh giá thật | Integration: chưa giao không viết được, chỉ sản phẩm đã mua, giới hạn sao/độ dài, viết lại = cập nhật, không lộ `user_id`, admin ẩn, thống kê chỉ tính đánh giá hiển thị, xóa của mình; E2E viết từ đơn đã giao → hiện trên trang/thẻ/JSON-LD, khách chưa mua không có form, admin ẩn |
 
 ## Ghi chú
 

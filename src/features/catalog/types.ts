@@ -31,6 +31,8 @@ export type Product = {
   isFeatured: boolean;
   sortOrder: number;
   updatedAt: string;
+  /** Điểm đánh giá trung bình (null khi chưa có đánh giá hiển thị). */
+  rating: { average: number; count: number } | null;
 };
 
 export const FABRICS: readonly Fabric[] = ["satin", "len", "voan", "cotton"];

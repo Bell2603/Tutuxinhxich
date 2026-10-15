@@ -39,5 +39,6 @@ export function toProduct(row: ProductRow): Product {
     isFeatured: row.is_featured,
     sortOrder: row.sort_order,
     updatedAt: row.updated_at,
+    rating: null,
   };
 }

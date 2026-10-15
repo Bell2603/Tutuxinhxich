@@ -7,6 +7,7 @@ import { TiltCard } from "@/components/motion/tilt-card";
 import { ProductBadge } from "@/components/ui/badge";
 import { Price } from "@/components/ui/price";
 import { AddToCartButton } from "@/features/cart/components/add-to-cart-button";
+import { StarRating } from "@/features/reviews/components/star-rating";
 import { WishlistButton } from "@/features/wishlist/components/wishlist-button";
 import { toaLabel } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -110,6 +111,14 @@ export function ProductCard({
               ))}
             </div>
           </div>
+          {product.rating ? (
+            <StarRating
+              value={product.rating.average}
+              count={product.rating.count}
+              size="xs"
+              className="text-xs"
+            />
+          ) : null}
           <p className="line-clamp-2 text-sm text-ink-soft">{product.shortDescription}</p>
           <div className="mt-auto flex items-end justify-between gap-3 pt-2">
             <Price price={product.price} compareAtPrice={product.compareAtPrice} />

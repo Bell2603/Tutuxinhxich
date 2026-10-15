@@ -61,7 +61,7 @@ async function OrderView({ params, searchParams }: PageProps<"/tai-khoan/don-han
             <h2 id="items-title" className="text-2xl font-extrabold">
               Sản phẩm ({order.item_count})
             </h2>
-            <OrderItems items={order.order_items} />
+            <OrderItems items={order.order_items} reviewLinks={order.status === "delivered"} />
           </section>
         </div>
         <div className="space-y-8">

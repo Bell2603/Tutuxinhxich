@@ -24,6 +24,7 @@ export function makeProduct(overrides: Partial<Product> = {}): Product {
     isFeatured: false,
     sortOrder: 1,
     updatedAt: "2026-10-15T00:00:00Z",
+    rating: null,
     ...overrides,
   };
 }

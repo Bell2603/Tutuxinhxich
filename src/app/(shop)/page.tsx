@@ -10,7 +10,7 @@ import { FinalCta } from "@/features/home/components/final-cta";
 import { Hero } from "@/features/home/components/hero";
 import { Lookbook } from "@/features/home/components/lookbook";
 import { MarqueeBand } from "@/features/home/components/marquee-band";
-import { Reviews } from "@/features/home/components/reviews";
+import { Reviews, ReviewsSkeleton } from "@/features/home/components/reviews";
 import { StylingGuide } from "@/features/home/components/styling-guide";
 import { WhyUs } from "@/features/home/components/why-us";
 
@@ -45,7 +45,9 @@ export default function HomePage() {
       <BrandStory />
       <WhyUs />
       <StylingGuide />
-      <Reviews />
+      <Suspense fallback={<ReviewsSkeleton />}>
+        <Reviews />
+      </Suspense>
       <FinalCta />
     </PageTransition>
   );

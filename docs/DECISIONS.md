@@ -71,3 +71,7 @@ Giống giỏ hàng (D-10): không cần đăng nhập, không thêm bảng. Đ�
 ### D-18 — Email xác thực dùng link `token_hash`
 
 Mẫu email tự viết (`supabase/templates/*.html`) trỏ thẳng về `/auth/confirm?token_hash=…` thay cho link PKCE mặc định: mở được trên điện thoại dù yêu cầu từ máy tính, nội dung tiếng Việt theo thương hiệu. `/auth/confirm` vẫn hỗ trợ `?code=` (B-011).
+
+### D-19 — Đánh giá chỉ từ khách đã nhận hàng, bảo vệ riêng tư
+
+Điều kiện "đơn đã giao" kiểm tra trong RPC `submit_review` (không tin client). Tên hiển thị rút gọn, cột `user_id` không cấp quyền đọc (grant theo cột) và hàm `has_delivered_product` không gọi trực tiếp được — tránh suy ra ai đã mua gì. Admin chỉ ẩn/hiện, không sửa nội dung của khách.

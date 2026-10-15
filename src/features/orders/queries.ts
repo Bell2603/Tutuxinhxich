@@ -27,7 +27,7 @@ export async function getMyOrderByCode(code: string) {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("orders")
-    .select("*, order_items(*), order_events(id, status, note, created_at)")
+    .select("*, order_items(*, products(slug)), order_events(id, status, note, created_at)")
     .eq("code", code)
     .eq("user_id", user.id)
     .order("id", { referencedTable: "order_events", ascending: true })

@@ -14,6 +14,8 @@ export type AppErrorCode =
   | "PRODUCT_LIMIT_REACHED"
   | "ORDER_NOT_FOUND"
   | "INVALID_TRANSITION"
+  | "REVIEW_NOT_ALLOWED"
+  | "INVALID_REVIEW"
   | "UNKNOWN";
 
 type SupabaseLikeError = {
@@ -41,6 +43,8 @@ const KNOWN_CODES = new Set<AppErrorCode>([
   "PRODUCT_LIMIT_REACHED",
   "ORDER_NOT_FOUND",
   "INVALID_TRANSITION",
+  "REVIEW_NOT_ALLOWED",
+  "INVALID_REVIEW",
 ]);
 
 function parseContext(raw: string | null | undefined): Record<string, unknown> {
@@ -91,6 +95,10 @@ function messageFor(code: AppErrorCode, context: Record<string, unknown>): strin
       return "Không tìm thấy đơn hàng.";
     case "INVALID_TRANSITION":
       return "Không thể chuyển đơn hàng sang trạng thái này.";
+    case "REVIEW_NOT_ALLOWED":
+      return "Chỉ khách đã nhận được chiếc khăn này mới viết được đánh giá.";
+    case "INVALID_REVIEW":
+      return "Đánh giá cần 1–5 sao và nội dung từ 10 đến 1000 ký tự.";
     default:
       return "Đã có lỗi xảy ra, vui lòng thử lại sau.";
   }

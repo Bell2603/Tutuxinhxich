@@ -10,6 +10,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ProductCard } from "@/features/catalog/components/product-card";
 import { ProductGallery } from "@/features/catalog/components/product-gallery";
 import { StylingTips } from "@/features/catalog/components/styling-tips";
+import { ReviewSection, ReviewSectionSkeleton } from "@/features/reviews/components/review-section";
+import { StarRating } from "@/features/reviews/components/star-rating";
 import { MobileBuyBar, PurchasePanel } from "@/features/catalog/components/purchase-panel";
 import { productImages } from "@/features/catalog/domain";
 import { getProductBySlug, getVisibleProducts } from "@/features/catalog/queries";
@@ -52,6 +54,17 @@ async function ProductView({ params }: { params: PageProps<"/san-pham/[slug]">["
     material: product.material,
     color: product.colors.map((c) => c.name).join(", "),
     brand: { "@type": "Brand", name: "Tu Tu Xình Xịch" },
+    ...(product.rating
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: product.rating.average,
+            reviewCount: product.rating.count,
+            bestRating: 5,
+            worstRating: 1,
+          },
+        }
+      : {}),
     offers: {
       "@type": "Offer",
       priceCurrency: "VND",
@@ -114,6 +127,15 @@ async function ProductView({ params }: { params: PageProps<"/san-pham/[slug]">["
             >
               {product.name}
             </h1>
+            {product.rating ? (
+              <a
+                href="#danh-gia"
+                className="mt-3 inline-flex text-sm focus-ring hover:underline"
+                data-testid="product-rating"
+              >
+                <StarRating value={product.rating.average} count={product.rating.count} showValue />
+              </a>
+            ) : null}
             <p className="mt-4 text-lg text-ink-soft">{product.shortDescription}</p>
             <div className="mt-5 flex flex-wrap items-center gap-2" aria-label="Màu sắc">
               {product.colors.map((color) => (
@@ -165,6 +187,10 @@ async function ProductView({ params }: { params: PageProps<"/san-pham/[slug]">["
         </div>
 
         <StylingTips size={product.size} name={product.name} />
+
+        <Suspense fallback={<ReviewSectionSkeleton />}>
+          <ReviewSection productId={product.id} slug={product.slug} name={product.name} />
+        </Suspense>
 
         {related.length > 0 ? (
           <section className="mt-24" aria-labelledby="related-title">

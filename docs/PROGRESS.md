@@ -18,7 +18,7 @@
 | M9 — Tài liệu & bàn giao                                       | ✅         |
 | M10 — Motion & giao diện (chuyển trang, lightbox, yêu thích)   | ✅         |
 | M11 — Tài khoản nâng cao (quên/đổi mật khẩu, điền sẵn địa chỉ) | ✅         |
-| M12 — Đánh giá thật từ khách đã mua                            | ⏳         |
+| M12 — Đánh giá thật từ khách đã mua                            | ✅         |
 | M13 — Mã giảm giá                                              | ⏳         |
 
 > Cách cập nhật bảng: sửa trực tiếp ô trạng thái (Prettier có thể căn lại cột — kiểm tra lại sau khi format).
@@ -115,6 +115,14 @@
 - Mẫu email xác nhận đăng ký tiếng Việt (`supabase/templates/confirmation.html`) — dùng khi bật xác nhận email ở production.
 - Checkout tự điền họ tên/SĐT/địa chỉ của đơn gần nhất (`getLastShipping`).
 - Kiểm thử: unit 64 · E2E 63 (thêm `tests/e2e/account.spec.ts`, đọc email qua API Mailpit) · integration 30.
+
+### M12 — Đánh giá thật (phiên 2)
+
+- Migration `20261016000100_product_reviews.sql`: bảng `product_reviews` (1 đánh giá/khách/sản phẩm), RPC `submit_review` (chỉ khi có đơn **Đã giao** chứa sản phẩm), `review_status_for_me`, view `product_review_stats`; tên hiển thị rút gọn ("Nguyễn Thị Hoa" → "Hoa N."); không ai đọc được `user_id` của người đánh giá.
+- Trang sản phẩm: điểm trung bình, phân bố sao, danh sách có huy hiệu "Đã mua hàng", form chọn sao có hiệu ứng (sửa/xóa đánh giá của mình); sao trên thẻ sản phẩm; JSON-LD `aggregateRating`.
+- Đơn đã giao có link "Viết đánh giá" từng sản phẩm. Trang chủ tự chuyển sang đánh giá thật khi có ≥ 3 đánh giá 4–5 sao (nhãn xanh), nếu chưa thì giữ nội dung demo (nhãn vàng).
+- Admin `/admin/danh-gia`: ẩn/hiện đánh giá.
+- Kiểm thử: unit 69 · integration 38 · E2E 66.
 
 ## Bước tiếp theo (gợi ý cho phiên sau — cần chủ cửa hàng quyết định)
 

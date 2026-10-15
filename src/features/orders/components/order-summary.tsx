@@ -1,8 +1,12 @@
+import { PencilLine } from "lucide-react";
+import type { Route } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { formatVND } from "@/lib/format";
 import { PAYMENT_METHOD_LABELS, type PaymentMethod } from "../domain";
 
 type Item = {
+  products?: { slug: string } | null;
   id: number;
   product_name: string;
   sku: string;
@@ -12,7 +16,13 @@ type Item = {
   line_total: number;
 };
 
-export function OrderItems({ items }: { items: Item[] }) {
+export function OrderItems({
+  items,
+  reviewLinks = false,
+}: {
+  items: Item[];
+  reviewLinks?: boolean;
+}) {
   return (
     <ul className="divide-y divide-line">
       {items.map((item) => (
@@ -27,6 +37,15 @@ export function OrderItems({ items }: { items: Item[] }) {
             <p className="text-sm text-ink-soft">
               {item.sku} · {formatVND(item.unit_price)} × {item.quantity}
             </p>
+            {reviewLinks && item.products?.slug ? (
+              <Link
+                href={`/san-pham/${item.products.slug}#danh-gia` as Route}
+                className="mt-1 inline-flex items-center gap-1 text-sm font-semibold text-berry hover:underline"
+                data-testid="write-review-link"
+              >
+                <PencilLine className="size-3.5" aria-hidden /> Viết đánh giá
+              </Link>
+            ) : null}
           </div>
           <span className="font-display font-bold">{formatVND(item.line_total)}</span>
         </li>

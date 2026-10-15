@@ -170,6 +170,58 @@ export type Database = {
           },
         ];
       };
+      product_reviews: {
+        Row: {
+          author_name: string;
+          content: string;
+          created_at: string;
+          id: string;
+          is_visible: boolean;
+          product_id: string;
+          rating: number;
+          updated_at: string;
+          user_id: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          author_name: string;
+          content: string;
+          created_at?: string;
+          id?: string;
+          is_visible?: boolean;
+          product_id: string;
+          rating: number;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          author_name?: string;
+          content?: string;
+          created_at?: string;
+          id?: string;
+          is_visible?: boolean;
+          product_id?: string;
+          rating?: number;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "product_reviews_product_id_fkey";
+            columns: ["product_id"];
+            isOneToOne: false;
+            referencedRelation: "products";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "product_reviews_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       products: {
         Row: {
           badge: Database["public"]["Enums"]["product_badge"] | null;
@@ -276,7 +328,23 @@ export type Database = {
       };
     };
     Views: {
-      [_ in never]: never;
+      product_review_stats: {
+        Row: {
+          average_rating: number | null;
+          product_id: string | null;
+          review_count: number | null;
+        };
+        ComputedFields: never;
+        Relationships: [
+          {
+            foreignKeyName: "product_reviews_product_id_fkey";
+            columns: ["product_id"];
+            isOneToOne: false;
+            referencedRelation: "products";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Functions: {
       admin_dashboard_stats: { Args: Record<PropertyKey, never>; Returns: Json };
@@ -299,6 +367,7 @@ export type Database = {
         Args: { p_order_id: string };
         Returns: Database["public"]["Enums"]["order_status"];
       };
+      has_delivered_product: { Args: { p_product_id: string; p_user: string }; Returns: boolean };
       is_admin: { Args: Record<PropertyKey, never>; Returns: boolean };
       place_order: {
         Args: {
@@ -313,7 +382,13 @@ export type Database = {
         }[];
       };
       restock_order: { Args: { p_order_id: string }; Returns: undefined };
+      review_display_name: { Args: { p_full_name: string }; Returns: string };
+      review_status_for_me: { Args: { p_product_id: string }; Returns: Json };
       shipping_fee_for: { Args: { p_subtotal: number }; Returns: number };
+      submit_review: {
+        Args: { p_content: string; p_product_id: string; p_rating: number };
+        Returns: string;
+      };
     };
     Enums: {
       fabric_type: "satin" | "len" | "voan" | "cotton";
