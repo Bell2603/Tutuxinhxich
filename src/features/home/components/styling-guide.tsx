@@ -8,63 +8,7 @@ import type { Route } from "next";
 import { useId, useRef, useState, type KeyboardEvent } from "react";
 import { Accent, SectionHeading } from "@/components/ui/section-heading";
 import { cn } from "@/lib/utils";
-import {
-  BagIllustration,
-  BowIllustration,
-  HeadbandIllustration,
-  ParisIllustration,
-} from "./styling-illustrations";
-
-const STYLES = [
-  {
-    key: "no-co",
-    label: "Nơ cổ áo",
-    Illustration: BowIllustration,
-    lead: "Kiểu kinh điển cho áo sơ mi và blouse — thanh lịch nhưng vẫn rất đáng yêu.",
-    steps: [
-      "Gấp khăn vuông thành dải dài khoảng 5 cm.",
-      "Vòng quanh cổ dưới cổ áo, bắt chéo hai đầu.",
-      "Thắt nơ, kéo hai cánh nơ cân đối và tỉa đuôi.",
-    ],
-    suggest: { name: "Mây Hồng Kẹo Bông", slug: "may-hong-keo-bong" },
-  },
-  {
-    key: "paris",
-    label: "Thắt kiểu Paris",
-    Illustration: ParisIllustration,
-    lead: "Gọn gàng, giữ ấm tốt và hợp mọi áo khoác — kiểu thắt nhanh nhất cho khăn dài.",
-    steps: [
-      "Gấp đôi khăn theo chiều dài.",
-      "Vòng qua gáy, để phần vòng gấp ở một bên.",
-      "Luồn hai đầu khăn qua vòng gấp rồi chỉnh độ lỏng.",
-    ],
-    suggest: { name: "Sọc Kẹo Cầu Vồng", slug: "soc-keo-cau-vong" },
-  },
-  {
-    key: "tui",
-    label: "Buộc quai túi",
-    Illustration: BagIllustration,
-    lead: "Biến chiếc túi quen thuộc thành món phụ kiện mới chỉ trong 30 giây.",
-    steps: [
-      "Gấp khăn thành dải nhỏ khoảng 3 cm.",
-      "Thắt nút đơn quanh chân quai túi.",
-      "Quấn hoặc thắt nơ, để hai đuôi khăn bay nhẹ.",
-    ],
-    suggest: { name: "Ngân Hà Lấp Lánh", slug: "ngan-ha-lap-lanh" },
-  },
-  {
-    key: "bang-do",
-    label: "Băng đô tóc",
-    Illustration: HeadbandIllustration,
-    lead: "Giữ tóc gọn gàng ngày nắng, thêm điểm nhấn màu sắc cho khuôn mặt.",
-    steps: [
-      "Gấp chéo khăn vuông thành hình tam giác rồi cuộn thành dải.",
-      "Đặt dải khăn qua đỉnh đầu, đưa hai đầu ra sau gáy.",
-      "Thắt nút hoặc nơ nhỏ lệch một bên cho tinh nghịch.",
-    ],
-    suggest: { name: "Hoa Cúc Sân Ga", slug: "hoa-cuc-san-ga" },
-  },
-] as const;
+import { STYLES } from "../styling-data";
 
 export function StylingGuide() {
   const [active, setActive] = useState(0);

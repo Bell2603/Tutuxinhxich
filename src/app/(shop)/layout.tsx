@@ -6,6 +6,7 @@ import { AccountMenu, AccountMenuSkeleton } from "@/features/auth/components/acc
 import { CartDrawer } from "@/features/cart/components/cart-drawer";
 import { CartFlightLayer } from "@/features/cart/components/cart-flight-layer";
 import { CartHydrator } from "@/features/cart/components/cart-hydrator";
+import { WishlistHydrator } from "@/features/wishlist/components/wishlist-hydrator";
 
 export default function ShopLayout({ children }: LayoutProps<"/">) {
   return (
@@ -25,6 +26,7 @@ export default function ShopLayout({ children }: LayoutProps<"/">) {
       <CartDrawer />
       <CartFlightLayer />
       <CartHydrator />
+      <WishlistHydrator />
     </>
   );
 }

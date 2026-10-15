@@ -16,7 +16,7 @@
 | M7 — Quản trị                                                  | ✅         |
 | M8 — Hardening                                                 | ✅         |
 | M9 — Tài liệu & bàn giao                                       | ✅         |
-| M10 — Motion & giao diện (chuyển trang, lightbox, yêu thích)   | ⏳         |
+| M10 — Motion & giao diện (chuyển trang, lightbox, yêu thích)   | ✅         |
 | M11 — Tài khoản nâng cao (quên/đổi mật khẩu, điền sẵn địa chỉ) | ⏳         |
 | M12 — Đánh giá thật từ khách đã mua                            | ⏳         |
 | M13 — Mã giảm giá                                              | ⏳         |
@@ -98,6 +98,15 @@
 
 - `README.md`, `docs/RUN_GUIDE.md`, `docs/PRODUCT_MANAGEMENT.md`, `docs/DEPLOY_GUIDE.md`, `docs/PROJECT_SPEC.md`, `docs/FINAL_REPORT.md`.
 - Kiểm thử cuối: lint ✅ · typecheck ✅ · format ✅ · unit 57 ✅ · integration 30 ✅ · E2E 51 ✅ · build ✅.
+
+### M10 — Motion & giao diện (phiên 2)
+
+- **Chuyển trang** (yêu cầu #14 còn thiếu ở phiên 1) bằng React `<ViewTransition>` + View Transitions API: `PageTransition` bọc từng trang cửa hàng; mặc định mờ chéo + trồi nhẹ, link sản phẩm trượt tới (`nav-forward`), breadcrumb/quay lại trượt lui (`nav-back`); skeleton → nội dung có hiệu ứng trao tay (`SkeletonExit`/`ContentEnter`); header + thanh thông báo đứng yên; tắt khi "giảm chuyển động"; chỉ chạy khi điều hướng phía client (không ẩn HTML SSR).
+- **Lightbox ảnh** toàn màn hình: ảnh bay ra/vào từ gallery (Motion `layoutId`), vuốt/phím ←→, bấm phóng 2× tại điểm bấm + kéo xem, thumbnail, Esc; giữ ảnh đang xem khi đóng.
+- **Yêu thích** (`/yeu-thich`): nút tim trên thẻ & trang sản phẩm (nảy + chùm tim bay), đếm trên header, lưu localStorage, "Thêm tất cả vào giỏ"; sản phẩm hết hàng vẫn thả tim được.
+- **Gợi ý cách quàng theo từng khăn**: dữ liệu 4 cách quàng tách ra `src/features/home/styling-data.ts`; khăn vuông/dài đọc từ ô "Kích thước".
+- Sửa giao diện: header 375px không xuống dòng, hàng mua hàng trên mobile (nút "Thêm vào giỏ" rộng hết hàng).
+- Kiểm thử: unit 61 · E2E 58 (thêm `tests/e2e/experience.spec.ts`).
 
 ## Bước tiếp theo (gợi ý cho phiên sau — cần chủ cửa hàng quyết định)
 

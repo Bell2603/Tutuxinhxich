@@ -1,6 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
-import { ADMIN, createCustomer, dbProduct, login, trackErrors } from "./support";
+import { ADMIN, createCustomer, dbProduct, login, settleAnimations, trackErrors } from "./support";
 
 const PAGES = ["/", "/bo-suu-tap", "/san-pham/may-hong-keo-bong", "/dang-nhap", "/chinh-sach"];
 
@@ -10,6 +10,7 @@ test.describe("Chất lượng", () => {
       await page.emulateMedia({ reducedMotion: "reduce" });
       await page.goto(path);
       await page.waitForLoadState("networkidle");
+      await settleAnimations(page);
       const results = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
         .analyze();

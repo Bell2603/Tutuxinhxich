@@ -59,3 +59,11 @@ Nonce theo request buộc toàn bộ trang render động. Chọn CSP chặn ngu
 ### D-15 — Chỉ dùng giao diện sáng
 
 Bản sắc pastel rực rỡ được thiết kế cho nền kem; `color-scheme: light`. Có thể bổ sung chế độ tối sau.
+
+### D-16 — Chuyển trang bằng React `<ViewTransition>` thay vì Motion/template
+
+Next 16.4 + React 19.3 hỗ trợ sẵn View Transitions: chạy trên compositor của trình duyệt (nhẹ), tự kích hoạt khi điều hướng, không làm mất HTML SSR, trình duyệt cũ chỉ đổi trang bình thường. Không dùng hiệu ứng "morph" ảnh giữa trang danh sách và chi tiết vì dữ liệu sản phẩm cố ý đọc động (D-02) nên trang đích chưa có sẵn lúc bấm.
+
+### D-17 — Yêu thích lưu trên trình duyệt
+
+Giống giỏ hàng (D-10): không cần đăng nhập, không thêm bảng. Đổi sang lưu theo tài khoản nếu sau này cần đồng bộ nhiều thiết bị.

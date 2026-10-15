@@ -1,3 +1,4 @@
+import { PageTransition } from "@/components/motion/page-transition";
 import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -97,23 +98,26 @@ async function OrderView({ params, searchParams }: PageProps<"/tai-khoan/don-han
 
 export default function OrderPage(props: PageProps<"/tai-khoan/don-hang/[code]">) {
   return (
-    <div className="container-page py-10">
-      <Link
-        href="/tai-khoan"
-        className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-ink-soft hover:text-ink"
-      >
-        <ArrowLeft className="size-4" aria-hidden /> Tài khoản & đơn hàng
-      </Link>
-      <Suspense
-        fallback={
-          <div className="space-y-6">
-            <Skeleton className="h-14 w-80" />
-            <Skeleton className="h-64 rounded-[2rem]" />
-          </div>
-        }
-      >
-        <OrderView {...props} />
-      </Suspense>
-    </div>
+    <PageTransition>
+      <div className="container-page py-10">
+        <Link
+          href="/tai-khoan"
+          transitionTypes={["nav-back"]}
+          className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-ink-soft hover:text-ink"
+        >
+          <ArrowLeft className="size-4" aria-hidden /> Tài khoản & đơn hàng
+        </Link>
+        <Suspense
+          fallback={
+            <div className="space-y-6">
+              <Skeleton className="h-14 w-80" />
+              <Skeleton className="h-64 rounded-[2rem]" />
+            </div>
+          }
+        >
+          <OrderView {...props} />
+        </Suspense>
+      </div>
+    </PageTransition>
   );
 }

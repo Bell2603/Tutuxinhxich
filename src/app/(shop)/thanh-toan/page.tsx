@@ -1,3 +1,4 @@
+import { PageTransition } from "@/components/motion/page-transition";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Accent } from "@/components/ui/section-heading";
@@ -14,20 +15,22 @@ async function Checkout() {
 
 export default function CheckoutPage() {
   return (
-    <div className="container-page py-10">
-      <h1 className="mb-8 text-5xl font-extrabold sm:text-6xl">
-        Thanh toán <Accent>vé tàu</Accent>
-      </h1>
-      <Suspense
-        fallback={
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.3fr_1fr]">
-            <Skeleton className="h-[32rem] rounded-[2rem]" />
-            <Skeleton className="h-96 rounded-[2rem]" />
-          </div>
-        }
-      >
-        <Checkout />
-      </Suspense>
-    </div>
+    <PageTransition>
+      <div className="container-page py-10">
+        <h1 className="mb-8 text-5xl font-extrabold sm:text-6xl">
+          Thanh toán <Accent>vé tàu</Accent>
+        </h1>
+        <Suspense
+          fallback={
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.3fr_1fr]">
+              <Skeleton className="h-[32rem] rounded-[2rem]" />
+              <Skeleton className="h-96 rounded-[2rem]" />
+            </div>
+          }
+        >
+          <Checkout />
+        </Suspense>
+      </div>
+    </PageTransition>
   );
 }

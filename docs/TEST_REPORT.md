@@ -9,9 +9,9 @@ Cập nhật: 2026-10-15 · Môi trường: macOS (arm64), Node 24.13, Supabase 
 | Lint                                                  | `npm run lint`             | ✅ 0 lỗi, 0 cảnh báo                  |
 | Typecheck                                             | `npm run typecheck`        | ✅                                    |
 | Định dạng                                             | `npm run format:check`     | ✅                                    |
-| Unit (Vitest, jsdom)                                  | `npm run test:unit`        | ✅ 57/57                              |
+| Unit (Vitest, jsdom)                                  | `npm run test:unit`        | ✅ 61/61                              |
 | Integration (Vitest + Supabase local)                 | `npm run test:integration` | ✅ 30/30                              |
-| E2E (Playwright, build production, desktop + Pixel 7) | `npm run test:e2e`         | ✅ 51/51                              |
+| E2E (Playwright, build production, desktop + Pixel 7) | `npm run test:e2e`         | ✅ 58/58                              |
 | Production build                                      | `npm run build`            | ✅ mọi trang là Partial Prerender (◐) |
 
 ## Phạm vi theo yêu cầu bắt buộc
@@ -36,8 +36,18 @@ Cập nhật: 2026-10-15 · Môi trường: macOS (arm64), Node 24.13, Supabase 
 | Bảo mật header                    | E2E: CSP, X-Frame-Options, nosniff, Referrer-Policy, không lộ X-Powered-By                                                                                              |
 | Hồi quy lưu sản phẩm (B-009)      | E2E admin: lưu không làm đổi màu/ảnh/mô tả                                                                                                                              |
 
+## Bổ sung phiên 2
+
+| Hạng mục         | Kiểm thử                                                                                                            |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Lightbox         | E2E: mở, phím ←→, nút tiếp, Esc, gallery giữ ảnh đang xem; chạm mở trên mobile                                      |
+| Yêu thích        | Unit `toggleWishlist`/`sanitizeWishlist`; E2E thả tim → đếm → tải lại → `/yeu-thich` → thêm tất cả vào giỏ → bỏ tim |
+| Chuyển trang     | E2E: `startViewTransition` nhận type `nav-forward`/`nav-back`, không lỗi JS                                         |
+| Gợi ý cách quàng | Unit `scarfShape`; E2E khăn vuông ↔ khăn dài                                                                        |
+
 ## Ghi chú
 
 - E2E reset database local về dữ liệu demo trước mỗi lần chạy (`tests/e2e/global-setup.ts`).
 - Trang 404 của route được stream trả mã 200 kèm `noindex` (hành vi chuẩn của Next.js 16 với Partial Prerender) — test kiểm tra `noindex`.
+- Kiểm tra axe chạy sau khi animation có hạn kết thúc (`settleAnimations`), vì hiệu ứng mờ dần làm phép đo tương phản sai.
 - React có thể tạm giữ bản sao ẩn của nội dung đang stream → test luôn chọn phần tử đang hiển thị (`visible()` trong `tests/e2e/support.ts`).

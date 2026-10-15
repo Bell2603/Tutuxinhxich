@@ -114,6 +114,7 @@ export function SearchDialog({
                 >
                   <Link
                     href={`/san-pham/${product.slug}` as Route}
+                    transitionTypes={["nav-forward"]}
                     onClick={close}
                     className="group flex items-center gap-3 rounded-3xl bg-white p-2.5 pr-4 ring-1 ring-line focus-ring transition-all hover:-translate-y-0.5 hover:shadow-card"
                   >

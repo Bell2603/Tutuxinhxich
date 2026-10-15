@@ -1,3 +1,4 @@
+import { ContentEnter, PageTransition, SkeletonExit } from "@/components/motion/page-transition";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -8,6 +9,7 @@ import { Accent } from "@/components/ui/section-heading";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ProductCard } from "@/features/catalog/components/product-card";
 import { ProductGallery } from "@/features/catalog/components/product-gallery";
+import { StylingTips } from "@/features/catalog/components/styling-tips";
 import { MobileBuyBar, PurchasePanel } from "@/features/catalog/components/purchase-panel";
 import { productImages } from "@/features/catalog/domain";
 import { getProductBySlug, getVisibleProducts } from "@/features/catalog/queries";
@@ -70,13 +72,21 @@ async function ProductView({ params }: { params: PageProps<"/san-pham/[slug]">["
         <nav aria-label="Breadcrumb" className="mb-6 text-sm text-ink-soft">
           <ol className="flex flex-wrap items-center gap-2">
             <li>
-              <Link href="/" className="hover:text-ink hover:underline">
+              <Link
+                href="/"
+                transitionTypes={["nav-back"]}
+                className="hover:text-ink hover:underline"
+              >
                 Trang chủ
               </Link>
             </li>
             <li aria-hidden>/</li>
             <li>
-              <Link href="/bo-suu-tap" className="hover:text-ink hover:underline">
+              <Link
+                href="/bo-suu-tap"
+                transitionTypes={["nav-back"]}
+                className="hover:text-ink hover:underline"
+              >
                 Bộ sưu tập
               </Link>
             </li>
@@ -154,6 +164,8 @@ async function ProductView({ params }: { params: PageProps<"/san-pham/[slug]">["
           </div>
         </div>
 
+        <StylingTips size={product.size} name={product.name} />
+
         {related.length > 0 ? (
           <section className="mt-24" aria-labelledby="related-title">
             <h2 id="related-title" className="text-4xl font-extrabold sm:text-5xl">
@@ -192,8 +204,18 @@ function ProductSkeleton() {
 
 export default function ProductPage({ params }: PageProps<"/san-pham/[slug]">) {
   return (
-    <Suspense fallback={<ProductSkeleton />}>
-      <ProductView params={params} />
-    </Suspense>
+    <PageTransition>
+      <Suspense
+        fallback={
+          <SkeletonExit>
+            <ProductSkeleton />
+          </SkeletonExit>
+        }
+      >
+        <ContentEnter>
+          <ProductView params={params} />
+        </ContentEnter>
+      </Suspense>
+    </PageTransition>
   );
 }

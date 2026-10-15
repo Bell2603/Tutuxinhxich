@@ -1,3 +1,4 @@
+import { PageTransition } from "@/components/motion/page-transition";
 import { LogOut, Package } from "lucide-react";
 import type { Metadata, Route } from "next";
 import Image from "next/image";
@@ -60,6 +61,7 @@ async function Account() {
               <li key={order.id}>
                 <Link
                   href={`/tai-khoan/don-hang/${order.code}` as Route}
+                  transitionTypes={["nav-forward"]}
                   className="group flex flex-wrap items-center gap-4 rounded-[2rem] bg-white p-5 shadow-card ring-1 ring-line focus-ring transition-transform hover:-translate-y-1"
                 >
                   <div className="flex -space-x-3">
@@ -102,23 +104,25 @@ async function Account() {
 
 export default function AccountPage() {
   return (
-    <div className="container-page py-10">
-      <h1 className="mb-8 text-5xl font-extrabold sm:text-6xl">
-        Tài khoản <Accent>của bạn</Accent>
-      </h1>
-      <Suspense
-        fallback={
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[22rem_1fr]">
-            <Skeleton className="h-96 rounded-[2rem]" />
-            <div className="space-y-4">
-              <Skeleton className="h-24 rounded-[2rem]" />
-              <Skeleton className="h-24 rounded-[2rem]" />
+    <PageTransition>
+      <div className="container-page py-10">
+        <h1 className="mb-8 text-5xl font-extrabold sm:text-6xl">
+          Tài khoản <Accent>của bạn</Accent>
+        </h1>
+        <Suspense
+          fallback={
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-[22rem_1fr]">
+              <Skeleton className="h-96 rounded-[2rem]" />
+              <div className="space-y-4">
+                <Skeleton className="h-24 rounded-[2rem]" />
+                <Skeleton className="h-24 rounded-[2rem]" />
+              </div>
             </div>
-          </div>
-        }
-      >
-        <Account />
-      </Suspense>
-    </div>
+          }
+        >
+          <Account />
+        </Suspense>
+      </div>
+    </PageTransition>
   );
 }

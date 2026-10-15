@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { ContentEnter, PageTransition, SkeletonExit } from "@/components/motion/page-transition";
 import { BrandStory } from "@/features/home/components/brand-story";
 import {
   CollectionSection,
@@ -15,14 +16,30 @@ import { WhyUs } from "@/features/home/components/why-us";
 
 export default function HomePage() {
   return (
-    <>
+    <PageTransition>
       <Hero />
       <MarqueeBand />
-      <Suspense fallback={<CollectionSkeleton />}>
-        <CollectionSection />
+      <Suspense
+        fallback={
+          <SkeletonExit>
+            <CollectionSkeleton />
+          </SkeletonExit>
+        }
+      >
+        <ContentEnter>
+          <CollectionSection />
+        </ContentEnter>
       </Suspense>
-      <Suspense fallback={<FeaturedSkeleton />}>
-        <FeaturedSection />
+      <Suspense
+        fallback={
+          <SkeletonExit>
+            <FeaturedSkeleton />
+          </SkeletonExit>
+        }
+      >
+        <ContentEnter>
+          <FeaturedSection />
+        </ContentEnter>
       </Suspense>
       <Lookbook />
       <BrandStory />
@@ -30,6 +47,6 @@ export default function HomePage() {
       <StylingGuide />
       <Reviews />
       <FinalCta />
-    </>
+    </PageTransition>
   );
 }

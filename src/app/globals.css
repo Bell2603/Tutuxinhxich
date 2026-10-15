@@ -246,3 +246,115 @@
     transform: rotate(360deg);
   }
 }
+
+/* ---------------------------------------------------------------------------
+ * View Transitions (chuyển trang & skeleton → nội dung). Xem src/components/motion/page-transition.tsx
+ * ------------------------------------------------------------------------- */
+:root {
+  --vt-exit: 120ms;
+  --vt-enter: 220ms;
+  --vt-move: 340ms;
+  /* Trang mới bắt đầu hiện khi trang cũ mới mờ một nửa → không có khoảng trắng giữa hai trang. */
+  --vt-overlap: 50ms;
+}
+
+/* Lớp phủ chuyển cảnh không chặn click vào trang thật. */
+::view-transition {
+  pointer-events: none;
+}
+
+/* Header & thanh thông báo đứng yên làm điểm neo khi nội dung trượt. */
+::view-transition-group(site-header),
+::view-transition-group(site-announcement) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header),
+::view-transition-old(site-announcement) {
+  display: none;
+}
+::view-transition-new(site-header),
+::view-transition-new(site-announcement) {
+  animation: none;
+}
+
+::view-transition-old(.page-exit) {
+  animation: var(--vt-exit) ease-in both vt-fade reverse;
+}
+::view-transition-new(.page-enter) {
+  animation:
+    var(--vt-enter) var(--ease-smooth) var(--vt-overlap) both vt-fade,
+    var(--vt-move) var(--ease-smooth) both vt-rise;
+}
+
+::view-transition-old(.nav-forward) {
+  --vt-offset: -56px;
+  animation:
+    var(--vt-exit) ease-in both vt-fade reverse,
+    var(--vt-move) ease-in-out both vt-slide reverse;
+}
+::view-transition-new(.nav-forward) {
+  --vt-offset: 56px;
+  animation:
+    var(--vt-enter) ease-out var(--vt-overlap) both vt-fade,
+    var(--vt-move) ease-in-out both vt-slide;
+}
+::view-transition-old(.nav-back) {
+  --vt-offset: 56px;
+  animation:
+    var(--vt-exit) ease-in both vt-fade reverse,
+    var(--vt-move) ease-in-out both vt-slide reverse;
+}
+::view-transition-new(.nav-back) {
+  --vt-offset: -56px;
+  animation:
+    var(--vt-enter) ease-out var(--vt-overlap) both vt-fade,
+    var(--vt-move) ease-in-out both vt-slide;
+}
+
+::view-transition-old(.slide-down) {
+  animation:
+    var(--vt-exit) ease-out both vt-fade reverse,
+    var(--vt-exit) ease-out both vt-rise reverse;
+}
+::view-transition-new(.slide-up) {
+  animation:
+    var(--vt-enter) ease-in var(--vt-overlap) both vt-fade,
+    var(--vt-move) var(--ease-smooth) both vt-rise;
+}
+
+@keyframes vt-fade {
+  from {
+    filter: blur(3px);
+    opacity: 0;
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+@keyframes vt-rise {
+  from {
+    transform: translateY(14px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes vt-slide {
+  from {
+    translate: var(--vt-offset);
+  }
+  to {
+    translate: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}

@@ -98,3 +98,20 @@ export function trackErrors(page: Page): string[] {
 export async function cartCount(page: Page) {
   return visible(page.getByTestId("cart-count"));
 }
+
+/** Đợi các animation có hạn (fade/trượt) chạy xong; bỏ qua animation lặp vô hạn (marquee) và gắn với cuộn trang. */
+export async function settleAnimations(page: Page) {
+  await page.waitForFunction(
+    () =>
+      document.getAnimations().every(
+        (a) =>
+          a.playState !== "running" ||
+          a.effect?.getTiming().iterations === Infinity ||
+          // Animation gắn với thanh cuộn (parallax) luôn ở trạng thái "running".
+          a.timeline !== document.timeline,
+      ),
+    undefined,
+    { timeout: 5_000 },
+  );
+  await page.waitForTimeout(150);
+}

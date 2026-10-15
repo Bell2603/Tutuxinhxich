@@ -8,6 +8,7 @@ import { Suspense, useState, type ReactNode } from "react";
 import { Logo } from "@/components/brand/logo";
 import { site } from "@/config/site";
 import { CartButton } from "@/features/cart/components/cart-button";
+import { WishlistLink } from "@/features/wishlist/components/wishlist-button";
 import { cn } from "@/lib/utils";
 import { DesktopNav, DesktopNavFallback } from "./desktop-nav";
 import { MobileMenu } from "./mobile-menu";
@@ -35,6 +36,8 @@ export function SiteHeader({ account }: { account: ReactNode }) {
         transition={{ type: "spring", stiffness: 300, damping: 34 }}
       >
         <div
+          // Neo header đứng yên khi chuyển trang (view transition).
+          style={{ viewTransitionName: "site-header" }}
           className={cn(
             "transition-[background-color,box-shadow,backdrop-filter] duration-300",
             scrolled
@@ -42,10 +45,10 @@ export function SiteHeader({ account }: { account: ReactNode }) {
               : "bg-transparent",
           )}
         >
-          <div className="container-page flex h-[4.5rem] items-center gap-3">
+          <div className="container-page flex h-[4.5rem] items-center gap-2 sm:gap-3">
             <button
               type="button"
-              className="grid size-11 place-items-center rounded-full bg-white/70 text-ink shadow-sm focus-ring lg:hidden"
+              className="grid size-10 place-items-center rounded-full bg-white/70 text-ink shadow-sm focus-ring sm:size-11 lg:hidden"
               onClick={() => setMenuOpen(true)}
               aria-label="Mở menu"
               aria-expanded={menuOpen}
@@ -65,17 +68,18 @@ export function SiteHeader({ account }: { account: ReactNode }) {
               <DesktopNav />
             </Suspense>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               <button
                 type="button"
                 onClick={() => setSearchOpen(true)}
-                className="grid size-11 place-items-center rounded-full bg-white/70 text-ink shadow-sm focus-ring transition-transform hover:scale-105"
+                className="grid size-10 place-items-center rounded-full bg-white/70 text-ink shadow-sm focus-ring transition-transform hover:scale-105 sm:size-11"
                 aria-label="Tìm kiếm khăn"
                 data-testid="search-button"
               >
                 <Search className="size-5" aria-hidden />
               </button>
               <div className="hidden sm:block">{account}</div>
+              <WishlistLink />
               <CartButton />
             </div>
           </div>

@@ -19,7 +19,7 @@ export function CartButton({ className }: { className?: string }) {
       data-cart-target
       data-testid="cart-button"
       className={cn(
-        "relative grid size-11 place-items-center rounded-full bg-ink text-cream focus-ring transition-transform duration-300 ease-[var(--ease-bounce)] hover:-translate-y-0.5 hover:rotate-[-6deg] active:scale-95",
+        "relative grid size-10 place-items-center rounded-full bg-ink text-cream focus-ring transition-transform duration-300 ease-[var(--ease-bounce)] hover:-translate-y-0.5 hover:rotate-[-6deg] active:scale-95 sm:size-11",
         className,
       )}
       aria-label={`Mở giỏ hàng, ${shown} sản phẩm`}

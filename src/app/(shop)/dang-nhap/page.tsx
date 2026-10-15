@@ -1,3 +1,4 @@
+import { PageTransition } from "@/components/motion/page-transition";
 import type { Metadata, Route } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -50,13 +51,15 @@ async function SignIn({ searchParams }: { searchParams: PageProps<"/dang-nhap">[
 
 export default function SignInPage({ searchParams }: PageProps<"/dang-nhap">) {
   return (
-    <AuthShell
-      title="Chào mừng lên tàu!"
-      subtitle="Đăng nhập vào tài khoản Tu Tu Xình Xịch của bạn."
-    >
-      <Suspense fallback={<Skeleton className="h-80" />}>
-        <SignIn searchParams={searchParams} />
-      </Suspense>
-    </AuthShell>
+    <PageTransition>
+      <AuthShell
+        title="Chào mừng lên tàu!"
+        subtitle="Đăng nhập vào tài khoản Tu Tu Xình Xịch của bạn."
+      >
+        <Suspense fallback={<Skeleton className="h-80" />}>
+          <SignIn searchParams={searchParams} />
+        </Suspense>
+      </AuthShell>
+    </PageTransition>
   );
 }

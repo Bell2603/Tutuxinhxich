@@ -3,7 +3,12 @@ import { site } from "@/config/site";
 
 export function AnnouncementBar() {
   return (
-    <div className="relative z-40 bg-ink text-cream" role="region" aria-label="Thông báo">
+    <div
+      className="relative z-40 bg-ink text-cream"
+      role="region"
+      aria-label="Thông báo"
+      style={{ viewTransitionName: "site-announcement" }}
+    >
       <p className="sr-only">{site.announcements.join(". ")}</p>
       <Marquee className="py-2 text-[0.8rem] font-semibold tracking-wide">
         {site.announcements.map((text) => (

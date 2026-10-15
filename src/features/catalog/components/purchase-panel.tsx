@@ -9,6 +9,7 @@ import { AddToCartButton } from "@/features/cart/components/add-to-cart-button";
 import { QuantityStepper } from "@/features/cart/components/quantity-stepper";
 import { maxPurchasable } from "@/features/cart/domain";
 import { useCart } from "@/features/cart/store";
+import { WishlistButton } from "@/features/wishlist/components/wishlist-button";
 import { cn } from "@/lib/utils";
 import { stockLabel, stockStatus } from "../domain";
 import type { Product } from "../types";
@@ -50,7 +51,18 @@ export function PurchasePanel({ product }: { product: Product }) {
               onChange={setQuantity}
               label={`Chọn số lượng ${product.name}`}
             />
-            <AddToCartButton product={product} quantity={qty} className="flex-1" openDrawer />
+            <WishlistButton
+              productId={product.id}
+              name={product.name}
+              size="lg"
+              className="ml-auto sm:order-last sm:ml-0"
+            />
+            <AddToCartButton
+              product={product}
+              quantity={qty}
+              className="order-last w-full sm:order-none sm:w-auto sm:flex-1"
+              openDrawer
+            />
           </div>
           {remaining === 0 ? (
             <p className="text-sm font-medium text-warning" role="status">
@@ -72,9 +84,17 @@ export function PurchasePanel({ product }: { product: Product }) {
           </Button>
         </div>
       ) : (
-        <Button variant="primary" size="lg" disabled>
-          Tạm hết hàng
-        </Button>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-3">
+            <Button variant="primary" size="lg" disabled className="flex-1">
+              Tạm hết hàng
+            </Button>
+            <WishlistButton productId={product.id} name={product.name} size="lg" />
+          </div>
+          <p className="text-sm text-ink-soft">
+            Thả tim để lưu lại — Tu Tu sẽ sớm có hàng trở lại.
+          </p>
+        </div>
       )}
 
       <ul className="grid grid-cols-1 gap-3 rounded-[2rem] bg-white p-5 ring-1 ring-line sm:grid-cols-3">

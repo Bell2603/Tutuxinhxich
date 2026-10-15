@@ -59,7 +59,7 @@ export function Logo({
   onDark?: boolean;
 }) {
   const mark = (
-    <LogoMark className="size-10 shrink-0 transition-transform duration-500 ease-[var(--ease-bounce)] group-hover:scale-110 group-hover:-rotate-6" />
+    <LogoMark className="size-9 shrink-0 transition-transform duration-500 ease-[var(--ease-bounce)] group-hover:scale-110 group-hover:-rotate-6 sm:size-10" />
   );
   return (
     <span className={cn("inline-flex items-center gap-2", className)}>
@@ -78,7 +78,7 @@ export function Logo({
         >
           Tu Tu
         </span>
-        <span className="block text-xl">Xình Xịch</span>
+        <span className="block text-lg whitespace-nowrap sm:text-xl">Xình Xịch</span>
       </span>
     </span>
   );
