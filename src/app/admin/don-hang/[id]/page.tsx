@@ -52,6 +52,8 @@ async function AdminOrder({ params }: { params: PageProps<"/admin/don-hang/[id]"
               subtotal={order.subtotal}
               shippingFee={order.shipping_fee}
               total={order.total}
+              discount={order.discount}
+              couponCode={order.coupon_code}
             />
           </section>
           <section className="rounded-[2rem] bg-white p-6 shadow-card ring-1 ring-line">

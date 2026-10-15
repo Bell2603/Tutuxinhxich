@@ -53,3 +53,33 @@ Ngày: 2026-10-15 · Nhánh: `main` (git repo riêng trong `~/Tutuxinhxich`, **c
 ## 6. Cách tiếp tục ở phiên Claude Code mới
 
 Đọc `CLAUDE.md` → `docs/PLAN.md` → `docs/PROGRESS.md` (mục "Bước tiếp theo") → `docs/BUGS.md`; bật môi trường theo `docs/RUN_GUIDE.md`.
+
+---
+
+# Phiên 2 — hoàn thiện sau MVP (2026-10-15)
+
+## Kết quả
+
+| Milestone    | Nội dung                                                                                                                                      | Trạng thái |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| Sửa tài liệu | Bảng tiến độ & danh sách lỗi bị Prettier làm lệch khi cập nhật bằng script (B-012)                                                            | ✅         |
+| M10          | Chuyển trang (View Transitions — yêu cầu #14 còn thiếu), lightbox ảnh shared-element, yêu thích `/yeu-thich`, gợi ý cách quàng theo dáng khăn | ✅         |
+| M11          | Quên/đặt lại mật khẩu với email tiếng Việt, đổi mật khẩu, checkout điền sẵn địa chỉ                                                           | ✅         |
+| M12          | Đánh giá thật chỉ từ khách đã nhận hàng, admin kiểm duyệt, sao trên thẻ/trang/JSON-LD, trang chủ tự dùng đánh giá thật                        | ✅         |
+| M13          | Mã giảm giá (tính trong DB, chống vượt lượt khi đặt đồng thời, hủy trả lượt), quản lý ở admin                                                 | ✅         |
+
+## Kiểm thử cuối phiên 2
+
+lint ✅ · typecheck ✅ · format ✅ · unit **78** ✅ · integration **45** ✅ · E2E **70** ✅ (desktop + Pixel 7, build production) · build ✅.
+
+## Lỗi phát hiện & sửa trong phiên 2
+
+B-012 (tài liệu), B-013 (lightbox mobile), B-014 (lệch hydrate header), B-015 (axe đo lúc đang mờ dần), B-016 (khung trắng khi chuyển trang) — chi tiết `docs/BUGS.md`. Không còn lỗi P0/P1 đang mở.
+
+## Ghi chú môi trường
+
+OrbStack bị dừng giữa phiên (không do Claude thực hiện); đã bật lại để chạy Supabase local và dừng lại các container của `~/khan-store` (dữ liệu giữ nguyên). Database local được reset về dữ liệu demo sạch ở cuối phiên.
+
+## Cần chủ cửa hàng quyết định
+
+Dữ liệu thật (sản phẩm, ảnh, liên hệ, chính sách), tắt 2 mã giảm giá demo, deploy (`docs/DEPLOY_GUIDE.md`), cổng thanh toán thật.

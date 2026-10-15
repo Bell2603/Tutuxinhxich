@@ -75,3 +75,7 @@ Mẫu email tự viết (`supabase/templates/*.html`) trỏ thẳng về `/auth/
 ### D-19 — Đánh giá chỉ từ khách đã nhận hàng, bảo vệ riêng tư
 
 Điều kiện "đơn đã giao" kiểm tra trong RPC `submit_review` (không tin client). Tên hiển thị rút gọn, cột `user_id` không cấp quyền đọc (grant theo cột) và hàm `has_delivered_product` không gọi trực tiếp được — tránh suy ra ai đã mua gì. Admin chỉ ẩn/hiện, không sửa nội dung của khách.
+
+### D-20 — Mã giảm giá tính trong database, phí ship theo tạm tính trước giảm
+
+`place_order` kiểm tra lại mã (khóa dòng `coupons` → không vượt tổng lượt khi đặt đồng thời) và tự tính tiền giảm; ô nhập ở checkout chỉ là xem trước. Phí ship dựa trên tạm tính trước giảm giá để quy tắc "free ship từ 500.000₫" dễ hiểu. Hủy đơn trả lượt dùng. Khách không đọc được bảng `coupons` (chỉ kiểm tra từng mã qua `preview_coupon`) để không lộ danh sách mã.

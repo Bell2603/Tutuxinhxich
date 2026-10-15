@@ -19,7 +19,7 @@
 | M10 — Motion & giao diện (chuyển trang, lightbox, yêu thích)   | ✅         |
 | M11 — Tài khoản nâng cao (quên/đổi mật khẩu, điền sẵn địa chỉ) | ✅         |
 | M12 — Đánh giá thật từ khách đã mua                            | ✅         |
-| M13 — Mã giảm giá                                              | ⏳         |
+| M13 — Mã giảm giá                                              | ✅         |
 
 > Cách cập nhật bảng: sửa trực tiếp ô trạng thái (Prettier có thể căn lại cột — kiểm tra lại sau khi format).
 
@@ -124,9 +124,24 @@
 - Admin `/admin/danh-gia`: ẩn/hiện đánh giá.
 - Kiểm thử: unit 69 · integration 38 · E2E 66.
 
-## Bước tiếp theo (gợi ý cho phiên sau — cần chủ cửa hàng quyết định)
+### M13 — Mã giảm giá (phiên 2)
 
-1. Thay dữ liệu demo bằng dữ liệu thật qua `/admin/san-pham` (tên, giá, ảnh chụp thật, tồn kho) và sửa `src/config/site.ts` (liên hệ, mạng xã hội), chính sách, đánh giá.
-2. Khi sẵn sàng: làm theo `docs/DEPLOY_GUIDE.md` (Supabase Cloud + Vercel) — chưa thực hiện vì cần tài khoản & quyết định của chủ cửa hàng.
-3. Tích hợp cổng thanh toán thật (VNPay/MoMo/PayOS) qua webhook có xác thực — ngoài phạm vi MVP.
-4. Ý tưởng sau MVP: email xác nhận đơn, quên mật khẩu, sổ địa chỉ, mã giảm giá, wishlist, chế độ tối.
+- Migration `20261016000200_coupons.sql`: bảng `coupons` (%/số tiền, giảm tối đa, đơn tối thiểu, thời gian, tổng lượt, lượt/khách, bật/tắt), `coupon_redemptions`, cột `orders.discount` + `orders.coupon_code`, `place_order(…, p_coupon_code)` khóa dòng mã khi đặt đồng thời, `preview_coupon`, hủy đơn → trả lượt (`release_coupon`).
+- Checkout: ô "Mã giảm giá" (Enter/Áp dụng, báo lý do không dùng được), dòng "Giảm giá", tổng mới; phí ship tính theo tạm tính trước giảm giá. Đơn hàng (khách & admin) hiện giảm giá + mã.
+- Admin `/admin/ma-giam-gia`: tạo, bật/tắt, xóa (chỉ mã chưa dùng). 2 mã DEMO trong seed: `LENTAU10`, `CHAOBAN30K`.
+- Kiểm thử: unit 78 · integration 45 (gồm đặt đồng thời giành lượt cuối, parity TS ↔ SQL) · E2E 70.
+
+### Tổng kết phiên 2
+
+- 5 commit: sửa tài liệu tiến độ (B-012) → M10 → M11 → M12 → M13. Không push, không deploy.
+- Môi trường: OrbStack bị dừng giữa phiên (không do Claude) → đã bật lại, dừng lại container của `~/khan-store` như phiên trước.
+
+## Bước tiếp theo
+
+Toàn bộ milestone M0–M13 đã xong. Việc còn lại **cần chủ cửa hàng quyết định/cung cấp** (không tự làm):
+
+1. Dữ liệu thật: tên/giá/ảnh chụp/tồn kho 6 sản phẩm (`/admin/san-pham`), thông tin liên hệ & mạng xã hội (`src/config/site.ts`), chính sách (`/chinh-sach`), tắt/xóa 2 mã giảm giá demo và dòng thông báo "mã demo" (`/admin/ma-giam-gia`, `src/config/site.ts`).
+2. Deploy theo `docs/DEPLOY_GUIDE.md` (cần tài khoản Supabase, Vercel, tên miền, SMTP).
+3. Cổng thanh toán thật (VNPay/MoMo/PayOS) qua webhook có xác thực.
+
+Ý tưởng an toàn có thể làm ở phiên sau nếu muốn: email xác nhận đơn hàng (cần SMTP), sổ địa chỉ nhiều địa chỉ, xuất đơn hàng CSV cho admin, lịch sử biến động tồn kho, chế độ tối, Lighthouse/hiệu năng trên thiết bị thật.

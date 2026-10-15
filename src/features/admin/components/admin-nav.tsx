@@ -1,6 +1,13 @@
 "use client";
 
-import { LayoutDashboard, MessageSquareHeart, Package, ShoppingBag, Store } from "lucide-react";
+import {
+  LayoutDashboard,
+  MessageSquareHeart,
+  Package,
+  ShoppingBag,
+  Store,
+  TicketPercent,
+} from "lucide-react";
 import * as m from "motion/react-m";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,6 +18,7 @@ const ITEMS = [
   { href: "/admin/san-pham", label: "Sản phẩm", Icon: Package },
   { href: "/admin/don-hang", label: "Đơn hàng", Icon: ShoppingBag },
   { href: "/admin/danh-gia", label: "Đánh giá", Icon: MessageSquareHeart },
+  { href: "/admin/ma-giam-gia", label: "Mã giảm giá", Icon: TicketPercent },
 ] as const;
 
 export function AdminNav() {

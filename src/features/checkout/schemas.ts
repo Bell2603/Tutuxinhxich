@@ -38,6 +38,12 @@ export const checkoutSchema = z.object({
     .min(1, "Giỏ hàng đang trống")
     .max(6),
   clientRequestId: z.uuid(),
+  couponCode: z
+    .string()
+    .trim()
+    .max(20)
+    .regex(/^[A-Za-z0-9]*$/, "Mã giảm giá chỉ gồm chữ và số")
+    .optional(),
 });
 
 export type CheckoutInput = z.input<typeof checkoutSchema>;

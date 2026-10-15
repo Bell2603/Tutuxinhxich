@@ -107,6 +107,7 @@ Sau đó thay dữ liệu demo bằng dữ liệu thật qua trang `/admin/san-p
 - [ ] Trang chi tiết sản phẩm, thêm vào giỏ, đổi số lượng, giỏ giữ sau khi tải lại.
 - [ ] Đăng ký → nhận email xác nhận → đăng nhập.
 - [ ] "Quên mật khẩu?" → nhận email tiếng Việt → đặt mật khẩu mới → đăng nhập.
+- [ ] Tắt/xóa mã giảm giá demo (`/admin/ma-giam-gia`) và tạo mã thật nếu cần; thử áp một mã ở checkout.
 - [ ] Đặt một đơn thử nghiệm → đơn xuất hiện ở `/tai-khoan` và `/admin/don-hang`; tồn kho giảm.
 - [ ] Hủy đơn thử → tồn kho hoàn lại.
 - [ ] Tài khoản thường mở `/admin` → thấy "Không có quyền truy cập".
@@ -136,6 +137,6 @@ Sau đó thay dữ liệu demo bằng dữ liệu thật qua trang `/admin/san-p
 - ❌ Commit file `.env*` (chỉ `.env.example` được commit) hoặc đặt khóa bí mật vào biến bắt đầu bằng `NEXT_PUBLIC_`.
 - ❌ Sửa file migration đã chạy — luôn tạo migration mới.
 - ❌ Bật thu tiền thật khi chưa tích hợp cổng thanh toán (VNPay/MoMo/PayOS…) có xác thực webhook phía server. Phương thức hiện tại là **giả lập**; khi tích hợp thật, trạng thái "đã thanh toán" phải do webhook đã xác minh chữ ký cập nhật, không do trình duyệt.
-- ❌ Để nguyên nội dung mẫu: thông tin liên hệ, chính sách, **đánh giá demo**, ảnh minh họa — thay bằng nội dung thật (`docs/PRODUCT_MANAGEMENT.md`).
+- ❌ Để nguyên nội dung mẫu: thông tin liên hệ, chính sách, **đánh giá demo**, **mã giảm giá demo**, ảnh minh họa — thay bằng nội dung thật (`docs/PRODUCT_MANAGEMENT.md`).
 - ❌ Tắt Row Level Security hoặc sửa policy Storage khi chưa hiểu rõ — đây là lớp bảo vệ chính của dữ liệu.
 - ✅ Bật xác thực 2 lớp cho tài khoản Supabase, Vercel, GitHub; giới hạn số người có quyền admin.

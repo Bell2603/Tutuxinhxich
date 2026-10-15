@@ -89,6 +89,24 @@ Database có ràng buộc bảo vệ dữ liệu (VD giá gốc phải lớn hơ
 - Trang chủ tự hiển thị 3 đánh giá thật mới nhất (4–5 sao) khi có đủ; trước đó là nội dung demo được ghi rõ.
 - Dữ liệu: bảng `public.product_reviews` (cột `rating`, `content`, `author_name`, `is_visible`).
 
+## Quản lý mã giảm giá
+
+`/admin/ma-giam-gia` (bảng `public.coupons`):
+
+| Ô                                      | Ý nghĩa                                                                  |
+| -------------------------------------- | ------------------------------------------------------------------------ |
+| Mã                                     | 3–20 chữ in hoa/số, khách gõ không phân biệt hoa thường (VD `TETXINH20`) |
+| Loại giảm / Mức giảm                   | Theo % (1–90%) hoặc số tiền cố định (₫)                                  |
+| Giảm tối đa                            | Chỉ cho loại %: trần số tiền được giảm                                   |
+| Đơn tối thiểu                          | Tạm tính (chưa gồm phí ship) phải đạt mức này                            |
+| Bắt đầu / Kết thúc                     | Theo giờ Việt Nam, để trống = áp dụng ngay / không hạn                   |
+| Tổng lượt dùng / Mỗi khách dùng tối đa | Giới hạn số đơn dùng mã                                                  |
+
+- Tiền giảm theo % được làm tròn xuống tới 1.000₫. Phí ship tính theo tạm tính **trước** giảm giá.
+- Hủy đơn (admin hoặc khách) trả lại lượt dùng mã.
+- Mã đã có người dùng thì không xóa được — hãy **tắt** công tắc.
+- 2 mã **demo** có sẵn: `LENTAU10` (giảm 10%, tối đa 50.000₫, đơn từ 300.000₫) và `CHAOBAN30K` (giảm 30.000₫, đơn từ 199.000₫). Tắt/xóa trước khi bán thật, đồng thời bỏ dòng "mã demo" trong `src/config/site.ts` (mảng `announcements`).
+
 ## Thêm quản trị viên
 
 Người cần quyền admin tự đăng ký tài khoản trên website, sau đó chạy trong **Supabase Studio → SQL Editor**:

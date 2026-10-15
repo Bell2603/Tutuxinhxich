@@ -58,10 +58,14 @@ export function OrderTotals({
   subtotal,
   shippingFee,
   total,
+  discount = 0,
+  couponCode = null,
 }: {
   subtotal: number;
   shippingFee: number;
   total: number;
+  discount?: number;
+  couponCode?: string | null;
 }) {
   return (
     <dl className="space-y-2 text-sm">
@@ -73,6 +77,14 @@ export function OrderTotals({
         <dt className="text-ink-soft">Phí giao hàng</dt>
         <dd className="font-semibold">{shippingFee === 0 ? "Miễn phí" : formatVND(shippingFee)}</dd>
       </div>
+      {discount > 0 ? (
+        <div className="flex justify-between text-success">
+          <dt>Giảm giá{couponCode ? ` (${couponCode})` : ""}</dt>
+          <dd className="font-semibold" data-testid="order-discount">
+            −{formatVND(discount)}
+          </dd>
+        </div>
+      ) : null}
       <div className="flex justify-between border-t border-line pt-3 text-base">
         <dt className="font-bold">Tổng cộng</dt>
         <dd className="font-display text-xl font-extrabold" data-testid="order-total">

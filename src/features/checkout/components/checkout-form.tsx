@@ -17,6 +17,8 @@ import { useCartSummary } from "@/features/cart/use-cart-summary";
 import { useCatalogStore } from "@/features/catalog/client-store";
 import { formatVND } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { CouponField } from "@/features/coupons/components/coupon-field";
+import { couponDiscount, type CouponTerms } from "@/features/coupons/domain";
 import { placeOrderAction } from "../actions";
 import { PROVINCES, shippingSchema, type ShippingInput, type ShippingValues } from "../schemas";
 
@@ -58,6 +60,10 @@ export function CheckoutForm({
   const [serverError, setServerError] = useState<string | null>(null);
   const [submitting, startSubmit] = useTransition();
   const [placed, setPlaced] = useState(false);
+  const [coupon, setCoupon] = useState<CouponTerms | null>(null);
+  const couponActive = coupon !== null && summary.subtotal >= coupon.minSubtotal;
+  const discount = couponActive ? couponDiscount(coupon, summary.subtotal) : 0;
+  const total = summary.total - discount;
 
   const {
     register,
@@ -84,6 +90,7 @@ export function CheckoutForm({
         paymentMethod: payment,
         items: summary.items.map((i) => ({ productId: i.product.id, quantity: i.quantity })),
         clientRequestId: requestId,
+        couponCode: couponActive ? coupon.code : undefined,
       });
       if (result.ok) {
         setPlaced(true);
@@ -94,6 +101,7 @@ export function CheckoutForm({
       }
       setServerError(result.error);
       toast.error(result.error);
+      if (result.code?.startsWith("COUPON_")) setCoupon(null);
       if (
         result.code === "INSUFFICIENT_STOCK" ||
         result.code === "PRODUCT_UNAVAILABLE" ||
@@ -321,8 +329,18 @@ export function CheckoutForm({
               </li>
             ))}
           </ul>
-          <div className="mt-4">
+          <div className="mt-4 space-y-3">
             <FreeShippingMeter subtotal={summary.subtotal} />
+            <CouponField
+              items={summary.items.map((i) => ({ productId: i.product.id, quantity: i.quantity }))}
+              coupon={coupon}
+              subtotal={summary.subtotal}
+              onApply={(terms) => {
+                setCoupon(terms);
+                toast.success(`Đã áp dụng mã ${terms.code}`);
+              }}
+              onRemove={() => setCoupon(null)}
+            />
           </div>
           <dl className="mt-5 space-y-2 text-sm">
             <div className="flex justify-between">
@@ -337,10 +355,18 @@ export function CheckoutForm({
                 {summary.shippingFee === 0 ? "Miễn phí" : formatVND(summary.shippingFee)}
               </dd>
             </div>
+            {discount > 0 ? (
+              <div className="flex justify-between text-success">
+                <dt>Giảm giá ({coupon?.code})</dt>
+                <dd className="font-semibold" data-testid="checkout-discount">
+                  −{formatVND(discount)}
+                </dd>
+              </div>
+            ) : null}
             <div className="flex justify-between border-t border-line pt-3 text-base">
               <dt className="font-bold">Tổng thanh toán</dt>
               <dd className="font-display text-2xl font-extrabold" data-testid="checkout-total">
-                {formatVND(summary.total)}
+                {formatVND(total)}
               </dd>
             </div>
           </dl>
@@ -361,7 +387,7 @@ export function CheckoutForm({
             data-testid="place-order"
           >
             {submitting || placed ? <Loader2 className="size-5 animate-spin" aria-hidden /> : null}
-            {submitting || placed ? "Đang đặt hàng…" : `Đặt hàng · ${formatVND(summary.total)}`}
+            {submitting || placed ? "Đang đặt hàng…" : `Đặt hàng · ${formatVND(total)}`}
           </Button>
           <p className="mt-3 text-center text-xs text-ink-faint">
             Giá và tồn kho được kiểm tra lại khi đặt hàng.

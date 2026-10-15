@@ -29,9 +29,9 @@ API 54421 · DB 54422 · Studio 54423 · Mailpit 54424 · Next.js 3000
 ## Cấu trúc
 
 ```
-src/app/(shop)/…          Cửa hàng: trang chủ, /bo-suu-tap, /san-pham/[slug], /thanh-toan, /tai-khoan, /dang-nhap, /dang-ky
-src/app/admin/…           Quản trị: /admin, /admin/san-pham, /admin/don-hang
-src/features/<tên>/       catalog · cart · checkout · orders · auth · admin
+src/app/(shop)/…          Cửa hàng: trang chủ, /bo-suu-tap, /san-pham/[slug], /yeu-thich, /thanh-toan, /tai-khoan, /dang-nhap, /dang-ky, /quen-mat-khau, /dat-lai-mat-khau
+src/app/admin/…           Quản trị: /admin, /admin/san-pham, /admin/don-hang, /admin/danh-gia, /admin/ma-giam-gia
+src/features/<tên>/       catalog · cart · checkout · orders · auth · admin · wishlist · reviews · coupons · home
   domain.ts               Logic thuần → unit test (*.test.ts cạnh file)
   schemas.ts              zod dùng chung client + server
   queries.ts              Đọc dữ liệu (server-only)
@@ -65,3 +65,6 @@ npm run test:e2e                # tự build + start, cần Supabase local; rese
 - `npm run db:reset` xóa sạch DB local (chỉ local, có kiểm tra host).
 - Animation: dùng `motion/react`, tôn trọng `prefers-reduced-motion` (`MotionConfig reducedMotion="user"` + CSS).
 - UI tiếng Việt, tiền tệ `formatVND()`.
+- Chuyển trang: bọc nội dung mỗi page bằng `PageTransition` (`src/components/motion/page-transition.tsx`); link tới sản phẩm dùng `transitionTypes={["nav-forward"]}`.
+- Sửa tài liệu bằng script: luôn `assert` chuỗi cần thay có tồn tại (Prettier căn lại bảng Markdown — B-012).
+- Mẫu email Supabase ở `supabase/templates/` (đổi xong: `npm run db:stop && npm run db:start`).

@@ -1,6 +1,6 @@
 # Báo cáo kiểm thử
 
-Cập nhật: 2026-10-15 · Môi trường: macOS (arm64), Node 24.13, Supabase local (CLI 2.120.0), Chromium (Playwright 1.64.1).
+Cập nhật: 2026-10-15 (phiên 2) · Môi trường: macOS (arm64), Node 24.13, Supabase local (CLI 2.120.0), Chromium (Playwright 1.64.1).
 
 ## Tổng hợp
 
@@ -9,9 +9,9 @@ Cập nhật: 2026-10-15 · Môi trường: macOS (arm64), Node 24.13, Supabase 
 | Lint                                                  | `npm run lint`             | ✅ 0 lỗi, 0 cảnh báo                  |
 | Typecheck                                             | `npm run typecheck`        | ✅                                    |
 | Định dạng                                             | `npm run format:check`     | ✅                                    |
-| Unit (Vitest, jsdom)                                  | `npm run test:unit`        | ✅ 69/69                              |
-| Integration (Vitest + Supabase local)                 | `npm run test:integration` | ✅ 38/38                              |
-| E2E (Playwright, build production, desktop + Pixel 7) | `npm run test:e2e`         | ✅ 66/66                              |
+| Unit (Vitest, jsdom)                                  | `npm run test:unit`        | ✅ 78/78                              |
+| Integration (Vitest + Supabase local)                 | `npm run test:integration` | ✅ 45/45                              |
+| E2E (Playwright, build production, desktop + Pixel 7) | `npm run test:e2e`         | ✅ 70/70                              |
 | Production build                                      | `npm run build`            | ✅ mọi trang là Partial Prerender (◐) |
 
 ## Phạm vi theo yêu cầu bắt buộc
@@ -50,6 +50,8 @@ Cập nhật: 2026-10-15 · Môi trường: macOS (arm64), Node 24.13, Supabase 
 | Checkout điền sẵn | E2E đơn thứ hai tự điền địa chỉ đơn trước |
 
 | Đánh giá thật | Integration: chưa giao không viết được, chỉ sản phẩm đã mua, giới hạn sao/độ dài, viết lại = cập nhật, không lộ `user_id`, admin ẩn, thống kê chỉ tính đánh giá hiển thị, xóa của mình; E2E viết từ đơn đã giao → hiện trên trang/thẻ/JSON-LD, khách chưa mua không có form, admin ẩn |
+
+| Mã giảm giá | Unit công thức/nhãn/trạng thái/schema; Integration xem trước (hợp lệ, chưa đủ tối thiểu, sai mã, tắt, hết hạn, chưa bắt đầu), đặt hàng trừ đúng, 1 lần/khách, hủy trả lượt, 2 khách giành lượt cuối, quyền admin, parity TS ↔ SQL; E2E áp mã ở checkout → đơn lưu giảm giá, dùng lại bị từ chối, chưa đủ tối thiểu, admin tạo/tắt/xóa |
 
 ## Ghi chú
 

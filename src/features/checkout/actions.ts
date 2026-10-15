@@ -19,7 +19,7 @@ export async function placeOrderAction(input: unknown): Promise<ActionResult<{ c
       code: "VALIDATION",
     });
   }
-  const { shipping, paymentMethod, items, clientRequestId } = parsed.data;
+  const { shipping, paymentMethod, items, clientRequestId, couponCode } = parsed.data;
 
   const supabase = await createClient();
   const { data, error } = await supabase.rpc("place_order", {
@@ -34,6 +34,7 @@ export async function placeOrderAction(input: unknown): Promise<ActionResult<{ c
     },
     p_payment_method: paymentMethod,
     p_client_request_id: clientRequestId,
+    ...(couponCode ? { p_coupon_code: couponCode.toUpperCase() } : {}),
   });
   if (error || !data?.[0]) {
     const appError = parseAppError(error);

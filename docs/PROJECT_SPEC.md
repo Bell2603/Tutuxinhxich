@@ -31,6 +31,10 @@ Mỗi sản phẩm có: SKU, tên, giá, giá gốc, mô tả ngắn/chi tiết,
 
 Trang chủ landing page · bộ sưu tập (lọc màu/chất liệu/giá, tìm không dấu, sắp xếp) · chi tiết sản phẩm · giỏ hàng (localStorage, khách chưa đăng nhập dùng được, giữ sau đăng nhập) · đăng ký/đăng nhập · checkout (bắt buộc đăng nhập, COD hoặc chuyển khoản **giả lập**) · trạng thái đơn (timeline) · lịch sử mua · tự hủy đơn khi chờ xác nhận.
 
+### Bổ sung phiên 2
+
+Hiệu ứng chuyển trang (View Transitions) · lightbox ảnh toàn màn hình · danh sách yêu thích `/yeu-thich` · gợi ý cách quàng theo dáng khăn · quên/đặt lại/đổi mật khẩu (email tiếng Việt) · checkout điền sẵn địa chỉ đơn gần nhất · đánh giá thật từ khách đã nhận hàng · mã giảm giá.
+
 ### Quản trị viên
 
 Đăng nhập (quyền admin kiểm tra ở server + RLS) · dashboard · sửa 6 sản phẩm (giá, giá gốc, tên, mô tả, màu, ảnh upload, tồn kho, nhãn, ẩn/hiện, nổi bật, thứ tự) · quản lý đơn & cập nhật trạng thái (hủy → hoàn kho).
@@ -59,7 +63,7 @@ Trang chủ landing page · bộ sưu tập (lọc màu/chất liệu/giá, tìm
 
 ## 5. Dữ liệu
 
-`products` (6 dòng) · `profiles` (vai trò customer/admin) · `orders` · `order_items` (lưu ảnh chụp tên/giá lúc mua) · `order_events` (timeline) · Storage bucket `product-images`. Chi tiết: `supabase/migrations/`.
+`products` (6 dòng) · `product_reviews` · `coupons` + `coupon_redemptions` · `profiles` (vai trò customer/admin) · `orders` · `order_items` (lưu ảnh chụp tên/giá lúc mua) · `order_events` (timeline) · Storage bucket `product-images`. Chi tiết: `supabase/migrations/`.
 
 ## 6. Yêu cầu phi chức năng
 

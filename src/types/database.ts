@@ -3,6 +3,108 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export type Database = {
   public: {
     Tables: {
+      coupon_redemptions: {
+        Row: {
+          coupon_id: string;
+          created_at: string;
+          id: number;
+          order_id: string;
+          user_id: string | null;
+        };
+        ComputedFields: never;
+        Insert: {
+          coupon_id: string;
+          created_at?: string;
+          id?: never;
+          order_id: string;
+          user_id?: string | null;
+        };
+        Update: {
+          coupon_id?: string;
+          created_at?: string;
+          id?: never;
+          order_id?: string;
+          user_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "coupon_redemptions_coupon_id_fkey";
+            columns: ["coupon_id"];
+            isOneToOne: false;
+            referencedRelation: "coupons";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "coupon_redemptions_order_id_fkey";
+            columns: ["order_id"];
+            isOneToOne: true;
+            referencedRelation: "orders";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "coupon_redemptions_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      coupons: {
+        Row: {
+          code: string;
+          created_at: string;
+          description: string;
+          discount_type: Database["public"]["Enums"]["coupon_type"];
+          discount_value: number;
+          ends_at: string | null;
+          id: string;
+          is_active: boolean;
+          max_discount: number | null;
+          min_subtotal: number;
+          per_customer_limit: number;
+          starts_at: string | null;
+          updated_at: string;
+          usage_limit: number | null;
+          used_count: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          code: string;
+          created_at?: string;
+          description?: string;
+          discount_type: Database["public"]["Enums"]["coupon_type"];
+          discount_value: number;
+          ends_at?: string | null;
+          id?: string;
+          is_active?: boolean;
+          max_discount?: number | null;
+          min_subtotal?: number;
+          per_customer_limit?: number;
+          starts_at?: string | null;
+          updated_at?: string;
+          usage_limit?: number | null;
+          used_count?: number;
+        };
+        Update: {
+          code?: string;
+          created_at?: string;
+          description?: string;
+          discount_type?: Database["public"]["Enums"]["coupon_type"];
+          discount_value?: number;
+          ends_at?: string | null;
+          id?: string;
+          is_active?: boolean;
+          max_discount?: number | null;
+          min_subtotal?: number;
+          per_customer_limit?: number;
+          starts_at?: string | null;
+          updated_at?: string;
+          usage_limit?: number | null;
+          used_count?: number;
+        };
+        Relationships: [];
+      };
       order_events: {
         Row: {
           created_at: string;
@@ -103,7 +205,9 @@ export type Database = {
           address: string;
           client_request_id: string;
           code: string;
+          coupon_code: string | null;
           created_at: string;
+          discount: number;
           id: string;
           item_count: number;
           note: string;
@@ -124,7 +228,9 @@ export type Database = {
           address: string;
           client_request_id: string;
           code: string;
+          coupon_code?: string | null;
           created_at?: string;
+          discount?: number;
           id?: string;
           item_count: number;
           note?: string;
@@ -144,7 +250,9 @@ export type Database = {
           address?: string;
           client_request_id?: string;
           code?: string;
+          coupon_code?: string | null;
           created_at?: string;
+          discount?: number;
           id?: string;
           item_count?: number;
           note?: string;
@@ -367,11 +475,47 @@ export type Database = {
         Args: { p_order_id: string };
         Returns: Database["public"]["Enums"]["order_status"];
       };
+      check_coupon: {
+        Args: { p_code: string; p_lock: boolean; p_subtotal: number; p_user: string };
+        Returns: {
+          code: string;
+          created_at: string;
+          description: string;
+          discount_type: Database["public"]["Enums"]["coupon_type"];
+          discount_value: number;
+          ends_at: string | null;
+          id: string;
+          is_active: boolean;
+          max_discount: number | null;
+          min_subtotal: number;
+          per_customer_limit: number;
+          starts_at: string | null;
+          updated_at: string;
+          usage_limit: number | null;
+          used_count: number;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "coupons";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
+      coupon_discount_amount: {
+        Args: {
+          p_max: number;
+          p_subtotal: number;
+          p_type: Database["public"]["Enums"]["coupon_type"];
+          p_value: number;
+        };
+        Returns: number;
+      };
       has_delivered_product: { Args: { p_product_id: string; p_user: string }; Returns: boolean };
       is_admin: { Args: Record<PropertyKey, never>; Returns: boolean };
       place_order: {
         Args: {
           p_client_request_id: string;
+          p_coupon_code?: string;
           p_items: Json;
           p_payment_method: Database["public"]["Enums"]["payment_method"];
           p_shipping: Json;
@@ -381,6 +525,8 @@ export type Database = {
           order_id: string;
         }[];
       };
+      preview_coupon: { Args: { p_code: string; p_subtotal: number }; Returns: Json };
+      release_coupon: { Args: { p_order_id: string }; Returns: undefined };
       restock_order: { Args: { p_order_id: string }; Returns: undefined };
       review_display_name: { Args: { p_full_name: string }; Returns: string };
       review_status_for_me: { Args: { p_product_id: string }; Returns: Json };
@@ -391,6 +537,7 @@ export type Database = {
       };
     };
     Enums: {
+      coupon_type: "percent" | "fixed";
       fabric_type: "satin" | "len" | "voan" | "cotton";
       order_status: "pending" | "confirmed" | "shipping" | "delivered" | "cancelled";
       payment_method: "cod" | "bank_transfer_mock";
@@ -507,6 +654,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      coupon_type: ["percent", "fixed"],
       fabric_type: ["satin", "len", "voan", "cotton"],
       order_status: ["pending", "confirmed", "shipping", "delivered", "cancelled"],
       payment_method: ["cod", "bank_transfer_mock"],

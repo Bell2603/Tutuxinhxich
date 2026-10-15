@@ -87,3 +87,11 @@ insert into public.products (
   array['/products/ttxx-006/detail-1.webp', '/products/ttxx-006/detail-2.webp', '/products/ttxx-006/detail-3.webp'],
   'new', true, false, 6
 );
+
+-- =============================================================================
+-- MÃ GIẢM GIÁ DEMO — tắt/xóa hoặc tạo mã mới tại /admin/ma-giam-gia.
+-- =============================================================================
+insert into public.coupons (code, description, discount_type, discount_value, max_discount, min_subtotal, usage_limit, per_customer_limit)
+values
+  ('LENTAU10', 'Giảm 10% (tối đa 50.000₫) cho đơn từ 300.000₫ — mã demo', 'percent', 10, 50000, 300000, 100, 1),
+  ('CHAOBAN30K', 'Giảm 30.000₫ cho đơn từ 199.000₫ — mã demo', 'fixed', 30000, null, 199000, null, 1);

@@ -76,6 +76,8 @@ async function OrderView({ params, searchParams }: PageProps<"/tai-khoan/don-han
               subtotal={order.subtotal}
               shippingFee={order.shipping_fee}
               total={order.total}
+              discount={order.discount}
+              couponCode={order.coupon_code}
             />
             <p className="mt-4 rounded-2xl bg-sun-100 px-4 py-3 text-xs font-semibold text-warning">
               Môi trường thử nghiệm — không phát sinh thanh toán thật.

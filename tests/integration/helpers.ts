@@ -106,6 +106,7 @@ export function placeOrder(
     shipping?: Partial<typeof SHIPPING>;
     requestId?: string;
     payment?: "cod" | "bank_transfer_mock";
+    coupon?: string;
   } = {},
 ) {
   return client.rpc("place_order", {
@@ -113,5 +114,6 @@ export function placeOrder(
     p_shipping: { ...SHIPPING, ...overrides.shipping },
     p_payment_method: overrides.payment ?? "cod",
     p_client_request_id: overrides.requestId ?? randomUUID(),
+    ...(overrides.coupon ? { p_coupon_code: overrides.coupon } : {}),
   });
 }

@@ -13,6 +13,7 @@ export const site = {
   announcements: [
     "Tu tu! Miễn phí giao hàng cho đơn từ 500.000₫",
     "Gói quà xinh miễn phí cho mọi đơn hàng",
+    "Nhập mã LENTAU10 giảm 10% cho đơn từ 300.000₫ (mã demo)",
     "Phiên bản chạy thử — thanh toán chỉ là giả lập, không trừ tiền thật",
     "Đổi trả trong 7 ngày nếu khăn còn nguyên tem",
   ],

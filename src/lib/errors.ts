@@ -16,6 +16,12 @@ export type AppErrorCode =
   | "INVALID_TRANSITION"
   | "REVIEW_NOT_ALLOWED"
   | "INVALID_REVIEW"
+  | "COUPON_NOT_FOUND"
+  | "COUPON_NOT_STARTED"
+  | "COUPON_EXPIRED"
+  | "COUPON_USED_UP"
+  | "COUPON_ALREADY_USED"
+  | "COUPON_MIN_SUBTOTAL"
   | "UNKNOWN";
 
 type SupabaseLikeError = {
@@ -45,6 +51,12 @@ const KNOWN_CODES = new Set<AppErrorCode>([
   "INVALID_TRANSITION",
   "REVIEW_NOT_ALLOWED",
   "INVALID_REVIEW",
+  "COUPON_NOT_FOUND",
+  "COUPON_NOT_STARTED",
+  "COUPON_EXPIRED",
+  "COUPON_USED_UP",
+  "COUPON_ALREADY_USED",
+  "COUPON_MIN_SUBTOTAL",
 ]);
 
 function parseContext(raw: string | null | undefined): Record<string, unknown> {
@@ -99,6 +111,20 @@ function messageFor(code: AppErrorCode, context: Record<string, unknown>): strin
       return "Chỉ khách đã nhận được chiếc khăn này mới viết được đánh giá.";
     case "INVALID_REVIEW":
       return "Đánh giá cần 1–5 sao và nội dung từ 10 đến 1000 ký tự.";
+    case "COUPON_NOT_FOUND":
+      return "Mã giảm giá không tồn tại hoặc đã ngừng áp dụng.";
+    case "COUPON_NOT_STARTED":
+      return "Mã giảm giá chưa đến thời gian áp dụng.";
+    case "COUPON_EXPIRED":
+      return "Mã giảm giá đã hết hạn.";
+    case "COUPON_USED_UP":
+      return "Mã giảm giá đã hết lượt sử dụng.";
+    case "COUPON_ALREADY_USED":
+      return "Bạn đã dùng mã này rồi.";
+    case "COUPON_MIN_SUBTOTAL": {
+      const min = typeof context.min_subtotal === "number" ? context.min_subtotal : 0;
+      return `Mã này áp dụng cho đơn từ ${new Intl.NumberFormat("vi-VN").format(min)}₫ (chưa tính phí ship).`;
+    }
     default:
       return "Đã có lỗi xảy ra, vui lòng thử lại sau.";
   }
