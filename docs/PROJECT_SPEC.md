@@ -49,17 +49,19 @@ Hiệu ứng chuyển trang (View Transitions) · lightbox ảnh toàn màn hìn
 
 ## 4. Trang & đường dẫn
 
-| Đường dẫn                                                | Mô tả                                                     |
-| -------------------------------------------------------- | --------------------------------------------------------- |
-| `/`                                                      | Trang chủ                                                 |
-| `/bo-suu-tap`                                            | Bộ sưu tập + bộ lọc (`?q=&mau=&chat-lieu=&gia=&sap-xep=`) |
-| `/san-pham/[slug]`                                       | Chi tiết sản phẩm                                         |
-| `/thanh-toan`                                            | Checkout (cần đăng nhập)                                  |
-| `/tai-khoan`, `/tai-khoan/don-hang/[code]`               | Tài khoản, đơn hàng                                       |
-| `/dang-nhap`, `/dang-ky`                                 | Xác thực                                                  |
-| `/chinh-sach`                                            | Chính sách (mẫu)                                          |
-| `/admin`, `/admin/san-pham[/id]`, `/admin/don-hang[/id]` | Quản trị                                                  |
-| `/api/catalog`                                           | JSON danh sách sản phẩm công khai (giỏ hàng, tìm kiếm)    |
+| Đường dẫn                                                                                         | Mô tả                                                     |
+| ------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| `/`                                                                                               | Trang chủ                                                 |
+| `/bo-suu-tap`                                                                                     | Bộ sưu tập + bộ lọc (`?q=&mau=&chat-lieu=&gia=&sap-xep=`) |
+| `/san-pham/[slug]`                                                                                | Chi tiết sản phẩm                                         |
+| `/thanh-toan`                                                                                     | Checkout (cần đăng nhập)                                  |
+| `/tai-khoan`, `/tai-khoan/don-hang/[code]`                                                        | Tài khoản, đơn hàng                                       |
+| `/dang-nhap`, `/dang-ky`                                                                          | Xác thực                                                  |
+| `/chinh-sach`                                                                                     | Chính sách (mẫu)                                          |
+| `/yeu-thich`                                                                                      | Danh sách yêu thích                                       |
+| `/quen-mat-khau`, `/dat-lai-mat-khau`                                                             | Quên / đặt lại mật khẩu                                   |
+| `/admin`, `/admin/san-pham[/id]`, `/admin/don-hang[/id]`, `/admin/danh-gia`, `/admin/ma-giam-gia` | Quản trị                                                  |
+| `/api/catalog`                                                                                    | JSON danh sách sản phẩm công khai (giỏ hàng, tìm kiếm)    |
 
 ## 5. Dữ liệu
 
