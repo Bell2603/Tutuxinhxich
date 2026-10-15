@@ -35,6 +35,11 @@ const nextConfig: NextConfig = {
     // Chỉ bật khi Supabase chạy local (127.0.0.1) — production luôn là host công khai.
     dangerouslyAllowLocalIP: isLocalSupabase,
   },
+  experimental: {
+    // Cache build của Turbopack có lúc trả CSS cũ sau khi đổi token màu trong globals.css (xem docs/BUGS.md B-003).
+    // Build chỉ mất ~15 giây nên ưu tiên đúng đắn hơn tốc độ.
+    turbopackFileSystemCacheForBuild: false,
+  },
   turbopack: {
     rules: {
       "*.css": {

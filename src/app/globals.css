@@ -1,26 +1,248 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * Design system — Tu Tu Xình Xịch
+ * Bảng màu pastel rực rỡ + mực tím than đậm cho chữ (tương phản AA).
+ * Đổi màu thương hiệu tại đây; mọi component dùng token qua class Tailwind (bg-bubblegum, text-ink…).
+ */
+@theme {
+  --color-ink: #2b1145;
+  --color-ink-soft: #5b4a6e;
+  --color-ink-faint: #74668a;
+  --color-cream: #fff8f1;
+  --color-paper: #ffffff;
+  --color-blush: #ffe8f1;
+  --color-line: #f0dfe8;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-bubblegum: #ff4f9a;
+  --color-berry: #d4145a;
+  --color-pink-100: #ffd6e7;
+  --color-pink-50: #fff0f6;
+  --color-lilac: #a98bff;
+  --color-lilac-100: #ece4ff;
+  --color-sky: #5cc8ff;
+  --color-sky-100: #dff4ff;
+  --color-sun: #ffcf3f;
+  --color-sun-100: #fff3c7;
+  --color-mint: #5fe0b7;
+  --color-mint-100: #dcf9ef;
+  --color-peach: #ff9f7a;
+  --color-night: #1b1442;
+  --color-night-2: #2c1d5e;
+  --color-gold: #f2c14e;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --color-success: #0b7a52;
+  --color-warning: #9a5b00;
+  --color-danger: #c4123f;
+
+  --font-display: var(--font-bricolage), "Be Vietnam Pro", system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-be-vietnam), system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.75rem;
+
+  --shadow-card: 0 1px 2px rgb(43 17 69 / 0.05), 0 18px 40px -22px rgb(43 17 69 / 0.28);
+  --shadow-pop: 0 1px 0 rgb(43 17 69 / 0.05), 0 16px 34px -14px rgb(212 20 90 / 0.45);
+  --shadow-float: 0 30px 60px -25px rgb(43 17 69 / 0.35);
+
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-shimmer: shimmer 1.6s ease-in-out infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-twinkle: twinkle 2.8s ease-in-out infinite;
+  --animate-blob: blob 18s ease-in-out infinite;
+  --animate-chug: chug 0.5s ease-in-out infinite;
+  --animate-wheel: spin 1s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(var(--float-rotate, 0deg));
+    }
+    50% {
+      transform: translateY(-14px) rotate(calc(var(--float-rotate, 0deg) + 1.5deg));
+    }
+  }
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.25;
+      transform: scale(0.7) rotate(0deg);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1) rotate(20deg);
+    }
+  }
+  @keyframes blob {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(4%, -6%) scale(1.08);
+    }
+    66% {
+      transform: translate(-5%, 4%) scale(0.95);
+    }
+  }
+  @keyframes chug {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-2px);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility bg-aurora {
+  background-image: linear-gradient(120deg, #ff4f9a 0%, #a98bff 48%, #5cc8ff 100%);
+}
+
+@utility bg-sunset {
+  background-image: linear-gradient(120deg, #ffcf3f 0%, #ff9f7a 45%, #ff4f9a 100%);
+}
+
+@utility bg-candy {
+  background-image:
+    radial-gradient(circle at 15% 20%, rgb(255 214 231 / 0.9), transparent 45%),
+    radial-gradient(circle at 85% 10%, rgb(236 228 255 / 0.9), transparent 40%),
+    radial-gradient(circle at 70% 90%, rgb(223 244 255 / 0.9), transparent 45%),
+    radial-gradient(circle at 10% 90%, rgb(255 243 199 / 0.8), transparent 40%);
+}
+
+@utility text-gradient {
+  background-image: linear-gradient(110deg, #d4145a 0%, #8a5cff 55%, #1592d6 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@utility skeleton {
+  background-color: var(--color-pink-50);
+  background-image: linear-gradient(
+    90deg,
+    rgb(255 255 255 / 0) 0%,
+    rgb(255 255 255 / 0.85) 50%,
+    rgb(255 255 255 / 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+}
+
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 80rem;
+  padding-inline: 1rem;
+  @media (width >= 40rem) {
+    padding-inline: 1.5rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 2rem;
+  }
+}
+
+@utility focus-ring {
+  outline: 3px solid transparent;
+  &:focus-visible {
+    outline-color: var(--color-lilac);
+    outline-offset: 3px;
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-pink-100);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-lilac);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@keyframes ride {
+  from {
+    transform: translateX(-110%);
+  }
+  to {
+    transform: translateX(110vw);
+  }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
 }
