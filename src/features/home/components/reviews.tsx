@@ -45,7 +45,7 @@ export function Reviews() {
       >
         Nội dung demo — đánh giá minh họa, sẽ thay bằng phản hồi thật của khách hàng
       </p>
-      <Stagger className="mt-12 grid gap-6 md:grid-cols-3">
+      <Stagger className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
         {DEMO_REVIEWS.map((review) => (
           <StaggerItem key={review.name}>
             <figure

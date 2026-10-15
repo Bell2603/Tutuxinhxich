@@ -108,13 +108,13 @@ export function ProductEditForm({ product }: { product: Product }) {
     <form
       onSubmit={onSubmit}
       noValidate
-      className="grid gap-8 xl:grid-cols-[1fr_22rem]"
+      className="grid grid-cols-1 gap-8 xl:grid-cols-[1fr_22rem]"
       data-testid="product-form"
     >
       <div className="space-y-6">
         <section className="rounded-[2rem] bg-white p-6 shadow-card ring-1 ring-line">
           <h2 className="text-xl font-extrabold">Giá & tồn kho</h2>
-          <div className="mt-5 grid gap-5 sm:grid-cols-3">
+          <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
             <Field
               id={`${id}-price`}
               label="Giá bán (₫)"
@@ -168,7 +168,7 @@ export function ProductEditForm({ product }: { product: Product }) {
 
         <section className="rounded-[2rem] bg-white p-6 shadow-card ring-1 ring-line">
           <h2 className="text-xl font-extrabold">Thông tin sản phẩm</h2>
-          <div className="mt-5 grid gap-5 sm:grid-cols-2">
+          <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
             <Field
               id={`${id}-name`}
               label="Tên sản phẩm"
@@ -276,14 +276,25 @@ export function ProductEditForm({ product }: { product: Product }) {
                 key={field.id}
                 className="grid grid-cols-[auto_1fr_auto] items-end gap-3 rounded-2xl bg-cream p-3 sm:grid-cols-[auto_1fr_10rem_auto]"
               >
-                <label className="flex flex-col gap-1.5 text-sm font-semibold">
-                  Mã màu
-                  <input
-                    type="color"
-                    {...register(`colors.${i}.hex`)}
-                    className="h-12 w-14 cursor-pointer rounded-xl border-2 border-line bg-white p-1"
-                  />
-                </label>
+                <Controller
+                  control={control}
+                  name={`colors.${i}.hex`}
+                  render={({ field: hexField }) => (
+                    <label className="flex flex-col gap-1.5 text-sm font-semibold">
+                      Mã màu
+                      {/* Điều khiển trực tiếp: input màu chỉ nhận mã thường #rrggbb, register sẽ để lại #000000. */}
+                      <input
+                        type="color"
+                        value={String(hexField.value ?? "#000000").toLowerCase()}
+                        onChange={(e) => hexField.onChange(e.target.value.toUpperCase())}
+                        onBlur={hexField.onBlur}
+                        ref={hexField.ref}
+                        className="h-12 w-14 cursor-pointer rounded-xl border-2 border-line bg-white p-1"
+                        data-testid={`color-hex-${i}`}
+                      />
+                    </label>
+                  )}
+                />
                 <Field
                   id={`${id}-color-${i}`}
                   label="Tên màu"

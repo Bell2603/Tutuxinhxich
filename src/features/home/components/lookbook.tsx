@@ -121,7 +121,7 @@ export function Lookbook() {
         aria-hidden
         className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,var(--color-pink-100),transparent_45%),radial-gradient(circle_at_90%_70%,var(--color-sky-100),transparent_45%)]"
       />
-      <div className="container-page grid gap-16 lg:grid-cols-[0.8fr_2fr]">
+      <div className="container-page grid grid-cols-1 gap-16 lg:grid-cols-[0.8fr_2fr]">
         <Reveal className="lg:sticky lg:top-28 lg:self-start">
           <Eyebrow>Lookbook · Sân ga mùa thu</Eyebrow>
           <h2
@@ -136,7 +136,7 @@ export function Lookbook() {
           </p>
           <p className="mt-6 text-sm text-ink-faint">Ảnh minh họa sản phẩm (demo).</p>
         </Reveal>
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
           {COLUMNS.map((column, i) => (
             <Column key={i} {...column} />
           ))}

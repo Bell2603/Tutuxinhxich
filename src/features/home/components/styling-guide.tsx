@@ -147,7 +147,7 @@ export function StylingGuide() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.35 }}
-              className="grid items-center gap-10 md:grid-cols-[0.9fr_1.1fr]"
+              className="grid grid-cols-1 items-center gap-10 md:grid-cols-[0.9fr_1.1fr]"
             >
               <m.div
                 className="mx-auto w-full max-w-sm"

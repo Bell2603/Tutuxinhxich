@@ -100,7 +100,7 @@ export function CheckoutForm({ defaults }: { defaults: { fullName: string; phone
 
   if (!hydrated || isLoading) {
     return (
-      <div className="grid gap-8 lg:grid-cols-[1.3fr_1fr]" aria-busy="true">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.3fr_1fr]" aria-busy="true">
         <Skeleton className="h-[32rem] rounded-[2rem]" />
         <Skeleton className="h-96 rounded-[2rem]" />
       </div>
@@ -137,7 +137,7 @@ export function CheckoutForm({ defaults }: { defaults: { fullName: string; phone
     <form
       onSubmit={onSubmit}
       noValidate
-      className="grid gap-8 lg:grid-cols-[1.3fr_1fr]"
+      className="grid grid-cols-1 gap-8 lg:grid-cols-[1.3fr_1fr]"
       data-testid="checkout-form"
     >
       <div className="space-y-8">
@@ -148,7 +148,7 @@ export function CheckoutForm({ defaults }: { defaults: { fullName: string; phone
           <h2 id={`${id}-ship`} className="text-2xl font-extrabold">
             1. Thông tin nhận hàng
           </h2>
-          <div className="mt-6 grid gap-5 sm:grid-cols-2">
+          <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
             <Field
               id={`${id}-recipientName`}
               label="Họ và tên người nhận"

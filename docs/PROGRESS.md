@@ -81,7 +81,21 @@
 
 - Unit 57 · Integration 30 · E2E 49 (desktop + Pixel 7) — tất cả xanh. Chi tiết: `docs/TEST_REPORT.md`.
 
-## Bước tiếp theo
+### M8 — Hardening
 
-- M8: rà soát giao diện các trang còn lại (checkout, tài khoản, admin) trên desktop/mobile, hiệu năng, CSP.
-- M9: viết `docs/RUN_GUIDE.md`, `docs/PRODUCT_MANAGEMENT.md`, `docs/DEPLOY_GUIDE.md`, `docs/PROJECT_SPEC.md`, `docs/FINAL_REPORT.md`, README.
+- Rà soát giao diện đã đăng nhập (giỏ, checkout, tài khoản, admin) trên desktop và 390px.
+- Sửa: mất màu khi admin lưu (B-009), admin bị cắt trên mobile (B-010), link xác nhận email PKCE (B-011).
+- Thêm Content-Security-Policy, security headers, E2E kiểm tra tràn ngang cho trang cần đăng nhập, hồi quy lưu sản phẩm.
+- `npm audit --omit=dev`: 0 lỗ hổng.
+
+### M9 — Tài liệu & bàn giao
+
+- `README.md`, `docs/RUN_GUIDE.md`, `docs/PRODUCT_MANAGEMENT.md`, `docs/DEPLOY_GUIDE.md`, `docs/PROJECT_SPEC.md`, `docs/FINAL_REPORT.md`.
+- Kiểm thử cuối: lint ✅ · typecheck ✅ · format ✅ · unit 57 ✅ · integration 30 ✅ · E2E 51 ✅ · build ✅.
+
+## Bước tiếp theo (gợi ý cho phiên sau — cần chủ cửa hàng quyết định)
+
+1. Thay dữ liệu demo bằng dữ liệu thật qua `/admin/san-pham` (tên, giá, ảnh chụp thật, tồn kho) và sửa `src/config/site.ts` (liên hệ, mạng xã hội), chính sách, đánh giá.
+2. Khi sẵn sàng: làm theo `docs/DEPLOY_GUIDE.md` (Supabase Cloud + Vercel) — chưa thực hiện vì cần tài khoản & quyết định của chủ cửa hàng.
+3. Tích hợp cổng thanh toán thật (VNPay/MoMo/PayOS) qua webhook có xác thực — ngoài phạm vi MVP.
+4. Ý tưởng sau MVP: email xác nhận đơn, quên mật khẩu, sổ địa chỉ, mã giảm giá, wishlist, chế độ tối.

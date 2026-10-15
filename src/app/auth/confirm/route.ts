@@ -10,9 +10,15 @@ export async function GET(request: NextRequest) {
   const type = searchParams.get("type") as EmailOtpType | null;
   const next = safeRedirectPath(searchParams.get("next"), "/tai-khoan");
 
+  const code = searchParams.get("code");
+  const supabase = await createClient();
   if (tokenHash && type) {
-    const supabase = await createClient();
+    // Mẫu email khuyên dùng: {{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email
     const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash });
+    if (!error) return NextResponse.redirect(new URL(next, request.url));
+  } else if (code) {
+    // Mẫu email mặc định (PKCE): Supabase chuyển về đây kèm ?code=… (cùng trình duyệt đã đăng ký).
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) return NextResponse.redirect(new URL(next, request.url));
   }
   return NextResponse.redirect(new URL("/dang-nhap?loi=xac-nhan", request.url));

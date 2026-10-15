@@ -180,7 +180,7 @@ export function CollectionExplorer({
         </div>
       </div>
 
-      <div className="mt-6 grid gap-10 lg:grid-cols-[17rem_1fr]">
+      <div className="mt-6 grid grid-cols-1 gap-10 lg:grid-cols-[17rem_1fr]">
         <aside className="hidden lg:block" aria-label="Bộ lọc sản phẩm">
           <div className="sticky top-44 rounded-[2rem] bg-white p-6 shadow-card ring-1 ring-line">
             {controls}
@@ -228,7 +228,7 @@ export function CollectionExplorer({
           ) : (
             <m.ul
               layout
-              className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3"
+              className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3"
               data-testid="product-grid"
             >
               <AnimatePresence mode="popLayout" initial={false}>

@@ -29,7 +29,7 @@ async function AdminOrder({ params }: { params: PageProps<"/admin/don-hang/[id]"
         </div>
         <OrderStatusBadge status={order.status} className="px-4 py-2 text-sm" />
       </header>
-      <div className="grid gap-6 xl:grid-cols-[1.4fr_1fr]">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-[1.4fr_1fr]">
         <div className="space-y-6">
           <section className="rounded-[2rem] bg-white p-6 shadow-card ring-1 ring-line">
             <h2 className="text-xl font-extrabold">Cập nhật trạng thái</h2>

@@ -37,7 +37,7 @@ export function ProductGallery({
   }
 
   return (
-    <div className="grid min-w-0 gap-4 lg:grid-cols-[5rem_minmax(0,1fr)]">
+    <div className="grid min-w-0 grid-cols-1 gap-4 lg:grid-cols-[5rem_minmax(0,1fr)]">
       {/* Desktop: ảnh lớn + kính lúp */}
       <div
         className="relative hidden aspect-[4/5] w-full cursor-zoom-in overflow-hidden rounded-[2.5rem] bg-pink-50 shadow-card lg:col-start-2 lg:row-start-1 lg:block"

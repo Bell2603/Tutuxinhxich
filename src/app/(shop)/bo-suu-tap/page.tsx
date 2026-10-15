@@ -32,9 +32,9 @@ function ExplorerSkeleton() {
   return (
     <div className="container-page" aria-busy="true" aria-label="Đang tải sản phẩm">
       <div className="h-12 skeleton rounded-full" />
-      <div className="mt-6 grid gap-10 lg:grid-cols-[17rem_1fr]">
+      <div className="mt-6 grid grid-cols-1 gap-10 lg:grid-cols-[17rem_1fr]">
         <div className="hidden h-96 skeleton rounded-[2rem] lg:block" />
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {Array.from({ length: 6 }, (_, i) => (
             <ProductCardSkeleton key={i} />
           ))}

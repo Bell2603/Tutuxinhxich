@@ -94,7 +94,7 @@ export function SearchDialog({
         </div>
         <div className="mt-5" aria-live="polite">
           {status === "loading" && !products ? (
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {Array.from({ length: 4 }, (_, i) => (
                 <Skeleton key={i} className="h-20" />
               ))}
@@ -104,7 +104,7 @@ export function SearchDialog({
               Chưa tìm thấy chiếc khăn nào khớp “{query}”. Thử từ khóa khác nhé!
             </p>
           ) : (
-            <ul className="grid gap-3 sm:grid-cols-2">
+            <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {results.map((product, i) => (
                 <m.li
                   key={product.id}

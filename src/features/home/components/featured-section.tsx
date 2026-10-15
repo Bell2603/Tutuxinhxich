@@ -43,7 +43,7 @@ export async function FeaturedSection() {
           />
         ))}
       </div>
-      <div className="container-page grid items-center gap-14 lg:grid-cols-2">
+      <div className="container-page grid grid-cols-1 items-center gap-14 lg:grid-cols-2">
         <Parallax speed={40} className="relative">
           <ImageReveal className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-[2.5rem] ring-1 ring-white/10">
             <Image
@@ -113,7 +113,7 @@ export async function FeaturedSection() {
 export function FeaturedSkeleton() {
   return (
     <section className="bg-night py-24" aria-busy="true" aria-label="Đang tải sản phẩm nổi bật">
-      <div className="container-page grid items-center gap-14 lg:grid-cols-2">
+      <div className="container-page grid grid-cols-1 items-center gap-14 lg:grid-cols-2">
         <div className="mx-auto aspect-[4/5] w-full max-w-md rounded-[2.5rem] bg-white/10" />
         <div className="space-y-4">
           <div className="h-4 w-40 rounded-full bg-white/10" />

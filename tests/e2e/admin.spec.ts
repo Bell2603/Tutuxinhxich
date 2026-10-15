@@ -72,6 +72,11 @@ test.describe("Quản trị sản phẩm", () => {
         compare_at_price: null,
         stock: 7,
       });
+      // Hồi quy B-009: lưu form không được làm đổi các trường không sửa (màu, ảnh, mô tả).
+      expect(after.colors).toEqual(before.colors);
+      expect(after.image_url).toBe(before.image_url);
+      expect(after.gallery).toEqual(before.gallery);
+      expect(after.description).toBe(before.description);
 
       await page.goto(`/san-pham/${before.slug}`);
       await expect(tid(page, "product-name")).toHaveText("Mây Hồng Phiên Bản Mới");
@@ -85,6 +90,7 @@ test.describe("Quản trị sản phẩm", () => {
         price: before.price,
         compare_at_price: before.compare_at_price,
         stock: before.stock,
+        colors: before.colors,
       });
     }
   });

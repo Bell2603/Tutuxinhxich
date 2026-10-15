@@ -6,7 +6,25 @@ const supabaseHost = supabaseUrl ? new URL(supabaseUrl) : null;
 const isLocalSupabase =
   supabaseHost !== null && ["127.0.0.1", "localhost"].includes(supabaseHost.hostname);
 
+// CSP: chỉ cho phép script/style/ảnh từ chính website (+ Supabase cho ảnh & upload).
+// Next.js cần script inline cho hydrate; dùng nonce sẽ buộc mọi trang render động (mất static shell) nên chưa áp dụng.
+const isDev = process.env.NODE_ENV !== "production";
+const supabaseOrigin = supabaseHost?.origin ?? "";
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  "style-src 'self' 'unsafe-inline'",
+  `img-src 'self' data: blob: ${supabaseOrigin}`.trim(),
+  "font-src 'self' data:",
+  `connect-src 'self' ${supabaseOrigin}${isDev ? " ws: wss:" : ""}`.trim(),
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "object-src 'none'",
+].join("; ");
+
 const securityHeaders = [
+  { key: "Content-Security-Policy", value: contentSecurityPolicy },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "X-Frame-Options", value: "DENY" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },

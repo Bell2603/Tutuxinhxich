@@ -19,7 +19,10 @@ async function ProductList() {
   if (!(await getAdminUser("/admin/san-pham"))) return <AccessDenied />;
   const products = await getAdminProducts();
   return (
-    <ul className="grid gap-4 md:grid-cols-2 2xl:grid-cols-3" data-testid="admin-products">
+    <ul
+      className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-3"
+      data-testid="admin-products"
+    >
       {products.map((p) => {
         const status = stockStatus(p.stock);
         return (
@@ -92,7 +95,7 @@ export default function AdminProductsPage() {
       </header>
       <Suspense
         fallback={
-          <div className="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-3">
             {Array.from({ length: 6 }, (_, i) => (
               <Skeleton key={i} className="h-40 rounded-[2rem]" />
             ))}

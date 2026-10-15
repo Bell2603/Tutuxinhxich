@@ -43,7 +43,7 @@ export function SiteFooter() {
       <div aria-hidden className="absolute inset-x-0 top-0 h-1.5 bg-aurora" />
       <Sparkle className="absolute top-16 right-[8%] size-8 animate-twinkle text-gold" />
       <Sparkle className="absolute bottom-24 left-[6%] size-5 animate-twinkle text-lilac [animation-delay:1s]" />
-      <div className="container-page grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+      <div className="container-page grid grid-cols-1 gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
         <div>
           <Link
             href="/"

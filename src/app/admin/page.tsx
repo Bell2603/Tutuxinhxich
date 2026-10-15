@@ -67,7 +67,7 @@ async function Dashboard() {
       <p className="rounded-2xl bg-sun-100 px-4 py-3 text-sm font-semibold text-warning">
         Đang dùng dữ liệu demo — 6 sản phẩm mẫu. Sửa tên, giá, ảnh, tồn kho tại mục “Sản phẩm”.
       </p>
-      <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4" data-testid="stats">
+      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4" data-testid="stats">
         {cards.map(({ label, value, Icon, tone }) => (
           <li
             key={label}
@@ -84,7 +84,7 @@ async function Dashboard() {
         ))}
       </ul>
 
-      <div className="grid gap-6 xl:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <section
           className="rounded-[2rem] bg-white p-6 shadow-card ring-1 ring-line"
           aria-labelledby="stock-title"
@@ -190,7 +190,7 @@ export default function AdminHome() {
       fallback={
         <div className="space-y-6">
           <Skeleton className="h-12 w-72" />
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {Array.from({ length: 8 }, (_, i) => (
               <Skeleton key={i} className="h-24 rounded-[1.75rem]" />
             ))}

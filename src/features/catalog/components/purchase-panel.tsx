@@ -77,7 +77,7 @@ export function PurchasePanel({ product }: { product: Product }) {
         </Button>
       )}
 
-      <ul className="grid gap-3 rounded-[2rem] bg-white p-5 ring-1 ring-line sm:grid-cols-3">
+      <ul className="grid grid-cols-1 gap-3 rounded-[2rem] bg-white p-5 ring-1 ring-line sm:grid-cols-3">
         {[
           { Icon: Truck, text: "Free ship từ 500K" },
           { Icon: Gift, text: "Gói quà miễn phí" },

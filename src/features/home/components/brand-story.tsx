@@ -27,7 +27,7 @@ export function BrandStory() {
       className="container-page scroll-mt-24 py-24"
       aria-labelledby="story-title"
     >
-      <div className="grid items-center gap-14 lg:grid-cols-2">
+      <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-2">
         <Reveal>
           <Eyebrow>Câu chuyện thương hiệu</Eyebrow>
           <h2 id="story-title" className="mt-5 text-5xl leading-[1.02] font-extrabold sm:text-6xl">

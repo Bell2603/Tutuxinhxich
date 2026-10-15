@@ -37,7 +37,7 @@ async function OrderView({ params, searchParams }: PageProps<"/tai-khoan/don-han
         </div>
         <OrderStatusBadge status={order.status} className="px-4 py-2 text-sm" />
       </div>
-      <div className="mt-8 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
+      <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[1.4fr_1fr]">
         <div className="space-y-8">
           <section
             className="rounded-[2rem] bg-white p-6 shadow-card ring-1 ring-line"

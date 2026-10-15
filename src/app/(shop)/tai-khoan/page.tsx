@@ -19,7 +19,7 @@ async function Account() {
   const user = await requireUser("/tai-khoan");
   const orders = await getMyOrders();
   return (
-    <div className="grid gap-8 lg:grid-cols-[22rem_1fr]">
+    <div className="grid grid-cols-1 gap-8 lg:grid-cols-[22rem_1fr]">
       <aside className="space-y-6">
         <div className="rounded-[2rem] bg-white p-6 shadow-card ring-1 ring-line">
           <p className="text-sm font-semibold text-ink-soft">Xin chào,</p>
@@ -108,7 +108,7 @@ export default function AccountPage() {
       </h1>
       <Suspense
         fallback={
-          <div className="grid gap-8 lg:grid-cols-[22rem_1fr]">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[22rem_1fr]">
             <Skeleton className="h-96 rounded-[2rem]" />
             <div className="space-y-4">
               <Skeleton className="h-24 rounded-[2rem]" />

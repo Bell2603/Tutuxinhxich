@@ -70,7 +70,7 @@ export function Hero() {
         <div className="absolute bottom-[-15%] left-[30%] size-[28rem] animate-blob rounded-full bg-sky-100 blur-3xl [animation-delay:-12s]" />
       </div>
 
-      <div className="container-page grid items-center gap-10 pt-10 pb-6 lg:grid-cols-[1.05fr_1fr] lg:gap-6 lg:pt-16">
+      <div className="container-page grid grid-cols-1 items-center gap-10 pt-10 pb-6 lg:grid-cols-[1.05fr_1fr] lg:gap-6 lg:pt-16">
         <m.div style={{ y: textY, opacity: fade }} className="relative z-10">
           <m.p
             initial={{ opacity: 0, y: 12 }}

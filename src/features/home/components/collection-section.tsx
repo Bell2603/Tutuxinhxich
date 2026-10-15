@@ -30,7 +30,10 @@ export async function CollectionSection() {
       aria-labelledby="bo-suu-tap-title"
     >
       <Heading />
-      <Stagger className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8" gap={0.1}>
+      <Stagger
+        className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8"
+        gap={0.1}
+      >
         {products.map((product, i) => (
           <StaggerItem key={product.id} className={i % 3 === 1 ? "lg:translate-y-10" : undefined}>
             <ProductCard product={product} />
@@ -54,7 +57,7 @@ export function CollectionSkeleton() {
   return (
     <section className="container-page py-24" aria-busy="true" aria-label="Đang tải bộ sưu tập">
       <Heading />
-      <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+      <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
         {Array.from({ length: 6 }, (_, i) => (
           <ProductCardSkeleton key={i} />
         ))}

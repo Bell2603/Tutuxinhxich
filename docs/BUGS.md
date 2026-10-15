@@ -4,7 +4,10 @@ Mức độ: **P0** chặn sử dụng/mất dữ liệu/bảo mật · **P1** c
 
 ## Đang mở
 
-_(chưa có)_
+| ID    | Mức | Mô tả                                                                                                    | Ghi chú / hướng xử lý                                                                                                                                                              |
+| ----- | --- | -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T-001 | P3  | `npm audit`: 5 lỗ hổng mức high trong chuỗi `braces` ← `micromatch` ← `fast-glob` ← `eslint-config-next` | Chỉ có trong devDependencies (công cụ lint), không vào bản build. `npm audit --omit=dev` = 0. Chờ bản vá upstream; không dùng `npm audit fix --force` (hạ cấp eslint-config-next). |
+| T-002 | P3  | CSP còn cho phép `'unsafe-inline'` cho script                                                            | Dùng nonce sẽ buộc mọi trang render động (mất static shell của Partial Prerender). Vẫn chặn script ngoài, iframe nhúng, plugin.                                                    |
 
 ## Đã sửa
 

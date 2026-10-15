@@ -24,7 +24,7 @@ async function AdminUserBadge() {
 export default function AdminLayout({ children }: LayoutProps<"/admin">) {
   return (
     <div className="min-h-dvh bg-[#fbf3f7]">
-      <div className="mx-auto grid max-w-[90rem] gap-6 p-4 lg:grid-cols-[15rem_1fr] lg:p-6">
+      <div className="mx-auto grid max-w-[90rem] grid-cols-1 gap-6 p-4 lg:grid-cols-[15rem_1fr] lg:p-6">
         <aside className="rounded-[2rem] bg-white p-4 shadow-card ring-1 ring-line lg:sticky lg:top-6 lg:h-[calc(100dvh-3rem)] lg:p-5">
           <Link
             href="/admin"

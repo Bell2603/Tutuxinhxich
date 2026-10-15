@@ -14,7 +14,7 @@ export function AuthShell({
 }) {
   return (
     <div className="container-page py-10 sm:py-16">
-      <div className="mx-auto grid max-w-5xl overflow-hidden rounded-[2.5rem] bg-white shadow-float ring-1 ring-line md:grid-cols-[1fr_1.1fr]">
+      <div className="mx-auto grid max-w-5xl grid-cols-1 overflow-hidden rounded-[2.5rem] bg-white shadow-float ring-1 ring-line md:grid-cols-[1fr_1.1fr]">
         <div className="relative hidden flex-col justify-between overflow-hidden bg-aurora p-10 text-ink md:flex">
           <Sparkle className="absolute top-10 right-10 size-8 animate-twinkle text-white" />
           <Sparkle className="absolute bottom-24 left-8 size-5 animate-twinkle text-sun [animation-delay:1s]" />

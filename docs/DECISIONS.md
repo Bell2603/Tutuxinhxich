@@ -31,3 +31,31 @@ Không có ảnh thật → sinh ảnh minh họa có thương hiệu (`scripts/
 ### D-08 — Địa chỉ 2 cấp (Tỉnh/Thành phố → Phường/Xã)
 
 Theo mô hình chính quyền địa phương 2 cấp áp dụng từ 01/07/2025, checkout không hỏi Quận/Huyện.
+
+### D-09 — Thương hiệu "chuyến tàu sắc màu"
+
+Tên gợi âm thanh đoàn tàu → 6 sản phẩm = 6 toa, vé tàu/đường ray/đầu tàu quàng khăn là motif chung (logo, hero, timeline đơn hàng, thanh free ship). Tạo bản sắc riêng thay vì mẫu cửa hàng chung chung.
+
+### D-10 — Giỏ hàng chỉ lưu `{productId, quantity}` trên trình duyệt
+
+Giá/tên/ảnh luôn lấy mới từ `/api/catalog`; giỏ tự đối chiếu tồn kho. Không có bảng giỏ hàng trên server — đăng nhập không làm mất giỏ vì localStorage giữ nguyên.
+
+### D-11 — Trang 404 của route stream trả mã 200 + `noindex`
+
+Hành vi chuẩn của Next.js 16 với Partial Prerender (tài liệu `not-found.md`). Giữ streaming để trang hiển thị nhanh; công cụ tìm kiếm vẫn không index.
+
+### D-12 — Tắt cache build Turbopack
+
+`experimental.turbopackFileSystemCacheForBuild: false` vì cache trả CSS cũ (B-003). Build chỉ ~15 giây.
+
+### D-13 — CSP không dùng nonce
+
+Nonce theo request buộc toàn bộ trang render động. Chọn CSP chặn nguồn ngoài (`'self'` + Supabase) và `frame-ancestors 'none'`, chấp nhận `'unsafe-inline'` cho script (T-002).
+
+### D-14 — Trang quản trị không tạo/xóa sản phẩm
+
+Đúng yêu cầu "chính xác 6 SKU": admin chỉ sửa và ẩn/hiện; SKU/slug cố định để giữ URL và lịch sử đơn.
+
+### D-15 — Chỉ dùng giao diện sáng
+
+Bản sắc pastel rực rỡ được thiết kế cho nền kem; `color-scheme: light`. Có thể bổ sung chế độ tối sau.

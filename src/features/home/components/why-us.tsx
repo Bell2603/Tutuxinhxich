@@ -41,7 +41,7 @@ export function WhyUs() {
           </>
         }
       />
-      <Stagger className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <Stagger className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {REASONS.map(({ Icon, title, text, tone }) => (
           <StaggerItem key={title}>
             <div className="group h-full rounded-[2rem] bg-white p-7 shadow-card ring-1 ring-line transition-transform duration-500 ease-[var(--ease-bounce)] hover:-translate-y-2 hover:rotate-[-1deg]">

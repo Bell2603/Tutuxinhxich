@@ -20,7 +20,7 @@ export default function CheckoutPage() {
       </h1>
       <Suspense
         fallback={
-          <div className="grid gap-8 lg:grid-cols-[1.3fr_1fr]">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.3fr_1fr]">
             <Skeleton className="h-[32rem] rounded-[2rem]" />
             <Skeleton className="h-96 rounded-[2rem]" />
           </div>

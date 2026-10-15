@@ -4,35 +4,37 @@ Cập nhật: 2026-10-15 · Môi trường: macOS (arm64), Node 24.13, Supabase 
 
 ## Tổng hợp
 
-| Loại | Lệnh | Kết quả |
-| --- | --- | --- |
-| Lint | `npm run lint` | ✅ 0 lỗi, 0 cảnh báo |
-| Typecheck | `npm run typecheck` | ✅ |
-| Định dạng | `npm run format:check` | ✅ |
-| Unit (Vitest, jsdom) | `npm run test:unit` | ✅ 57/57 |
-| Integration (Vitest + Supabase local) | `npm run test:integration` | ✅ 30/30 |
-| E2E (Playwright, build production, desktop + Pixel 7) | `npm run test:e2e` | ✅ 49/49 |
-| Production build | `npm run build` | ✅ mọi trang là Partial Prerender (◐) |
+| Loại                                                  | Lệnh                       | Kết quả                               |
+| ----------------------------------------------------- | -------------------------- | ------------------------------------- |
+| Lint                                                  | `npm run lint`             | ✅ 0 lỗi, 0 cảnh báo                  |
+| Typecheck                                             | `npm run typecheck`        | ✅                                    |
+| Định dạng                                             | `npm run format:check`     | ✅                                    |
+| Unit (Vitest, jsdom)                                  | `npm run test:unit`        | ✅ 57/57                              |
+| Integration (Vitest + Supabase local)                 | `npm run test:integration` | ✅ 30/30                              |
+| E2E (Playwright, build production, desktop + Pixel 7) | `npm run test:e2e`         | ✅ 51/51                              |
+| Production build                                      | `npm run build`            | ✅ mọi trang là Partial Prerender (◐) |
 
 ## Phạm vi theo yêu cầu bắt buộc
 
-| Yêu cầu | Kiểm thử |
-| --- | --- |
-| Trang chủ hoạt động | E2E `storefront.spec.ts` › Trang chủ (desktop + mobile) |
-| Chính xác 6 SKU hiển thị | E2E (6 thẻ, đúng SKU TTXX-001…006) + Integration (DB đúng 6, chặn SKU thứ 7) |
-| Trang chi tiết hoạt động | E2E chi tiết sản phẩm (giá, giá gốc, SKU, tồn kho, JSON-LD), 404 khi không tồn tại/ẩn |
-| Giá sản phẩm chính xác | E2E so giá trên trang với database; Unit `formatVND`, `discountPercent` |
-| Giỏ hàng tính tiền đúng | Unit `summarizeCart`/phí ship; E2E tạm tính, free ship ≥ 500.000₫, phí 30.000₫ |
-| Không mua vượt tồn kho | Unit `addLine`/`clampQuantity`; E2E giới hạn 5 chiếc, nút khóa; E2E server chặn khi kho đổi lúc thanh toán; Integration `INSUFFICIENT_STOCK` + 2 khách tranh chiếc cuối |
-| Đăng nhập/đăng ký | E2E đăng ký → đăng xuất → đăng nhập, lỗi validation, sai mật khẩu, email trùng, chống open redirect |
-| Checkout thử nghiệm | E2E khách vãng lai → đăng nhập giữ giỏ → đặt hàng → trừ kho → lịch sử → hủy → hoàn kho |
-| User thường không vào admin | E2E (trang `/admin*` hiển thị "Không có quyền", form không render); Integration RLS + RPC `FORBIDDEN` |
-| API có validation & authorization | Unit zod schema; Integration RLS/RPC; E2E `/api/catalog` chỉ trả dữ liệu công khai |
-| Giao diện mobile | E2E project `mobile` (Pixel 7), không tràn ngang ở 375px |
-| Animation không gây lỗi | E2E bật `prefers-reduced-motion`; duyệt nhiều trang không lỗi JS |
-| Không lỗi JS nghiêm trọng | E2E `trackErrors` trên các trang chính |
-| Production build | `npm run build` + E2E chạy trên bản build |
-| Accessibility | axe (WCAG 2.1 AA) trên 5 trang: 0 lỗi serious/critical |
+| Yêu cầu                           | Kiểm thử                                                                                                                                                                |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Trang chủ hoạt động               | E2E `storefront.spec.ts` › Trang chủ (desktop + mobile)                                                                                                                 |
+| Chính xác 6 SKU hiển thị          | E2E (6 thẻ, đúng SKU TTXX-001…006) + Integration (DB đúng 6, chặn SKU thứ 7)                                                                                            |
+| Trang chi tiết hoạt động          | E2E chi tiết sản phẩm (giá, giá gốc, SKU, tồn kho, JSON-LD), 404 khi không tồn tại/ẩn                                                                                   |
+| Giá sản phẩm chính xác            | E2E so giá trên trang với database; Unit `formatVND`, `discountPercent`                                                                                                 |
+| Giỏ hàng tính tiền đúng           | Unit `summarizeCart`/phí ship; E2E tạm tính, free ship ≥ 500.000₫, phí 30.000₫                                                                                          |
+| Không mua vượt tồn kho            | Unit `addLine`/`clampQuantity`; E2E giới hạn 5 chiếc, nút khóa; E2E server chặn khi kho đổi lúc thanh toán; Integration `INSUFFICIENT_STOCK` + 2 khách tranh chiếc cuối |
+| Đăng nhập/đăng ký                 | E2E đăng ký → đăng xuất → đăng nhập, lỗi validation, sai mật khẩu, email trùng, chống open redirect                                                                     |
+| Checkout thử nghiệm               | E2E khách vãng lai → đăng nhập giữ giỏ → đặt hàng → trừ kho → lịch sử → hủy → hoàn kho                                                                                  |
+| User thường không vào admin       | E2E (trang `/admin*` hiển thị "Không có quyền", form không render); Integration RLS + RPC `FORBIDDEN`                                                                   |
+| API có validation & authorization | Unit zod schema; Integration RLS/RPC; E2E `/api/catalog` chỉ trả dữ liệu công khai                                                                                      |
+| Giao diện mobile                  | E2E project `mobile` (Pixel 7); không tràn ngang ở 375px cho trang công khai, tài khoản, checkout và admin                                                              |
+| Animation không gây lỗi           | E2E bật `prefers-reduced-motion`; duyệt nhiều trang không lỗi JS                                                                                                        |
+| Không lỗi JS nghiêm trọng         | E2E `trackErrors` trên các trang chính                                                                                                                                  |
+| Production build                  | `npm run build` + E2E chạy trên bản build                                                                                                                               |
+| Accessibility                     | axe (WCAG 2.1 AA) trên 5 trang: 0 lỗi serious/critical                                                                                                                  |
+| Bảo mật header                    | E2E: CSP, X-Frame-Options, nosniff, Referrer-Policy, không lộ X-Powered-By                                                                                              |
+| Hồi quy lưu sản phẩm (B-009)      | E2E admin: lưu không làm đổi màu/ảnh/mô tả                                                                                                                              |
 
 ## Ghi chú
 

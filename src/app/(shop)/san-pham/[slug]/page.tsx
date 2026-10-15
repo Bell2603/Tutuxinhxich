@@ -86,7 +86,7 @@ async function ProductView({ params }: { params: PageProps<"/san-pham/[slug]">["
             </li>
           </ol>
         </nav>
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-14">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-14">
           <ProductGallery images={images} name={product.name} productId={product.id} />
           <div className="min-w-0 lg:sticky lg:top-28 lg:self-start">
             <div className="flex flex-wrap items-center gap-2">
@@ -159,7 +159,7 @@ async function ProductView({ params }: { params: PageProps<"/san-pham/[slug]">["
             <h2 id="related-title" className="text-4xl font-extrabold sm:text-5xl">
               Có thể bạn cũng <Accent>mê</Accent>
             </h2>
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {related.map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}
@@ -176,7 +176,7 @@ function ProductSkeleton() {
   return (
     <div className="container-page pt-4" aria-busy="true" aria-label="Đang tải sản phẩm">
       <Skeleton className="mb-6 h-4 w-64" />
-      <div className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-14">
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-14">
         <Skeleton className="aspect-[4/5] rounded-[2.5rem]" />
         <div className="space-y-5">
           <Skeleton className="h-6 w-40 rounded-full" />
