@@ -4,18 +4,24 @@
 
 ## Trạng thái
 
-| Milestone                                                | Trạng thái |
-| -------------------------------------------------------- | ---------- |
-| M0 — Môi trường & scaffold                               | ✅         |
-| M1 — Database (schema, RLS, RPC, seed, integration test) | ✅         |
-| M2 — Thương hiệu & design system                         | ⏳         |
-| M3 — Storefront                                          | ⏳         |
-| M4 — Giỏ hàng                                            | ⏳         |
-| M5 — Tài khoản                                           | ⏳         |
-| M6 — Checkout & đơn hàng                                 | ⏳         |
-| M7 — Quản trị                                            | ⏳         |
-| M8 — Hardening                                           | ⏳         |
-| M9 — Tài liệu & bàn giao                                 | ⏳         |
+| Milestone                                                      | Trạng thái |
+| -------------------------------------------------------------- | ---------- |
+| M0 — Môi trường & scaffold                                     | ✅         |
+| M1 — Database (schema, RLS, RPC, seed, integration test)       | ✅         |
+| M2 — Thương hiệu & design system                               | ✅         |
+| M3 — Storefront                                                | ✅         |
+| M4 — Giỏ hàng                                                  | ✅         |
+| M5 — Tài khoản                                                 | ✅         |
+| M6 — Checkout & đơn hàng                                       | ✅         |
+| M7 — Quản trị                                                  | ✅         |
+| M8 — Hardening                                                 | ✅         |
+| M9 — Tài liệu & bàn giao                                       | ✅         |
+| M10 — Motion & giao diện (chuyển trang, lightbox, yêu thích)   | ⏳         |
+| M11 — Tài khoản nâng cao (quên/đổi mật khẩu, điền sẵn địa chỉ) | ⏳         |
+| M12 — Đánh giá thật từ khách đã mua                            | ⏳         |
+| M13 — Mã giảm giá                                              | ⏳         |
+
+> Cách cập nhật bảng: sửa trực tiếp ô trạng thái (Prettier có thể căn lại cột — kiểm tra lại sau khi format).
 
 ## Nhật ký
 

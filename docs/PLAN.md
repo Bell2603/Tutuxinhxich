@@ -16,6 +16,17 @@ Trạng thái chi tiết nằm ở `docs/PROGRESS.md`.
 | M8  | Hardening                   | SEO (metadata, sitemap, robots, OG), a11y (axe), responsive 375px, reduced motion, security headers, lỗi/404, hiệu năng                                                                                          | E2E chất lượng, build                                   |
 | M9  | Tài liệu & bàn giao         | RUN_GUIDE, PRODUCT_MANAGEMENT, DEPLOY_GUIDE, TEST_REPORT, FINAL_REPORT                                                                                                                                           | Chạy lại toàn bộ test                                   |
 
+## Giai đoạn 2 — Hoàn thiện sau MVP (phiên 2)
+
+Ưu tiên: giao diện thời trang, chuyển động, 6 sản phẩm, chức năng bán hàng. Chỉ làm việc an toàn ở local (không cần tài khoản dịch vụ ngoài).
+
+| #   | Milestone          | Nội dung chính                                                                                                                                                                                                           | Kiểm thử                                                              |
+| --- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------- |
+| M10 | Motion & giao diện | Hiệu ứng chuyển trang (yêu cầu #14, chỉ khi điều hướng phía client, không ẩn HTML SSR), lightbox ảnh toàn màn hình (shared-element), danh sách yêu thích (tim + trang `/yeu-thich`), gợi ý cách quàng theo từng sản phẩm | Unit store yêu thích; E2E lightbox, yêu thích, chuyển trang không lỗi |
+| M11 | Tài khoản nâng cao | Quên mật khẩu (email qua Mailpit local), đặt lại mật khẩu, đổi mật khẩu trong tài khoản, checkout điền sẵn địa chỉ đơn gần nhất                                                                                          | Unit schema; E2E đọc email Mailpit → đặt lại mật khẩu → đăng nhập     |
+| M12 | Đánh giá thật      | Bảng `product_reviews`, chỉ khách có đơn **đã giao** chứa sản phẩm được đánh giá (DB kiểm tra), admin ẩn/hiện, điểm trung bình trên thẻ/trang sản phẩm + JSON-LD, trang chủ dùng đánh giá thật khi có                    | Integration RLS/RPC; E2E viết & duyệt đánh giá                        |
+| M13 | Mã giảm giá        | Bảng `coupons` (giảm %/số tiền, đơn tối thiểu, hạn dùng, giới hạn lượt), admin quản lý, áp mã ở checkout, `place_order` tính giảm giá trong DB                                                                           | Unit; integration (giá trị giảm, hết hạn, hết lượt, đồng thời); E2E   |
+
 ## Definition of Done (mỗi milestone)
 
 - `npm run lint`, `npm run typecheck`, `npm run format:check`, `npm run test:unit` xanh
