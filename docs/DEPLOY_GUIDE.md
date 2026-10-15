@@ -59,8 +59,10 @@ Sau đó thay dữ liệu demo bằng dữ liệu thật qua trang `/admin/san-p
 2. **Providers → Email**: bật **Confirm email** (khách phải xác nhận email trước khi đăng nhập). Website đã có trang xử lý link xác nhận `/auth/confirm`.
 3. **Password**: độ dài tối thiểu **8** (khớp với kiểm tra trên website).
 4. **SMTP**: dịch vụ email mặc định của Supabase giới hạn rất ít email/giờ — cấu hình SMTP riêng (VD Resend, Brevo, Amazon SES) ở **Project Settings → Authentication → SMTP**.
-5. (Tùy chọn) Sửa mẫu email xác nhận sang tiếng Việt: **Authentication → Email Templates**. Link trong mẫu "Confirm signup" nên là:
-   `{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email&next=/tai-khoan`
+5. **Mẫu email tiếng Việt** (nên làm): **Authentication → Email Templates**
+   - _Reset Password_: tiêu đề `Đặt lại mật khẩu Tu Tu Xình Xịch`, nội dung dán từ file `supabase/templates/recovery.html`.
+   - _Confirm signup_: tiêu đề `Xác nhận email — Tu Tu Xình Xịch`, nội dung dán từ `supabase/templates/confirmation.html`.
+   - Hai mẫu dùng link `{{ .SiteURL }}/auth/confirm?token_hash=…` nên mở được cả trên thiết bị khác với nơi yêu cầu. Kiểm tra lại Site URL đúng tên miền.
 
 ## 4. Tạo tài khoản quản trị đầu tiên
 
@@ -104,6 +106,7 @@ Sau đó thay dữ liệu demo bằng dữ liệu thật qua trang `/admin/san-p
 - [ ] `/bo-suu-tap`: lọc màu/chất liệu/giá, tìm kiếm hoạt động.
 - [ ] Trang chi tiết sản phẩm, thêm vào giỏ, đổi số lượng, giỏ giữ sau khi tải lại.
 - [ ] Đăng ký → nhận email xác nhận → đăng nhập.
+- [ ] "Quên mật khẩu?" → nhận email tiếng Việt → đặt mật khẩu mới → đăng nhập.
 - [ ] Đặt một đơn thử nghiệm → đơn xuất hiện ở `/tai-khoan` và `/admin/don-hang`; tồn kho giảm.
 - [ ] Hủy đơn thử → tồn kho hoàn lại.
 - [ ] Tài khoản thường mở `/admin` → thấy "Không có quyền truy cập".

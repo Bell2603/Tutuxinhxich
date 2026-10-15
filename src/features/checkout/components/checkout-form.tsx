@@ -42,7 +42,13 @@ const PAYMENT_OPTIONS: {
   },
 ];
 
-export function CheckoutForm({ defaults }: { defaults: { fullName: string; phone: string } }) {
+export function CheckoutForm({
+  defaults,
+  prefilledFromLastOrder = false,
+}: {
+  defaults: { fullName: string; phone: string; address?: string; ward?: string; province?: string };
+  prefilledFromLastOrder?: boolean;
+}) {
   const id = useId();
   const router = useRouter();
   const clear = useCart((s) => s.clear);
@@ -62,9 +68,9 @@ export function CheckoutForm({ defaults }: { defaults: { fullName: string; phone
     defaultValues: {
       recipientName: defaults.fullName,
       phone: defaults.phone,
-      address: "",
-      ward: "",
-      province: "",
+      address: defaults.address ?? "",
+      ward: defaults.ward ?? "",
+      province: defaults.province ?? "",
       note: "",
     },
     mode: "onTouched",
@@ -148,6 +154,11 @@ export function CheckoutForm({ defaults }: { defaults: { fullName: string; phone
           <h2 id={`${id}-ship`} className="text-2xl font-extrabold">
             1. Thông tin nhận hàng
           </h2>
+          {prefilledFromLastOrder ? (
+            <p className="mt-2 text-sm text-ink-soft" data-testid="prefill-note">
+              Đã điền sẵn theo đơn hàng gần nhất của bạn — sửa lại nếu giao tới nơi khác.
+            </p>
+          ) : null}
           <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
             <Field
               id={`${id}-recipientName`}

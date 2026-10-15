@@ -8,7 +8,15 @@ import { siteUrl } from "@/lib/env";
 import { normalizePhone, VN_PHONE_REGEX } from "@/lib/text";
 import { safeRedirectPath } from "@/lib/safe-redirect";
 import { createClient } from "@/lib/supabase/server";
-import { signInSchema, signUpSchema, type AuthFormState } from "./schemas";
+import {
+  changePasswordSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
+  signInSchema,
+  signUpSchema,
+  type AuthFormState,
+  type PasswordFormState,
+} from "./schemas";
 
 function field(formData: FormData, name: string): string {
   const value = formData.get(name);
@@ -118,4 +126,75 @@ export async function updateProfileAction(
     .eq("id", userId);
   if (error) return { error: "Không lưu được thông tin, vui lòng thử lại." };
   return { ok: true };
+}
+
+/** Gửi email đặt lại mật khẩu. Luôn trả cùng một thông báo để không lộ email nào đã đăng ký. */
+export async function requestPasswordResetAction(
+  _prev: PasswordFormState,
+  formData: FormData,
+): Promise<PasswordFormState> {
+  const raw = { email: field(formData, "email") };
+  const parsed = forgotPasswordSchema.safeParse(raw);
+  if (!parsed.success)
+    return { fieldErrors: z.flattenError(parsed.error).fieldErrors, values: raw };
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(parsed.data.email, {
+    redirectTo: `${siteUrl()}/auth/confirm?next=/dat-lai-mat-khau`,
+  });
+  if (error?.code?.startsWith("over_")) return { error: authErrorMessage(error), values: raw };
+  if (error) console.error("[resetPasswordForEmail]", error.code);
+  return {
+    success:
+      "Nếu email này đã đăng ký, Tu Tu vừa gửi link đặt lại mật khẩu (hiệu lực 1 giờ). Kiểm tra cả mục Spam nhé!",
+    values: raw,
+  };
+}
+
+/** Đặt mật khẩu mới sau khi mở link trong email (đã có phiên đăng nhập tạm từ link). */
+export async function resetPasswordAction(
+  _prev: PasswordFormState,
+  formData: FormData,
+): Promise<PasswordFormState> {
+  const parsed = resetPasswordSchema.safeParse({
+    password: field(formData, "password"),
+    confirmPassword: field(formData, "confirmPassword"),
+  });
+  if (!parsed.success) return { fieldErrors: z.flattenError(parsed.error).fieldErrors };
+
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getClaims();
+  if (!data?.claims?.sub)
+    return { error: "Link đặt lại mật khẩu đã hết hạn. Vui lòng yêu cầu link mới." };
+  const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
+  if (error) return { error: authErrorMessage(error) };
+  redirect("/tai-khoan?mat-khau=moi");
+}
+
+/** Đổi mật khẩu trong trang tài khoản: xác minh lại mật khẩu hiện tại trước. */
+export async function changePasswordAction(
+  _prev: PasswordFormState,
+  formData: FormData,
+): Promise<PasswordFormState> {
+  const parsed = changePasswordSchema.safeParse({
+    currentPassword: field(formData, "currentPassword"),
+    password: field(formData, "password"),
+    confirmPassword: field(formData, "confirmPassword"),
+  });
+  if (!parsed.success) return { fieldErrors: z.flattenError(parsed.error).fieldErrors };
+
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getClaims();
+  const email = typeof data?.claims?.email === "string" ? data.claims.email : null;
+  if (!email) return { error: "Bạn cần đăng nhập lại." };
+
+  const { error: verifyError } = await supabase.auth.signInWithPassword({
+    email,
+    password: parsed.data.currentPassword,
+  });
+  if (verifyError) return { fieldErrors: { currentPassword: ["Mật khẩu hiện tại không đúng"] } };
+
+  const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
+  if (error) return { error: authErrorMessage(error) };
+  return { ok: true, success: "Đã đổi mật khẩu. Lần sau hãy đăng nhập bằng mật khẩu mới nhé!" };
 }

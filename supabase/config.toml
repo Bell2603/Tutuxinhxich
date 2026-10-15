@@ -249,6 +249,15 @@ otp_expiry = 3600
 # subject = "You have been invited"
 # content_path = "./supabase/templates/invite.html"
 
+# Mẫu email tiếng Việt (production: dán cùng nội dung vào Supabase Dashboard → Authentication → Email Templates).
+[auth.email.template.recovery]
+subject = "Đặt lại mật khẩu Tu Tu Xình Xịch"
+content_path = "./supabase/templates/recovery.html"
+
+[auth.email.template.confirmation]
+subject = "Xác nhận email — Tu Tu Xình Xịch"
+content_path = "./supabase/templates/confirmation.html"
+
 # Uncomment to customize notification email template
 # [auth.email.notification.password_changed]
 # enabled = true

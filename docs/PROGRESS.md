@@ -17,7 +17,7 @@
 | M8 — Hardening                                                 | ✅         |
 | M9 — Tài liệu & bàn giao                                       | ✅         |
 | M10 — Motion & giao diện (chuyển trang, lightbox, yêu thích)   | ✅         |
-| M11 — Tài khoản nâng cao (quên/đổi mật khẩu, điền sẵn địa chỉ) | ⏳         |
+| M11 — Tài khoản nâng cao (quên/đổi mật khẩu, điền sẵn địa chỉ) | ✅         |
 | M12 — Đánh giá thật từ khách đã mua                            | ⏳         |
 | M13 — Mã giảm giá                                              | ⏳         |
 
@@ -107,6 +107,14 @@
 - **Gợi ý cách quàng theo từng khăn**: dữ liệu 4 cách quàng tách ra `src/features/home/styling-data.ts`; khăn vuông/dài đọc từ ô "Kích thước".
 - Sửa giao diện: header 375px không xuống dòng, hàng mua hàng trên mobile (nút "Thêm vào giỏ" rộng hết hàng).
 - Kiểm thử: unit 61 · E2E 58 (thêm `tests/e2e/experience.spec.ts`).
+
+### M11 — Tài khoản nâng cao (phiên 2)
+
+- `/quen-mat-khau` → email tiếng Việt có thương hiệu (`supabase/templates/recovery.html`, link `token_hash` mở được trên thiết bị khác) → `/dat-lai-mat-khau` → `/tai-khoan?mat-khau=moi`. Thông báo giống nhau dù email có/không tồn tại.
+- Đổi mật khẩu trong `/tai-khoan` (xác minh mật khẩu hiện tại trước). Link "Quên mật khẩu?" ở trang đăng nhập.
+- Mẫu email xác nhận đăng ký tiếng Việt (`supabase/templates/confirmation.html`) — dùng khi bật xác nhận email ở production.
+- Checkout tự điền họ tên/SĐT/địa chỉ của đơn gần nhất (`getLastShipping`).
+- Kiểm thử: unit 64 · E2E 63 (thêm `tests/e2e/account.spec.ts`, đọc email qua API Mailpit) · integration 30.
 
 ## Bước tiếp theo (gợi ý cho phiên sau — cần chủ cửa hàng quyết định)
 

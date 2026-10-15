@@ -37,3 +37,18 @@ export async function getMyOrderByCode(code: string) {
 }
 
 export type MyOrder = NonNullable<Awaited<ReturnType<typeof getMyOrderByCode>>>;
+
+/** Địa chỉ nhận hàng của đơn gần nhất → điền sẵn ở checkout. */
+export async function getLastShipping() {
+  const user = await getSessionUser();
+  if (!user) return null;
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("orders")
+    .select("recipient_name, phone, address, ward, province")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  return data;
+}

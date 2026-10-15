@@ -9,9 +9,9 @@ Cập nhật: 2026-10-15 · Môi trường: macOS (arm64), Node 24.13, Supabase 
 | Lint                                                  | `npm run lint`             | ✅ 0 lỗi, 0 cảnh báo                  |
 | Typecheck                                             | `npm run typecheck`        | ✅                                    |
 | Định dạng                                             | `npm run format:check`     | ✅                                    |
-| Unit (Vitest, jsdom)                                  | `npm run test:unit`        | ✅ 61/61                              |
+| Unit (Vitest, jsdom)                                  | `npm run test:unit`        | ✅ 64/64                              |
 | Integration (Vitest + Supabase local)                 | `npm run test:integration` | ✅ 30/30                              |
-| E2E (Playwright, build production, desktop + Pixel 7) | `npm run test:e2e`         | ✅ 58/58                              |
+| E2E (Playwright, build production, desktop + Pixel 7) | `npm run test:e2e`         | ✅ 63/63                              |
 | Production build                                      | `npm run build`            | ✅ mọi trang là Partial Prerender (◐) |
 
 ## Phạm vi theo yêu cầu bắt buộc
@@ -44,6 +44,10 @@ Cập nhật: 2026-10-15 · Môi trường: macOS (arm64), Node 24.13, Supabase 
 | Yêu thích        | Unit `toggleWishlist`/`sanitizeWishlist`; E2E thả tim → đếm → tải lại → `/yeu-thich` → thêm tất cả vào giỏ → bỏ tim |
 | Chuyển trang     | E2E: `startViewTransition` nhận type `nav-forward`/`nav-back`, không lỗi JS                                         |
 | Gợi ý cách quàng | Unit `scarfShape`; E2E khăn vuông ↔ khăn dài                                                                        |
+
+| Quên/đặt lại mật khẩu | E2E: yêu cầu link → đọc email trong Mailpit → đặt mật khẩu mới → đăng nhập; email lạ nhận cùng thông báo; link hết hạn |
+| Đổi mật khẩu | Unit schema; E2E sai mật khẩu hiện tại bị từ chối, đổi thành công đăng nhập được |
+| Checkout điền sẵn | E2E đơn thứ hai tự điền địa chỉ đơn trước |
 
 ## Ghi chú
 

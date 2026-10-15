@@ -113,6 +113,10 @@ export function authErrorMessage(
     case "over_request_rate_limit":
     case "over_email_send_rate_limit":
       return "Bạn thao tác quá nhanh, vui lòng thử lại sau ít phút.";
+    case "same_password":
+      return "Mật khẩu mới phải khác mật khẩu cũ.";
+    case "otp_expired":
+      return "Link đã hết hạn, vui lòng yêu cầu link mới.";
     case "signup_disabled":
       return "Đăng ký tài khoản đang tạm đóng.";
     default:

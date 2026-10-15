@@ -115,3 +115,30 @@ export async function settleAnimations(page: Page) {
   );
   await page.waitForTimeout(150);
 }
+
+const MAILPIT = process.env.MAILPIT_URL ?? "http://127.0.0.1:54424";
+
+/** Đợi email gửi tới địa chỉ này trong Mailpit (hộp thư local của Supabase) và trả về link đầu tiên khớp mẫu. */
+export async function waitForEmailLink(
+  to: string,
+  pattern: RegExp,
+  timeoutMs = 15_000,
+): Promise<string> {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    const search = await fetch(
+      `${MAILPIT}/api/v1/search?query=${encodeURIComponent(`to:"${to}"`)}`,
+    );
+    const { messages } = (await search.json()) as { messages: { ID: string }[] };
+    if (messages.length > 0) {
+      const message = (await (
+        await fetch(`${MAILPIT}/api/v1/message/${messages[0]!.ID}`)
+      ).json()) as { HTML: string; Text: string };
+      const html = message.HTML.replace(/&amp;/g, "&");
+      const link = html.match(pattern)?.[0];
+      if (link) return link;
+    }
+    await new Promise((r) => setTimeout(r, 500));
+  }
+  throw new Error(`Không nhận được email cho ${to}`);
+}

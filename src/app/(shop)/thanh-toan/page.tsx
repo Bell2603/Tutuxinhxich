@@ -5,12 +5,25 @@ import { Accent } from "@/components/ui/section-heading";
 import { Skeleton } from "@/components/ui/skeleton";
 import { requireUser } from "@/features/auth/session";
 import { CheckoutForm } from "@/features/checkout/components/checkout-form";
+import { getLastShipping } from "@/features/orders/queries";
 
 export const metadata: Metadata = { title: "Thanh toán", robots: { index: false } };
 
 async function Checkout() {
   const user = await requireUser("/thanh-toan");
-  return <CheckoutForm defaults={{ fullName: user.fullName, phone: user.phone }} />;
+  const last = await getLastShipping();
+  return (
+    <CheckoutForm
+      defaults={{
+        fullName: last?.recipient_name || user.fullName,
+        phone: last?.phone || user.phone,
+        address: last?.address ?? "",
+        ward: last?.ward ?? "",
+        province: last?.province ?? "",
+      }}
+      prefilledFromLastOrder={Boolean(last)}
+    />
+  );
 }
 
 export default function CheckoutPage() {

@@ -67,3 +67,7 @@ Next 16.4 + React 19.3 hỗ trợ sẵn View Transitions: chạy trên composito
 ### D-17 — Yêu thích lưu trên trình duyệt
 
 Giống giỏ hàng (D-10): không cần đăng nhập, không thêm bảng. Đổi sang lưu theo tài khoản nếu sau này cần đồng bộ nhiều thiết bị.
+
+### D-18 — Email xác thực dùng link `token_hash`
+
+Mẫu email tự viết (`supabase/templates/*.html`) trỏ thẳng về `/auth/confirm?token_hash=…` thay cho link PKCE mặc định: mở được trên điện thoại dù yêu cầu từ máy tính, nội dung tiếng Việt theo thương hiệu. `/auth/confirm` vẫn hỗ trợ `?code=` (B-011).

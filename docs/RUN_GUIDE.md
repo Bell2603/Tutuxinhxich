@@ -52,13 +52,13 @@ Mở trình duyệt tại **http://localhost:3000** 🎉
 
 ## 3. Địa chỉ truy cập
 
-| Trang                                           | URL                         |
-| ----------------------------------------------- | --------------------------- |
-| Website (cửa hàng)                              | http://localhost:3000       |
-| Trang quản trị                                  | http://localhost:3000/admin |
-| Supabase Studio (xem/sửa bảng dữ liệu)          | http://127.0.0.1:54423      |
-| Mailpit (hộp thư thử nghiệm của Supabase local) | http://127.0.0.1:54424      |
-| API Supabase local                              | http://127.0.0.1:54421      |
+| Trang                                                                                  | URL                         |
+| -------------------------------------------------------------------------------------- | --------------------------- |
+| Website (cửa hàng)                                                                     | http://localhost:3000       |
+| Trang quản trị                                                                         | http://localhost:3000/admin |
+| Supabase Studio (xem/sửa bảng dữ liệu)                                                 | http://127.0.0.1:54423      |
+| Mailpit (hộp thư thử nghiệm: email quên mật khẩu, xác nhận đăng ký ở môi trường local) | http://127.0.0.1:54424      |
+| API Supabase local                                                                     | http://127.0.0.1:54421      |
 
 Cổng Supabase của dự án là **544xx** (khác mặc định 543xx) để không đụng dự án `~/khan-store` trên cùng máy.
 

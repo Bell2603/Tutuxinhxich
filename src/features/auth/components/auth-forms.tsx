@@ -7,10 +7,9 @@ import { useActionState, useId } from "react";
 import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/field";
 import { signInAction, signUpAction } from "../actions";
-import type { AuthFormState } from "../schemas";
 import { PasswordInput } from "./password-input";
 
-function FormBanner({ state }: { state: AuthFormState }) {
+export function FormBanner({ state }: { state: { error?: string; success?: string } | undefined }) {
   if (state?.error) {
     return (
       <p
@@ -66,6 +65,13 @@ export function SignInForm({ next }: { next: string }) {
           required
         />
       </Field>
+      <Link
+        href="/quen-mat-khau"
+        className="-mt-3 self-end text-sm font-semibold text-berry focus-ring hover:underline"
+        data-testid="forgot-password-link"
+      >
+        Quên mật khẩu?
+      </Link>
       <Button type="submit" size="lg" disabled={pending} data-testid="signin-submit">
         {pending ? <Loader2 className="size-5 animate-spin" aria-hidden /> : null}
         {pending ? "Đang đăng nhập…" : "Đăng nhập"}
