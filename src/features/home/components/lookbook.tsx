@@ -21,7 +21,7 @@ const COLUMNS: { speed: number; shots: Shot[]; className?: string }[] = [
         rotate: "-rotate-3",
       },
       {
-        src: "/products/ttxx-006/detail-1.webp",
+        src: "/products/ttxx-006/main.webp",
         caption: "Bạc Hà loang nắng sớm",
         tape: "bg-mint/70",
         rotate: "rotate-2",
@@ -39,7 +39,7 @@ const COLUMNS: { speed: number; shots: Shot[]; className?: string }[] = [
         rotate: "rotate-2",
       },
       {
-        src: "/products/ttxx-005/detail-1.webp",
+        src: "/products/ttxx-005/main.webp",
         caption: "Ánh nhũ dưới đèn sân ga",
         tape: "bg-lilac/60",
         rotate: "-rotate-2",
@@ -51,13 +51,13 @@ const COLUMNS: { speed: number; shots: Shot[]; className?: string }[] = [
     className: "hidden lg:block",
     shots: [
       {
-        src: "/products/ttxx-001/detail-2.webp",
+        src: "/products/ttxx-001/main.webp",
         caption: "Gói quà xinh cho bạn thân",
         tape: "bg-sky/50",
         rotate: "-rotate-2",
       },
       {
-        src: "/products/ttxx-002/detail-1.webp",
+        src: "/products/ttxx-002/main.webp",
         caption: "Sọc kẹo — ấm áp mùa se lạnh",
         tape: "bg-peach/60",
         rotate: "rotate-3",
