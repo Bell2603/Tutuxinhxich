@@ -19,7 +19,8 @@ insert into public.products (
   E'Giặt tay nhẹ nhàng với nước mát.\nKhông dùng chất tẩy, không vắt mạnh.\nPhơi nơi thoáng mát, tránh nắng gắt.\nỦi mặt trái ở nhiệt độ thấp.',
   289000, 349000, 24,
   '/products/ttxx-001/main.webp',
-  array['/products/ttxx-001/detail-1.webp', '/products/ttxx-001/detail-2.webp', '/products/ttxx-001/detail-3.webp'],
+  -- array['/products/ttxx-001/detail-1.webp', '/products/ttxx-001/detail-2.webp', '/products/ttxx-001/detail-3.webp'],
+  array[]::text[],
   'best_seller', true, false, 1
 ),
 (
@@ -32,7 +33,8 @@ insert into public.products (
   E'Giặt tay hoặc giặt máy chế độ len, cho vào túi giặt riêng.\nKhông ngâm lâu, không sấy nóng.\nPhơi nằm ngang để khăn giữ form.\nKhông ủi trực tiếp lên sợi len.',
   359000, null, 18,
   '/products/ttxx-002/main.webp',
-  array['/products/ttxx-002/detail-1.webp', '/products/ttxx-002/detail-2.webp', '/products/ttxx-002/detail-3.webp'],
+  -- array['/products/ttxx-002/detail-1.webp', '/products/ttxx-002/detail-2.webp', '/products/ttxx-002/detail-3.webp'],
+  array[]::text[],
   'new', true, false, 2
 ),
 (
@@ -45,7 +47,8 @@ insert into public.products (
   E'Giặt tay với nước mát, không vò mạnh.\nKhông dùng chất tẩy.\nPhơi trong bóng râm.\nỦi hơi nước ở nhiệt độ thấp.',
   199000, 239000, 30,
   '/products/ttxx-003/main.webp',
-  array['/products/ttxx-003/detail-1.webp', '/products/ttxx-003/detail-2.webp', '/products/ttxx-003/detail-3.webp'],
+  -- array['/products/ttxx-003/detail-1.webp', '/products/ttxx-003/detail-2.webp', '/products/ttxx-003/detail-3.webp'],
+  array[]::text[],
   null, true, false, 3
 ),
 (
@@ -58,7 +61,8 @@ insert into public.products (
   E'Giặt khô hoặc giặt tay nhẹ với nước lạnh.\nKhông vắt xoắn, không sấy.\nPhơi nằm ngang nơi thoáng mát.\nChải nhẹ tua rua sau khi khô.',
   429000, 499000, 12,
   '/products/ttxx-004/main.webp',
-  array['/products/ttxx-004/detail-1.webp', '/products/ttxx-004/detail-2.webp', '/products/ttxx-004/detail-3.webp'],
+  -- array['/products/ttxx-004/detail-1.webp', '/products/ttxx-004/detail-2.webp', '/products/ttxx-004/detail-3.webp'],
+  array[]::text[],
   'best_seller', true, false, 4
 ),
 (
@@ -71,7 +75,8 @@ insert into public.products (
   E'Chỉ giặt tay nhẹ nhàng hoặc giặt khô.\nKhông chà mạnh lên phần nhũ.\nPhơi trong bóng râm.\nỦi mặt trái ở nhiệt độ thấp, có lót vải.',
   459000, null, 5,
   '/products/ttxx-005/main.webp',
-  array['/products/ttxx-005/detail-1.webp', '/products/ttxx-005/detail-2.webp', '/products/ttxx-005/detail-3.webp'],
+  -- array['/products/ttxx-005/detail-1.webp', '/products/ttxx-005/detail-2.webp', '/products/ttxx-005/detail-3.webp'],
+  array[]::text[],
   'limited', true, true, 5
 ),
 (
@@ -84,7 +89,8 @@ insert into public.products (
   E'Giặt riêng ở lần đầu vì có thể ra màu nhẹ.\nGiặt tay hoặc giặt máy chế độ nhẹ, nước lạnh.\nKhông dùng chất tẩy.\nỦi nhiệt độ trung bình khi khăn còn hơi ẩm.',
   249000, null, 20,
   '/products/ttxx-006/main.webp',
-  array['/products/ttxx-006/detail-1.webp', '/products/ttxx-006/detail-2.webp', '/products/ttxx-006/detail-3.webp'],
+  -- array['/products/ttxx-006/detail-1.webp', '/products/ttxx-006/detail-2.webp', '/products/ttxx-006/detail-3.webp'],
+  array[]::text[],
   'new', true, false, 6
 );
 

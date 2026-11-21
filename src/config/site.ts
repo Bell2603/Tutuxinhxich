@@ -13,23 +13,22 @@ export const site = {
   announcements: [
     "Tu tu! Miễn phí giao hàng cho đơn từ 500.000₫",
     "Gói quà xinh miễn phí cho mọi đơn hàng",
-    "Nhập mã LENTAU10 giảm 10% cho đơn từ 300.000₫ (mã demo)",
-    "Phiên bản chạy thử — thanh toán chỉ là giả lập, không trừ tiền thật",
+    // "Nhập mã LENTAU10 giảm 10% cho đơn từ 300.000₫ (mã demo)",
     "Đổi trả trong 7 ngày nếu khăn còn nguyên tem",
   ],
   contact: {
     email: "xinchao@tutuxinhxich.vn",
-    phone: "0900 000 000",
-    address: "Sân ga số 6, TP. Hồ Chí Minh",
+    phone: "0357423261",
+    address: "Số 1 Đại Cồ Việt, Hai Bà Trưng, Hà Nội",
     hours: "9:00 – 21:00 mỗi ngày",
   },
   social: {
     instagram: "https://instagram.com/",
     tiktok: "https://tiktok.com/",
-    facebook: "https://facebook.com/",
+    facebook: "https://web.facebook.com/people/Tu-Tu-X%C3%ACnh-X%E1%BB%8Bch/61595232284438/?locale=vi_VN",
   },
   /** Nội dung minh họa — chưa phải dữ liệu thật. */
-  demoNotice: "Sản phẩm, hình ảnh, đánh giá và thanh toán trên website hiện là dữ liệu demo.",
+  demoNotice: "", // Sản phẩm, hình ảnh, đánh giá và thanh toán trên website hiện là dữ liệu demo.
 } as const;
 
 export const nav = [

@@ -12,34 +12,34 @@ export function isActiveHref(pathname: string, href: string): boolean {
   return !href.includes("#") && pathname.startsWith(href);
 }
 
-/** Menu chính (desktop) — viên nhấn trượt theo con trỏ / trang hiện tại. Đọc URL nên phải nằm trong <Suspense>. */
+/** Menu chính (desktop) — viên nhấn trượt sang mục vừa bấm / trang hiện tại. Đọc URL nên phải nằm trong <Suspense>. */
 export function DesktopNav() {
   const pathname = usePathname();
-  const [hovered, setHovered] = useState<string | null>(null);
+  // Mục vừa bấm: sáng ngay, không đợi Next tải xong trang mới.
+  const [pending, setPending] = useState<{ href: string; from: string } | null>(null);
+  const pendingHref = pending && pending.from === pathname ? pending.href : null;
   return (
-    <NavList onLeave={() => setHovered(null)}>
+    <NavList>
       {nav.map((item) => {
-        const active = isActiveHref(pathname, item.href);
-        const highlight = hovered ? hovered === item.href : active;
+        const active = pendingHref ? item.href === pendingHref : isActiveHref(pathname, item.href);
         return (
           <li key={item.href} className="relative">
-            {highlight ? (
+            {active ? (
               <m.span
                 layoutId="nav-pill"
-                className={cn(
-                  "absolute inset-0 rounded-full",
-                  active && !hovered ? "bg-ink" : "bg-pink-100",
-                )}
-                transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                className="absolute inset-0 rounded-full bg-ink"
+                transition={{ type: "spring", stiffness: 700, damping: 45, mass: 0.6 }}
               />
             ) : null}
             <Link
               href={item.href}
-              onPointerEnter={() => setHovered(item.href)}
+              onClick={() => {
+                if (!item.href.includes("#")) setPending({ href: item.href, from: pathname });
+              }}
               aria-current={active ? "page" : undefined}
               className={cn(
                 "relative z-10 block rounded-full px-4 py-2 text-sm font-semibold focus-ring transition-colors",
-                active && !hovered ? "text-cream" : "text-ink",
+                active ? "text-cream" : "text-ink",
               )}
             >
               {item.label}
