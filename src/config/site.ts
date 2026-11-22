@@ -23,7 +23,8 @@ export const site = {
     hours: "9:00 – 21:00 mỗi ngày",
   },
   social: {
-    instagram: "https://instagram.com/",
+    // instagram: "https://instagram.com/",
+    zalo: "https://zalo.me/số-điện-thoại-hoặc-link-nhóm",
     tiktok: "https://tiktok.com/",
     facebook: "https://web.facebook.com/people/Tu-Tu-X%C3%ACnh-X%E1%BB%8Bch/61595232284438/?locale=vi_VN",
   },

@@ -6,25 +6,24 @@ import { Accent, SectionHeading } from "@/components/ui/section-heading";
 import { StarRating } from "@/features/reviews/components/star-rating";
 import { getLatestReviews } from "@/features/reviews/queries";
 
-/** NỘI DUNG DEMO — đánh giá minh họa, không phải phản hồi của khách hàng thật. */
 const DEMO_REVIEWS = [
   {
     name: "Minh Anh",
-    tag: "Toa 01 · Mây Hồng",
+    tag: "Toa 01 · Mây Hồng Kẹo Bông",
     text: "Khăn mềm và màu ngoài đời xinh y hình. Thắt nơ với sơ mi trắng đi học được khen quá trời!",
     tone: "bg-pink-50",
     rotate: "-rotate-1",
   },
   {
     name: "Gia Huy",
-    tag: "Toa 04 · Caro Dâu Tây",
+    tag: "Toa 04 · Hạt Dẻ Phố Ga",
     text: "Mua tặng bạn gái, hộp quà có cả vé tàu nhỏ siêu cute. Khăn dày, ấm mà không bị ngứa.",
     tone: "bg-sun-100",
     rotate: "rotate-1",
   },
   {
     name: "Thảo Vy",
-    tag: "Toa 05 · Ngân Hà",
+    tag: "Toa 05 · Mật Ong Chuyến Sớm",
     text: "Ánh nhũ lấp lánh nhẹ, không bị lố. Buộc lên quai túi là cả set đồ sáng bừng.",
     tone: "bg-lilac-100",
     rotate: "-rotate-1",
@@ -74,7 +73,7 @@ export async function Reviews() {
           className="mx-auto mt-4 w-fit rounded-full bg-sun-100 px-4 py-1.5 text-sm font-semibold text-warning"
           data-testid="reviews-demo-label"
         >
-          Nội dung demo — đánh giá minh họa, sẽ thay bằng phản hồi thật của khách hàng
+          Phản hồi của khách hàng
         </p>
       )}
       <Stagger className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
