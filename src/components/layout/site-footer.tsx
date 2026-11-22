@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Logo } from "@/components/brand/logo";
 import { Sparkle } from "@/components/ui/sparkle";
 import { site } from "@/config/site";
+import Image from "next/image";
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -17,6 +18,14 @@ function InstagramIcon({ className }: { className?: string }) {
       <rect x="3" y="3" width="18" height="18" rx="5" />
       <circle cx="12" cy="12" r="4" />
       <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function ZaloIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden fill="currentColor">
+      <text x="12" y="16" textAnchor="middle" fontSize="11" fontWeight="700">Zalo</text>
     </svg>
   );
 }
@@ -55,8 +64,9 @@ export function SiteFooter() {
           <p className="mt-5 max-w-xs font-serif text-xl italic">“{site.slogan}”</p>
           <div className="mt-6 flex gap-3">
             {[
-              { href: site.social.instagram, label: "Instagram", Icon: InstagramIcon },
-              { href: site.social.tiktok, label: "TikTok", Icon: TikTokIcon },
+              // { href: site.social.instagram, label: "Instagram", Icon: InstagramIcon },
+              { href: site.social.zalo, label: "Zalo", Icon: ZaloIcon },
+              // { href: site.social.tiktok, label: "TikTok", Icon: TikTokIcon },
               { href: site.social.facebook, label: "Facebook", Icon: FacebookIcon },
             ].map(({ href, label, Icon }) => (
               <a
@@ -133,9 +143,43 @@ export function SiteFooter() {
               {site.contact.address}
             </li>
           </ul>
-          <p className="mt-3 text-sm text-cream/60">Thông tin liên hệ mẫu — {site.contact.hours}</p>
+          <p className="mt-3 text-sm text-cream/60">{site.contact.hours}</p>
         </div>
       </div>
+      
+        <div className="container-page flex flex-col items-center gap-3 pb-10">
+        <a
+          href="http://online.gov.vn/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Đã thông báo Bộ Công Thương — xem tại online.gov.vn"
+          className="rounded-lg focus-ring transition-opacity hover:opacity-90"
+        >
+          <Image
+            src="/products/logo-bo-cong-thuong-moi-thong-bao.png"
+            alt="Đã thông báo Bộ Công Thương"
+            width={320}
+            height={107}
+            className="h-auto w-48"
+          />
+        </a>
+        <a
+          href="http://online.gov.vn/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Đã đăng ký thương mại điện tử — xem tại online.gov.vn"
+          className="rounded-lg focus-ring transition-opacity hover:opacity-90"
+        >
+          <Image
+            src="/products/logo-bo-cong-thuong-moi-dang-ky.png"
+            alt="Đã đăng ký thương mại điện tử"
+            width={320}
+            height={109}
+            className="h-auto w-48"
+          />
+        </a>
+      </div>
+
       <div className="border-t border-white/10">
         <div className="container-page flex flex-col gap-2 py-6 text-sm text-cream/60 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 {site.name}. Khăn xinh cho mọi chuyến đi.</p>
