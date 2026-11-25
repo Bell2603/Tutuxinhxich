@@ -29,7 +29,8 @@ export const ORDER_STATUS_DESCRIPTIONS: Record<OrderStatus, string> = {
 
 export const PAYMENT_METHOD_LABELS: Record<PaymentMethod, string> = {
   cod: "Thanh toán khi nhận hàng (COD)",
-  bank_transfer_mock: "Chuyển khoản (giả lập — không trừ tiền thật)",
+  // Tên enum giữ nguyên trong database (không đổi enum); nay là chuyển khoản thật, khách tự chuyển.
+  bank_transfer_mock: "Chuyển khoản ngân hàng",
 };
 
 /** Luồng trạng thái hợp lệ — phải khớp hàm SQL public.can_transition_order. */

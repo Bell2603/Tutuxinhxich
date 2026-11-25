@@ -7,7 +7,14 @@ import { useMemo } from "react";
 const COLORS = ["#FF4F9A", "#A98BFF", "#5CC8FF", "#FFCF3F", "#5FE0B7"];
 
 /** Banner chúc mừng đặt hàng thành công + pháo giấy nhẹ (tự tắt khi giảm chuyển động). */
-export function OrderCelebration({ code }: { code: string }) {
+export function OrderCelebration({
+  code,
+  bankTransfer = false,
+}: {
+  code: string;
+  /** Đơn chuyển khoản đang hiện hướng dẫn chuyển khoản trên trang. */
+  bankTransfer?: boolean;
+}) {
   const reduce = useReducedMotion();
   const pieces = useMemo(
     () =>
@@ -46,8 +53,10 @@ export function OrderCelebration({ code }: { code: string }) {
       </p>
       <p className="mt-2 font-display text-3xl font-extrabold">Đặt hàng thành công!</p>
       <p className="mt-1 font-medium text-ink/80">
-        Mã đơn <strong>#{code}</strong>. Tu Tu sẽ liên hệ xác nhận sớm nhất. (Đơn thử nghiệm — không
-        trừ tiền thật.)
+        Mã đơn <strong>#{code}</strong>.{" "}
+        {bankTransfer
+          ? "Bạn chuyển khoản theo hướng dẫn trên trang này nhé — Tu Tu xác nhận đơn ngay khi nhận được tiền."
+          : "Tu Tu sẽ liên hệ xác nhận sớm nhất."}
       </p>
     </m.div>
   );

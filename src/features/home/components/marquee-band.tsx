@@ -3,11 +3,11 @@ import { Sparkle } from "@/components/ui/sparkle";
 
 const WORDS = [
   "Mây Hồng Kẹo Bông",
-  "Sọc Kẹo Cầu Vồng",
-  "Hoa Cúc Sân Ga",
-  "Caro Dâu Tây",
-  "Ngân Hà Lấp Lánh",
-  "Bạc Hà Sương Sớm",
+  "Ô Cửa Tàu Đêm",
+  "Sân Ga Rừng Thông",
+  "Hạt Dẻ Phố Ga",
+  "Mật Ong Chuyến Sớm",
+  "Kem Sữa Toa Ấm",
 ];
 
 export function MarqueeBand() {

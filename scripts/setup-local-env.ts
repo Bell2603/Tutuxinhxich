@@ -4,6 +4,7 @@
  * Chạy: npm run env:local
  */
 import { execFileSync } from "node:child_process";
+import { randomBytes } from "node:crypto";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
@@ -45,6 +46,9 @@ const defaults: Record<string, string> = {
   SEED_ADMIN_PASSWORD: "TuTuAdmin@2026",
   SEED_CUSTOMER_EMAIL: "khach@tutuxinhxich.local",
   SEED_CUSTOMER_PASSWORD: "KhachXinh@2026",
+  // Chatbot: salt bí mật để băm IP khi giới hạn tần suất (sinh ngẫu nhiên một lần).
+  CHAT_IP_SALT: randomBytes(32).toString("hex"),
+  GEMINI_MODEL: "gemini-3.8-flash",
 };
 for (const [key, value] of Object.entries(defaults)) if (!current.has(key)) current.set(key, value);
 current.set("NEXT_PUBLIC_SUPABASE_URL", apiUrl);

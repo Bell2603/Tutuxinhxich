@@ -6,6 +6,7 @@ import { AccountMenu, AccountMenuSkeleton } from "@/features/auth/components/acc
 import { CartDrawer } from "@/features/cart/components/cart-drawer";
 import { CartFlightLayer } from "@/features/cart/components/cart-flight-layer";
 import { CartHydrator } from "@/features/cart/components/cart-hydrator";
+import { ChatWidget } from "@/features/chatbot/components/chat-widget";
 import { WishlistHydrator } from "@/features/wishlist/components/wishlist-hydrator";
 
 export default function ShopLayout({ children }: LayoutProps<"/">) {
@@ -27,6 +28,10 @@ export default function ShopLayout({ children }: LayoutProps<"/">) {
       <CartFlightLayer />
       <CartHydrator />
       <WishlistHydrator />
+      {/* Đọc URL (usePathname) → nằm trong Suspense theo Cache Components. */}
+      <Suspense fallback={null}>
+        <ChatWidget />
+      </Suspense>
     </>
   );
 }

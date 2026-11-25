@@ -2,12 +2,13 @@
 
 import { z } from "zod";
 import { getSessionUser } from "@/features/auth/session";
+import { isBankConfigured } from "@/features/payments/bank-transfer";
 import { parseAppError } from "@/lib/errors";
 import { fail, ok, type ActionResult } from "@/lib/result";
 import { createClient } from "@/lib/supabase/server";
 import { checkoutSchema } from "./schemas";
 
-/** Đặt hàng thử nghiệm: kiểm tra đăng nhập + dữ liệu, giá/tồn kho do database tính (RPC place_order). */
+/** Đặt hàng: kiểm tra đăng nhập + dữ liệu, giá/tồn kho do database tính (RPC place_order). Không thu tiền online. */
 export async function placeOrderAction(input: unknown): Promise<ActionResult<{ code: string }>> {
   const user = await getSessionUser();
   if (!user) return fail("Bạn cần đăng nhập để đặt hàng.", { code: "AUTH_REQUIRED" });
@@ -20,6 +21,11 @@ export async function placeOrderAction(input: unknown): Promise<ActionResult<{ c
     });
   }
   const { shipping, paymentMethod, items, clientRequestId, couponCode } = parsed.data;
+  if (paymentMethod === "bank_transfer_mock" && !isBankConfigured()) {
+    return fail("Cửa hàng chưa nhận chuyển khoản, bạn vui lòng chọn thanh toán khi nhận hàng.", {
+      code: "VALIDATION",
+    });
+  }
 
   const supabase = await createClient();
   const { data, error } = await supabase.rpc("place_order", {

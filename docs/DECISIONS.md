@@ -79,3 +79,27 @@ Mẫu email tự viết (`supabase/templates/*.html`) trỏ thẳng về `/auth/
 ### D-20 — Mã giảm giá tính trong database, phí ship theo tạm tính trước giảm
 
 `place_order` kiểm tra lại mã (khóa dòng `coupons` → không vượt tổng lượt khi đặt đồng thời) và tự tính tiền giảm; ô nhập ở checkout chỉ là xem trước. Phí ship dựa trên tạm tính trước giảm giá để quy tắc "free ship từ 500.000₫" dễ hiểu. Hủy đơn trả lượt dùng. Khách không đọc được bảng `coupons` (chỉ kiểm tra từng mã qua `preview_coupon`) để không lộ danh sách mã.
+
+### D-21 — Nội dung chính sách một nguồn, dạng dữ liệu thuần
+
+`src/features/policies/content.ts` là nơi duy nhất chứa chính sách & FAQ; `/chinh-sach`, `/hoi-dap`, trang sản phẩm (và chatbot ở M17) đều đọc từ đây. Không chứa JSX để server đọc thành văn bản. Số tiền ship lấy từ hằng số giỏ hàng (đã có test parity với SQL) → đổi phí ship ở một chỗ.
+
+### D-22 — Google Maps nhúng bằng iframe, CSP chỉ mở `frame-src https://www.google.com`
+
+Không dùng Maps JavaScript API (cần API key, mở script-src/connect-src). Link nhúng phải có dạng `https://www.google.com/maps…`; link `maps.google.com` hay rút gọn `maps.app.goo.gl` sẽ bị CSP chặn. E2E trả trang giả cho iframe (không phụ thuộc mạng, axe không quét nội dung của Google) nhưng vẫn đi qua CSP thật.
+
+### D-23 — Đối tác cấu hình trong code, ẩn khi rỗng; parallax chỉ khi 3 cột cạnh nhau
+
+Danh sách đối tác ít, hiếm đổi → `src/config/partners.ts` (có kiểu TS) thay vì bảng database + trang admin. Ảnh chỉ lấy từ `public/partners/` (không mở CSP `img-src`). Chưa có đối tác thì không hiện section/link rỗng. Parallax bật từ 1024px: dưới mức đó các cột xếp chồng và trượt ngược chiều sẽ đè lên nhau.
+
+### D-24 — Chuyển khoản khách tự chuyển, VietQR tạo trên server, không đổi enum
+
+Không tích hợp cổng thanh toán: trang đơn hiện tài khoản + nội dung + VietQR, shop đối soát sao kê thủ công rồi xác nhận đơn (không có trạng thái "đã thanh toán" tự động). QR là chuỗi EMVCo tự tạo + thư viện `qrcode` (SVG data URL) thay vì ảnh `img.vietqr.io`: không mở CSP `img-src`, không gửi tên/SĐT khách cho bên thứ ba. Enum `bank_transfer_mock` giữ nguyên (đổi enum cần migration và đụng RPC `place_order`), chỉ đổi nhãn hiển thị. Config còn giá trị mẫu → ẩn hẳn chuyển khoản (checkout, server action, chính sách) để không bao giờ hiện số tài khoản giả. Nội dung tối đa 50 ký tự (chưa tìm được giới hạn chính thức của NAPAS; 50 là mức an toàn), luôn giữ đủ mã đơn + SĐT.
+
+### D-25 — Chatbot Gemini gọi từ server, giới hạn tần suất trong database
+
+Gemini chỉ gọi trong route handler (`server-only`), khóa không bao giờ tới trình duyệt → CSP client không đổi. Gọi REST `generateContent` trực tiếp (không thêm SDK), không stream cho đơn giản. Giới hạn tần suất lưu ở Supabase (RPC `chat_rate_hit`) thay vì bộ nhớ: trên Vercel mỗi instance có bộ nhớ riêng nên đếm trong RAM dễ bị lách. IP băm kèm salt bí mật, không lưu IP thô. Prompt injection: chỉ dẫn hệ thống tách khỏi tin của khách (`systemInstruction`), dữ liệu cửa hàng đặt trong khối riêng, mã canary để phát hiện lộ chỉ dẫn, giao diện chỉ render văn bản thuần + link nội bộ. Lịch sử do client gửi lên (giới hạn 10 lượt) nên khách có thể sửa lượt "model" cũ — chấp nhận vì bot không có quyền thao tác dữ liệu.
+
+### D-26 — Live chat bằng link Zalo/Messenger, không nhúng widget
+
+So với Tawk.to/Zalo OA widget: không thêm script bên thứ ba, không mở CSP, không cookie theo dõi, nhân viên trả lời trên app quen dùng. Messenger Chat Plugin nhúng web đã bị Meta ngừng (2024) nên dùng `m.me`. Link chưa hợp lệ (mẫu) → nút tự ẩn.

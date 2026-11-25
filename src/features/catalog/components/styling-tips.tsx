@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { Accent } from "@/components/ui/section-heading";
-import { scarfShape, stylesForShape } from "@/features/home/styling-data";
+import { scarfShape, stylesForShape } from "@/features/styling/styling-data";
 
 /** "Cách quàng hợp với chiếc khăn này" — chọn theo dáng khăn (vuông/dài). */
 export function StylingTips({ size, name }: { size: string; name: string }) {
@@ -15,7 +15,7 @@ export function StylingTips({ size, name }: { size: string; name: string }) {
           Quàng <Accent>{name}</Accent> thế nào?
         </h2>
         <Link
-          href="/#phoi-do"
+          href="/phoi-khan"
           className="group inline-flex items-center gap-2 font-semibold text-berry focus-ring hover:underline"
         >
           Xem cả 4 cách quàng

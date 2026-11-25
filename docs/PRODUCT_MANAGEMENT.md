@@ -80,7 +80,10 @@ Database có ràng buộc bảo vệ dữ liệu (VD giá gốc phải lớn hơ
 - `/admin/don-hang`: lọc theo trạng thái, tìm theo mã đơn / SĐT / tên người nhận.
 - Mở một đơn → **Cập nhật trạng thái** theo luồng: Chờ xác nhận → Đã xác nhận → Đang giao → Đã giao. Có thể **Hủy đơn** trước khi giao xong — tồn kho tự được hoàn lại.
 - Khách tự hủy được đơn khi đơn còn "Chờ xác nhận".
-- Thanh toán hiện là **giả lập** (COD / chuyển khoản mô phỏng), không phát sinh tiền thật.
+- Thanh toán: **COD** hoặc **chuyển khoản ngân hàng** (khách tự chuyển — website không thu tiền online).
+  - Tài khoản nhận: `src/config/bank.ts`. Còn giá trị mẫu → lựa chọn chuyển khoản tự ẩn ở checkout.
+  - Khách thấy số tài khoản, số tiền, nội dung `<Mã đơn> - <TÊN> - <SĐT>` (VD `TT2611250001 - NGUYEN VAN A - 0912345678`) và mã VietQR trên trang chi tiết đơn.
+  - Đối soát: mở đơn trong `/admin/don-hang` → dòng "Nội dung chuyển khoản cần đối soát" → so với sao kê → chuyển đơn sang "Đã xác nhận". Khách chuyển sai/thiếu thì liên hệ khách qua SĐT trên đơn.
 
 ## Quản lý đánh giá
 

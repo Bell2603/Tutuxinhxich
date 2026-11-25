@@ -20,6 +20,10 @@
 | M11 — Tài khoản nâng cao (quên/đổi mật khẩu, điền sẵn địa chỉ) | ✅         |
 | M12 — Đánh giá thật từ khách đã mua                            | ✅         |
 | M13 — Mã giảm giá                                              | ✅         |
+| M14 — Trang Về chúng tôi, Phối khăn, FAQ                       | ✅         |
+| M15 — Đối tác                                                  | ✅         |
+| M16 — Chuyển khoản ngân hàng                                   | ✅         |
+| M17 — Chatbot + live chat                                      | ✅         |
 
 > Cách cập nhật bảng: sửa trực tiếp ô trạng thái (Prettier có thể căn lại cột — kiểm tra lại sau khi format).
 
@@ -136,9 +140,60 @@
 - 5 commit: sửa tài liệu tiến độ (B-012) → M10 → M11 → M12 → M13. Không push, không deploy.
 - Môi trường: OrbStack bị dừng giữa phiên (không do Claude) → đã bật lại, dừng lại container của `~/khan-store` như phiên trước.
 
+### M14 — Trang Về chúng tôi, Phối khăn, FAQ (phiên 3, 2026-11-25, chưa commit)
+
+- Trang mới (đầu trang dùng chung `PageHero` — cùng kiểu `/bo-suu-tap`):
+  - `/ve-chung-toi`: câu chuyện thương hiệu + khối liên hệ `#lien-he` (đọc `site.contact`) + iframe Google Maps (`site.contact.mapEmbedUrl`).
+  - `/phoi-khan`: 4 cách quàng (tab) chuyển từ trang chủ.
+  - `/hoi-dap`: FAQ bằng `AccordionItem`.
+- Bỏ section Câu chuyện và Phối khăn khỏi trang chủ. Component chuyển sang `src/features/about/` và `src/features/styling/`.
+- Nội dung chính sách một nguồn: `src/features/policies/content.ts` (`POLICY_SECTIONS`, `FAQS`, `RETURN_DAYS`, `SHIPPING_RETURN_SUMMARY`), số tiền lấy từ `FREE_SHIPPING_THRESHOLD`/`SHIPPING_FEE`. Dùng ở `/chinh-sach`, `/hoi-dap`, accordion trang sản phẩm; CTA cuối trang chủ cũng đọc hằng số.
+- Menu: Phối khăn → `/phoi-khan`, Về chúng tôi → `/ve-chung-toi`. Footer thêm Câu hỏi thường gặp, Liên hệ. Link "Xem cả 4 cách quàng" trên trang sản phẩm → `/phoi-khan`. Sitemap thêm 3 trang. `/#lookbook` giữ nguyên (xem lại ở M15).
+- Bỏ thư mục nháp `src/app/(shop)/Cau-chuyen/` (tên viết hoa → URL `/Cau-chuyen` lệch với link `/cau-chuyen`) và trả tiêu đề câu chuyện về `h2` (trang chủ từng có 2 `h1`).
+- CSP: thêm `frame-src https://www.google.com`.
+- ESLint bỏ qua `playwright-report/`, `test-results/`, `blob-report/` (report của Playwright chứa trace viewer JS đã bundle → lint báo 3000+ lỗi).
+- Kiểm thử: unit 81 · integration 45 · E2E 77 pass / 4 fail **có sẵn từ trước** (B-017, B-018).
+
+### M15 — Đối tác (phiên 3, 2026-11-25, chưa commit)
+
+- `src/config/partners.ts`: kiểu `Partner` (`name`, `url: https://…`, `logo: /partners/…`), mảng `PARTNERS` **đang rỗng** theo yêu cầu → section `#doi-tac`, link "Đối tác" trong menu (`hasPartners` ở `site.ts`) và footer tự ẩn. Ảnh đặt ở `public/partners/` (có `.gitkeep`).
+- `lookbook.tsx` → `partners-section.tsx`: giữ polaroid + parallax 3 cột (60/−40/90), mỗi thẻ là link `target="_blank" rel="noopener noreferrer"`, logo `object-contain`. Khác Lookbook cũ: không ẩn cột 3 trên màn nhỏ (mỗi thẻ là một đối tác); parallax chỉ bật ≥ 1024px vì khi cột xếp chồng, các cột trượt ngược chiều đè lên nhau (lỗi có sẵn ở Lookbook cũ, thấy rõ qua ảnh chụp mobile).
+- Hero: nút phụ "Xem lookbook" → "Cách phối khăn" (`/phoi-khan`). Không còn anchor `#lookbook`.
+- Đã thử với 4 đối tác tạm (ảnh sản phẩm) → E2E link/tab mới/a11y/không tràn ngang xanh, chụp màn hình desktop + mobile → gỡ dữ liệu tạm.
+- Kiểm thử: unit 85 · integration 45 · E2E 80 pass / 4 fail có sẵn (B-017, B-018).
+
+### M16 — Chuyển khoản ngân hàng (phiên 3, 2026-11-25, chưa commit)
+
+- `src/config/bank.ts`: `bankName`, `bin` (mã NAPAS 6 số), `accountNumber`, `accountName` — **đang là giá trị mẫu** → `isBankConfigured()` = false → lựa chọn chuyển khoản ẩn ở checkout, server action từ chối `bank_transfer_mock`, chính sách/FAQ chỉ nói COD.
+- `src/features/payments/bank-transfer.ts`: `transferContent()` (`<Mã đơn> - <TÊN> - <SĐT>`, bỏ dấu, in hoa, tối đa 50 ký tự — chỉ cắt tên), `vietQrPayload()` (EMVCo/VietQR + CRC16), `shouldShowTransfer()` (ẩn khi đơn hủy/đã giao). Mã QR vẽ SVG trên server (`qrcode`, `qr.ts` có `server-only`) → không gọi dịch vụ ngoài, CSP không đổi.
+- Đã đối chiếu: chuỗi VietQR tự tạo **trùng từng ký tự** (kể cả CRC) với QR của img.vietqr.io cho cùng tài khoản giả; QR trên trang đơn giải mã lại đúng chuỗi. img.vietqr.io bỏ dấu `-` trong nội dung (giữ 36 ký tự, không cắt) — ta giữ `-` theo cú pháp yêu cầu; nếu app ngân hàng nào từ chối thì đổi `SEPARATOR` trong `bank-transfer.ts`.
+- Trang đơn `/tai-khoan/don-hang/[code]`: khối "Chuyển khoản" (ngân hàng, STK + Sao chép, chủ TK, số tiền, nội dung + Sao chép, QR), lên đầu trên mobile; bỏ dòng "Môi trường thử nghiệm"; banner đặt hàng thành công nhắc chuyển khoản. Admin: dòng "Nội dung chuyển khoản cần đối soát".
+- Nhãn `bank_transfer_mock` → "Chuyển khoản ngân hàng" (enum DB không đổi). Cập nhật CLAUDE.md (quy tắc thanh toán), DEPLOY_GUIDE, PRODUCT_MANAGEMENT, FINAL_REPORT (ghi chú).
+- Đã chạy E2E với tài khoản thử (Vietcombank 970436 / 0123456789) rồi trả lại giá trị mẫu.
+- Kiểm thử: unit 94 · integration 45 · E2E 81 pass / 4 fail có sẵn (B-017, B-018) / 5 skip.
+
+### M17 — Chatbot + live chat (phiên 3, 2026-11-25, chưa commit)
+
+- Chatbot "Trợ lý Tu Tu": nút nổi góc phải (nâng lên trên thanh mua nhanh ở trang sản phẩm mobile), khung chat dùng `Sheet` (bẫy focus, Esc), gợi ý câu hỏi, lịch sử trong `sessionStorage`, bộ đếm 500 ký tự, chỉ biến đường dẫn nội bộ thành link (không render HTML/markdown từ AI).
+- `POST /api/chat`: kiểm tra Origin → body ≤ 16 KB → zod (≤ 500 ký tự/tin, ≤ 10 lượt, tin cuối của khách) → chưa có khóa → 503 → giới hạn tần suất theo IP (10/phút, 60/ngày) → dữ liệu thật → Gemini. Lỗi: 400/403/413/429 (Retry-After)/502/503/504, câu tiếng Việt.
+- `src/features/chatbot/gemini.ts` (`server-only`): REST `generateContent`, khóa ở header `x-goog-api-key`, timeout 15 s, `thinkingLevel: MINIMAL`, model `GEMINI_MODEL` (mặc định `gemini-3.8-flash` — Flash ổn định mới nhất theo trang Models/changelog của Google, GA 02/09/2026). Bị chặn/lộ mã canary → câu từ chối.
+- System prompt (`prompt.ts`): giọng thương hiệu, chỉ dùng dữ liệu (sản phẩm từ Supabase, chính sách + FAQ từ `policies/content.ts`, thông báo, liên hệ), không biết → gợi ý nhân viên, chống prompt injection (tin khách là dữ liệu, không lộ chỉ dẫn, mã canary).
+- Migration `20261125000100_chat_rate_limit.sql`: bảng `chat_rate_limits` (IP băm SHA-256 + `CHAT_IP_SALT`, RLS, không cấp quyền bảng) + RPC `chat_rate_hit` (security definer, kiểm tra đầu vào, tự dọn cửa sổ cũ).
+- Live chat: nút "Chat với nhân viên" → Nhắn Zalo (chỉ hiện khi `site.social.zalo` là link thật — **hiện đang ẩn**), Nhắn Messenger (`site.social.messenger` = `https://m.me/61595232284438`), Gọi điện. Không script ngoài, CSP không đổi.
+- Env: `GEMINI_API_KEY`, `GEMINI_MODEL`, `CHAT_IP_SALT` (`.env.example`, `npm run env:local` tự sinh salt). E2E dùng server Gemini giả lập (`GEMINI_API_BASE_URL`, cổng 3199 — `tests/e2e/ports.ts`).
+- Kiểm thử: unit 116 · integration 50 · E2E 89 pass / 4 fail có sẵn (B-017, B-018) + 1 chập chờn (B-019) / 5 skip.
+
 ## Bước tiếp theo
 
-Toàn bộ milestone M0–M13 đã xong. Việc còn lại **cần chủ cửa hàng quyết định/cung cấp** (không tự làm):
+Giai đoạn 3 (M14–M17) xong, **chưa commit** (theo yêu cầu). Chủ shop cần:
+
+1. `GEMINI_API_KEY` trong `.env.local` (và Vercel khi deploy) → thử chatbot với câu hỏi thật.
+2. Link Zalo thật trong `site.social.zalo` (nút Zalo của chatbot đang ẩn; icon Zalo ở footer đang trỏ link mẫu).
+3. `src/config/bank.ts` (tài khoản nhận chuyển khoản) → quét thử QR.
+4. Ảnh + link đối tác (`src/config/partners.ts`, `public/partners/`), link nhúng Maps chính thức (tùy chọn).
+5. Quyết định B-017/B-018 (test lightbox/ảnh admin và dòng thông báo demo).
+
+Trước phiên 3: toàn bộ milestone M0–M13 đã xong. Việc còn lại **cần chủ cửa hàng quyết định/cung cấp** (không tự làm):
 
 1. Dữ liệu thật: tên/giá/ảnh chụp/tồn kho 6 sản phẩm (`/admin/san-pham`), thông tin liên hệ & mạng xã hội (`src/config/site.ts`), chính sách (`/chinh-sach`), tắt/xóa 2 mã giảm giá demo và dòng thông báo "mã demo" (`/admin/ma-giam-gia`, `src/config/site.ts`).
 2. Deploy theo `docs/DEPLOY_GUIDE.md` (cần tài khoản Supabase, Vercel, tên miền, SMTP).

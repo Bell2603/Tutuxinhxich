@@ -13,7 +13,10 @@ import { OrderItems, OrderTotals, ShippingInfo } from "@/features/orders/compone
 import { OrderTimeline } from "@/features/orders/components/order-timeline";
 import { canCustomerCancel } from "@/features/orders/domain";
 import { getMyOrderByCode } from "@/features/orders/queries";
+import { BankTransferPanel } from "@/features/payments/components/bank-transfer-panel";
+import { isBankConfigured, shouldShowTransfer } from "@/features/payments/bank-transfer";
 import { formatDateTime } from "@/lib/format";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Chi tiết đơn hàng", robots: { index: false } };
 
@@ -23,10 +26,14 @@ async function OrderView({ params, searchParams }: PageProps<"/tai-khoan/don-han
   const order = await getMyOrderByCode(code);
   if (!order) notFound();
   const isNew = query.moi === "1";
+  const showTransfer =
+    order.payment_method === "bank_transfer_mock" &&
+    isBankConfigured() &&
+    shouldShowTransfer(order.status);
 
   return (
     <>
-      {isNew ? <OrderCelebration code={order.code} /> : null}
+      {isNew ? <OrderCelebration code={order.code} bankTransfer={showTransfer} /> : null}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-sm font-semibold text-ink-soft">
@@ -64,7 +71,9 @@ async function OrderView({ params, searchParams }: PageProps<"/tai-khoan/don-han
             <OrderItems items={order.order_items} reviewLinks={order.status === "delivered"} />
           </section>
         </div>
-        <div className="space-y-8">
+        {/* Có hướng dẫn chuyển khoản → đưa cột thanh toán lên đầu trên mobile. */}
+        <div className={cn("space-y-8", showTransfer && "order-first lg:order-none")}>
+          {showTransfer ? <BankTransferPanel order={order} /> : null}
           <section
             className="rounded-[2rem] bg-white p-6 shadow-card ring-1 ring-line"
             aria-labelledby="pay-title"
@@ -79,9 +88,6 @@ async function OrderView({ params, searchParams }: PageProps<"/tai-khoan/don-han
               discount={order.discount}
               couponCode={order.coupon_code}
             />
-            <p className="mt-4 rounded-2xl bg-sun-100 px-4 py-3 text-xs font-semibold text-warning">
-              Môi trường thử nghiệm — không phát sinh thanh toán thật.
-            </p>
           </section>
           <section
             className="rounded-[2rem] bg-white p-6 shadow-card ring-1 ring-line"

@@ -11,6 +11,7 @@ import { getAdminUser } from "@/features/auth/session";
 import { OrderStatusBadge } from "@/features/orders/components/order-status-badge";
 import { OrderItems, OrderTotals, ShippingInfo } from "@/features/orders/components/order-summary";
 import { OrderTimeline } from "@/features/orders/components/order-timeline";
+import { transferContent } from "@/features/payments/bank-transfer";
 import { formatDateTime } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Chi tiết đơn hàng" };
@@ -55,6 +56,14 @@ async function AdminOrder({ params }: { params: PageProps<"/admin/don-hang/[id]"
               discount={order.discount}
               couponCode={order.coupon_code}
             />
+            {order.payment_method === "bank_transfer_mock" ? (
+              <p className="mt-4 rounded-2xl bg-pink-50 px-4 py-3 text-sm">
+                <span className="text-ink-soft">Nội dung chuyển khoản cần đối soát: </span>
+                <strong data-testid="admin-transfer-content">
+                  {transferContent(order.code, order.recipient_name, order.phone)}
+                </strong>
+              </p>
+            ) : null}
           </section>
           <section className="rounded-[2rem] bg-white p-6 shadow-card ring-1 ring-line">
             <h2 className="mb-4 text-xl font-extrabold">Giao hàng</h2>

@@ -133,8 +133,8 @@ export function Hero() {
                 aria-hidden
               />
             </ButtonLink>
-            <ButtonLink href="/#lookbook" size="lg" variant="light">
-              Xem lookbook
+            <ButtonLink href="/phoi-khan" size="lg" variant="light">
+              Cách phối khăn
             </ButtonLink>
           </m.div>
 

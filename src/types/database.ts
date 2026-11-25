@@ -3,6 +3,28 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export type Database = {
   public: {
     Tables: {
+      chat_rate_limits: {
+        Row: {
+          bucket: string;
+          hits: number;
+          ip_hash: string;
+          window_start: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          bucket: string;
+          hits?: number;
+          ip_hash: string;
+          window_start: string;
+        };
+        Update: {
+          bucket?: string;
+          hits?: number;
+          ip_hash?: string;
+          window_start?: string;
+        };
+        Relationships: [];
+      };
       coupon_redemptions: {
         Row: {
           coupon_id: string;
@@ -474,6 +496,13 @@ export type Database = {
       cancel_my_order: {
         Args: { p_order_id: string };
         Returns: Database["public"]["Enums"]["order_status"];
+      };
+      chat_rate_hit: {
+        Args: { p_ip_hash: string; p_per_day: number; p_per_minute: number };
+        Returns: {
+          allowed: boolean;
+          retry_after_seconds: number;
+        }[];
       };
       check_coupon: {
         Args: { p_code: string; p_lock: boolean; p_subtotal: number; p_user: string };

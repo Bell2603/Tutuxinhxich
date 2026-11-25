@@ -35,7 +35,7 @@ Ngày: 2026-10-15 · Nhánh: `main` (git repo riêng trong `~/Tutuxinhxich`, **c
 ## 4. Lưu ý quan trọng cho chủ cửa hàng
 
 - Toàn bộ **sản phẩm, ảnh, đánh giá, thông tin liên hệ, chính sách** là nội dung **demo/mẫu** — đã ghi rõ trên website.
-- **Thanh toán là giả lập**; không kết nối cổng thanh toán thật.
+- **Thanh toán là giả lập**; không kết nối cổng thanh toán thật. _(Cập nhật phiên 3 — M16: chuyển khoản ngân hàng thật do khách tự chuyển, xem `docs/PRODUCT_MANAGEMENT.md`.)_
 - Ảnh sản phẩm hiện là minh họa vẽ bằng code; nên thay bằng ảnh chụp thật (4:5, ≤ 5 MB) qua trang admin.
 - Môi trường: OrbStack đã được bật trong phiên này để chạy Supabase local; các container Supabase của dự án `~/khan-store` (tự khởi động theo OrbStack) đã được dừng (dữ liệu vẫn giữ). Thư mục home là một git repo nên dự án dùng git repo riêng.
 

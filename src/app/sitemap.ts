@@ -9,6 +9,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/`, changeFrequency: "weekly", priority: 1 },
     { url: `${base}/bo-suu-tap`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${base}/chinh-sach`, changeFrequency: "monthly", priority: 0.3 },
+    { url: `${base}/phoi-khan`, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${base}/ve-chung-toi`, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${base}/hoi-dap`, changeFrequency: "monthly", priority: 0.4 },
   ];
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key =

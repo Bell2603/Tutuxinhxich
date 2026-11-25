@@ -6,7 +6,7 @@ const supabaseHost = supabaseUrl ? new URL(supabaseUrl) : null;
 const isLocalSupabase =
   supabaseHost !== null && ["127.0.0.1", "localhost"].includes(supabaseHost.hostname);
 
-// CSP: chỉ cho phép script/style/ảnh từ chính website (+ Supabase cho ảnh & upload).
+// CSP: chỉ cho phép script/style/ảnh từ chính website (+ Supabase cho ảnh & upload, Google Maps cho iframe).
 // Next.js cần script inline cho hydrate; dùng nonce sẽ buộc mọi trang render động (mất static shell) nên chưa áp dụng.
 const isDev = process.env.NODE_ENV !== "production";
 const supabaseOrigin = supabaseHost?.origin ?? "";
@@ -16,6 +16,8 @@ const contentSecurityPolicy = [
   "style-src 'self' 'unsafe-inline'",
   `img-src 'self' data: blob: ${supabaseOrigin}`.trim(),
   "font-src 'self' data:",
+  // Iframe bản đồ cửa hàng trên /ve-chung-toi (site.contact.mapEmbedUrl).
+  "frame-src https://www.google.com",
   `connect-src 'self' ${supabaseOrigin}${isDev ? " ws: wss:" : ""}`.trim(),
   "frame-ancestors 'none'",
   "base-uri 'self'",

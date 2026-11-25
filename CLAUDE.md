@@ -24,20 +24,22 @@ Chạy kiểm tra → cập nhật `docs/PROGRESS.md` (đã làm, bước tiếp
 
 ## Cổng local (khác mặc định để không đụng dự án khác)
 
-API 54421 · DB 54422 · Studio 54423 · Mailpit 54424 · Next.js 3000
+API 54421 · DB 54422 · Studio 54423 · Mailpit 54424 · Next.js 3000 · E2E 3100 · Gemini giả lập (E2E) 3199
 
 ## Cấu trúc
 
 ```
-src/app/(shop)/…          Cửa hàng: trang chủ, /bo-suu-tap, /san-pham/[slug], /yeu-thich, /thanh-toan, /tai-khoan, /dang-nhap, /dang-ky, /quen-mat-khau, /dat-lai-mat-khau
+src/app/(shop)/…          Cửa hàng: trang chủ, /bo-suu-tap, /san-pham/[slug], /yeu-thich, /thanh-toan, /tai-khoan, /dang-nhap, /dang-ky, /quen-mat-khau, /dat-lai-mat-khau, /chinh-sach, /hoi-dap, /phoi-khan, /ve-chung-toi
+src/app/api/…             /api/catalog, /api/chat (chatbot Gemini — server-only, rate limit RPC chat_rate_hit)
 src/app/admin/…           Quản trị: /admin, /admin/san-pham, /admin/don-hang, /admin/danh-gia, /admin/ma-giam-gia
-src/features/<tên>/       catalog · cart · checkout · orders · auth · admin · wishlist · reviews · coupons · home
+src/features/<tên>/       catalog · cart · checkout · orders · auth · admin · wishlist · reviews · coupons · home · about · styling · policies · payments · chatbot
   domain.ts               Logic thuần → unit test (*.test.ts cạnh file)
   schemas.ts              zod dùng chung client + server
   queries.ts              Đọc dữ liệu (server-only)
   actions.ts              Server Actions: validate → kiểm quyền → Supabase → ActionResult
   components/
 src/components/           UI dùng chung (ui/, brand/, motion/, layout/)
+src/config/               site.ts (liên hệ, mạng xã hội, menu) · bank.ts (tài khoản chuyển khoản) · partners.ts (đối tác)
 src/lib/                  supabase clients, env, format, text, errors, safe-redirect
 supabase/migrations/      Schema, RLS, RPC, storage — KHÔNG sửa file đã commit, thêm migration mới
 supabase/seed.sql         6 sản phẩm DEMO
@@ -61,10 +63,13 @@ npm run test:e2e                # tự build + start, cần Supabase local; rese
 - Giá luôn tính lại ở database (`place_order`), không tin giá từ client. Hằng số phí ship/giới hạn số lượng phải khớp TS ↔ SQL.
 - Quyền admin kiểm tra ở server: `requireAdmin()` trong mọi query/action admin + RLS. Không dùng `SUPABASE_SECRET_KEY` trong `src/`.
 - Mọi đọc cookie/dữ liệu động phải nằm trong `<Suspense>` (Cache Components). `createClient()` server đã gọi `connection()`.
-- Không commit `.env*` (trừ `.env.example`). Không push, không deploy, không bật thanh toán thật.
+- Không commit `.env*` (trừ `.env.example`). Không push, không deploy.
+- Thanh toán: COD + chuyển khoản ngân hàng do **khách tự chuyển** (trang đơn hiện tài khoản `src/config/bank.ts`, nội dung `<Mã đơn> - <TÊN> - <SĐT>`, mã VietQR tạo trên server). Không tích hợp cổng thanh toán, không tự đánh dấu "đã thanh toán"; shop đối soát thủ công. Enum `bank_transfer_mock` giữ tên cũ trong database.
 - `npm run db:reset` xóa sạch DB local (chỉ local, có kiểm tra host).
 - Animation: dùng `motion/react`, tôn trọng `prefers-reduced-motion` (`MotionConfig reducedMotion="user"` + CSS).
 - UI tiếng Việt, tiền tệ `formatVND()`.
 - Chuyển trang: bọc nội dung mỗi page bằng `PageTransition` (`src/components/motion/page-transition.tsx`); link tới sản phẩm dùng `transitionTypes={["nav-forward"]}`.
 - Sửa tài liệu bằng script: luôn `assert` chuỗi cần thay có tồn tại (Prettier căn lại bảng Markdown — B-012).
+- Nội dung chính sách/FAQ chỉ sửa ở `src/features/policies/content.ts` (dùng cho /chinh-sach, /hoi-dap, trang sản phẩm, chatbot).
+- Chatbot: `GEMINI_API_KEY`/`CHAT_IP_SALT` chỉ dùng phía server; E2E dùng server Gemini giả lập, không gọi Google.
 - Mẫu email Supabase ở `supabase/templates/` (đổi xong: `npm run db:stop && npm run db:start`).

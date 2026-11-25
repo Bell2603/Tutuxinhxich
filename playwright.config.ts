@@ -1,9 +1,10 @@
 import { defineConfig, devices } from "@playwright/test";
 import { config } from "dotenv";
+import { E2E_PORT, GEMINI_MOCK_PORT } from "./tests/e2e/ports";
 
 config({ path: ".env.local", quiet: true });
 
-const PORT = Number(process.env.E2E_PORT ?? 3100);
+const PORT = E2E_PORT;
 
 /**
  * E2E chạy trên bản build production (next start) ở cổng 3100 với Supabase local.
@@ -41,5 +42,12 @@ export default defineConfig({
     timeout: 300_000,
     stdout: "ignore",
     stderr: "pipe",
+    // Ghi đè khóa thật (nếu có trong .env.local) để E2E luôn dùng server giả lập.
+    env: {
+      GEMINI_API_KEY: "e2e-test-key",
+      GEMINI_MODEL: "gemini-3.8-flash",
+      GEMINI_API_BASE_URL: `http://127.0.0.1:${GEMINI_MOCK_PORT}`,
+      CHAT_IP_SALT: "e2e-salt",
+    },
   },
 });

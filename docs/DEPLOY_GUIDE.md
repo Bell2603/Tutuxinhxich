@@ -82,13 +82,18 @@ Sau đó thay dữ liệu demo bằng dữ liệu thật qua trang `/admin/san-p
 1. Vercel → **Add New → Project** → chọn repository GitHub `tutuxinhxich`. Framework tự nhận **Next.js**.
 2. **Environment Variables** (áp dụng cho Production và Preview):
 
-   | Tên                                    | Giá trị                                                |
-   | -------------------------------------- | ------------------------------------------------------ |
-   | `NEXT_PUBLIC_SUPABASE_URL`             | Project URL của Supabase (`https://<ref>.supabase.co`) |
-   | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Publishable key (`sb_publishable_…`)                   |
-   | `NEXT_PUBLIC_SITE_URL`                 | `https://<tên-miền>` (hoặc URL `.vercel.app` lúc đầu)  |
+   | Tên                                    | Giá trị                                                                                      |
+   | -------------------------------------- | -------------------------------------------------------------------------------------------- |
+   | `NEXT_PUBLIC_SUPABASE_URL`             | Project URL của Supabase (`https://<ref>.supabase.co`)                                       |
+   | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Publishable key (`sb_publishable_…`)                                                         |
+   | `NEXT_PUBLIC_SITE_URL`                 | `https://<tên-miền>` (hoặc URL `.vercel.app` lúc đầu)                                        |
+   | `GEMINI_API_KEY`                       | Khóa Gemini (https://aistudio.google.com/apikey) — chatbot; để trống thì chatbot báo bảo trì |
+   | `GEMINI_MODEL`                         | `gemini-3.8-flash` (đổi khi Google ra bản Flash mới)                                         |
+   | `CHAT_IP_SALT`                         | Chuỗi ngẫu nhiên bí mật (`openssl rand -hex 32`) để băm IP khi giới hạn tần suất chatbot     |
 
    **Không** thêm `SUPABASE_SECRET_KEY` lên Vercel — website không cần, càng ít nơi giữ khóa bí mật càng an toàn.
+   `GEMINI_API_KEY`, `CHAT_IP_SALT` là biến **server**: không bao giờ đặt tiền tố `NEXT_PUBLIC_`. Đặt giới hạn chi tiêu/quota cho khóa Gemini trong Google AI Studio. Không đặt `GEMINI_API_BASE_URL` (chỉ dùng cho test).
+   Giới hạn tần suất chatbot dựa vào IP do Vercel đặt trong `x-real-ip`/`x-forwarded-for`; nếu tự host, đặt website sau proxy ghi đè các header này.
 
 3. **Settings → General → Node.js Version**: chọn 22.x hoặc 24.x.
 4. Bấm **Deploy**. Ảnh tải lên từ Supabase Storage được cho phép tự động dựa trên `NEXT_PUBLIC_SUPABASE_URL` (xem `next.config.ts`).
@@ -113,6 +118,8 @@ Sau đó thay dữ liệu demo bằng dữ liệu thật qua trang `/admin/san-p
 - [ ] Tài khoản thường mở `/admin` → thấy "Không có quyền truy cập".
 - [ ] Admin sửa giá/ảnh một sản phẩm → cửa hàng cập nhật.
 - [ ] `https://<tên-miền>/robots.txt` và `/sitemap.xml` có đúng tên miền.
+- [ ] Chatbot: hỏi "Phí ship bao nhiêu?", "Có khăn len không?" → trả lời đúng dữ liệu; hỏi việc ngoài shop → từ chối; nút "Chat với nhân viên" mở đúng Zalo/Messenger.
+- [ ] Chuyển khoản (khi đã điền `src/config/bank.ts`): đặt đơn chuyển khoản, quét QR bằng app ngân hàng → đúng chủ tài khoản, số tiền, nội dung.
 - [ ] Kiểm tra trên điện thoại thật (iOS Safari, Android Chrome).
 
 ## 8. Cập nhật phiên bản mới
@@ -136,7 +143,8 @@ Sau đó thay dữ liệu demo bằng dữ liệu thật qua trang `/admin/san-p
 - ❌ Chạy `npm run db:reset` hoặc `supabase db reset --linked` vào database thật.
 - ❌ Commit file `.env*` (chỉ `.env.example` được commit) hoặc đặt khóa bí mật vào biến bắt đầu bằng `NEXT_PUBLIC_`.
 - ❌ Sửa file migration đã chạy — luôn tạo migration mới.
-- ❌ Bật thu tiền thật khi chưa tích hợp cổng thanh toán (VNPay/MoMo/PayOS…) có xác thực webhook phía server. Phương thức hiện tại là **giả lập**; khi tích hợp thật, trạng thái "đã thanh toán" phải do webhook đã xác minh chữ ký cập nhật, không do trình duyệt.
+- ❌ Tự động đánh dấu "đã thanh toán" khi chưa tích hợp cổng thanh toán (VNPay/MoMo/PayOS…) có xác thực webhook phía server. Hiện tại: COD + **chuyển khoản do khách tự chuyển** vào tài khoản trong `src/config/bank.ts` (còn giá trị mẫu thì lựa chọn chuyển khoản tự ẩn); chủ shop đối soát sao kê rồi xác nhận đơn trong admin.
+- ✅ Trước khi mở bán: điền `src/config/bank.ts` (tên ngân hàng, mã BIN 6 số, số tài khoản, chủ tài khoản), đặt thử một đơn chuyển khoản và **quét QR bằng app ngân hàng** để chắc tên chủ tài khoản, số tiền, nội dung hiện đúng.
 - ❌ Để nguyên nội dung mẫu: thông tin liên hệ, chính sách, **đánh giá demo**, **mã giảm giá demo**, ảnh minh họa — thay bằng nội dung thật (`docs/PRODUCT_MANAGEMENT.md`).
 - ❌ Tắt Row Level Security hoặc sửa policy Storage khi chưa hiểu rõ — đây là lớp bảo vệ chính của dữ liệu.
 - ✅ Bật xác thực 2 lớp cho tài khoản Supabase, Vercel, GitHub; giới hạn số người có quyền admin.
