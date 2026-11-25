@@ -2,9 +2,10 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "@/components/brand/logo";
 import { Sparkle } from "@/components/ui/sparkle";
-import { site } from "@/config/site";
+import { hasPartners, site } from "@/config/site";
 import Image from "next/image";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- giữ lại để bật lại mạng xã hội này
 function InstagramIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -25,7 +26,9 @@ function InstagramIcon({ className }: { className?: string }) {
 function ZaloIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden fill="currentColor">
-      <text x="12" y="16" textAnchor="middle" fontSize="11" fontWeight="700">Zalo</text>
+      <text x="12" y="16" textAnchor="middle" fontSize="11" fontWeight="700">
+        Zalo
+      </text>
     </svg>
   );
 }
@@ -38,6 +41,7 @@ function FacebookIcon({ className }: { className?: string }) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- giữ lại để bật lại mạng xã hội này
 function TikTokIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden fill="currentColor">
@@ -90,19 +94,21 @@ export function SiteFooter() {
                 Bộ sưu tập
               </Link>
             </li>
+            {hasPartners ? (
+              <li>
+                <Link className="hover:text-white hover:underline" href="/#doi-tac">
+                  Đối tác
+                </Link>
+              </li>
+            ) : null}
             <li>
-              <Link className="hover:text-white hover:underline" href="/#lookbook">
-                Lookbook
-              </Link>
-            </li>
-            <li>
-              <Link className="hover:text-white hover:underline" href="/#phoi-do">
+              <Link className="hover:text-white hover:underline" href="/phoi-khan">
                 Cách phối khăn
               </Link>
             </li>
             <li>
-              <Link className="hover:text-white hover:underline" href="/#cau-chuyen">
-                Câu chuyện thương hiệu
+              <Link className="hover:text-white hover:underline" href="/ve-chung-toi">
+                Về chúng tôi
               </Link>
             </li>
           </ul>
@@ -123,6 +129,16 @@ export function SiteFooter() {
             <li>
               <Link className="hover:text-white hover:underline" href="/chinh-sach#bao-quan">
                 Bảo quản khăn
+              </Link>
+            </li>
+            <li>
+              <Link className="hover:text-white hover:underline" href="/hoi-dap">
+                Câu hỏi thường gặp
+              </Link>
+            </li>
+            <li>
+              <Link className="hover:text-white hover:underline" href="/ve-chung-toi#lien-he">
+                Liên hệ
               </Link>
             </li>
           </ul>
@@ -146,8 +162,8 @@ export function SiteFooter() {
           <p className="mt-3 text-sm text-cream/60">{site.contact.hours}</p>
         </div>
       </div>
-      
-        <div className="container-page flex flex-col items-center gap-3 pb-10">
+
+      <div className="container-page flex flex-col items-center gap-3 pb-10">
         <a
           href="http://online.gov.vn/"
           target="_blank"

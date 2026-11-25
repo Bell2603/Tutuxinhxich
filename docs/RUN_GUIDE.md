@@ -46,6 +46,8 @@ npm run dev
 
 Mở trình duyệt tại **http://localhost:3000** 🎉
 
+> 💬 Chatbot: thêm `GEMINI_API_KEY=<khóa>` vào `.env.local` (lấy tại https://aistudio.google.com/apikey) rồi khởi động lại `npm run dev`. Chưa có khóa thì chatbot vẫn hiện nhưng báo "đang nghỉ giải lao" và gợi ý chat với nhân viên. E2E không dùng khóa thật (server Gemini giả lập).
+
 > ⚠️ `npm run db:reset` **xóa sạch** database local rồi tạo lại dữ liệu demo. Chỉ chạy lần đầu hoặc khi muốn làm lại từ đầu. Lệnh này tự từ chối chạy nếu không phải Supabase local.
 
 ---

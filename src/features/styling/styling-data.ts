@@ -18,7 +18,7 @@ export type TyingStyle = {
   suggest: { name: string; slug: string };
 };
 
-/** 4 cách quàng khăn — dùng ở trang chủ (#phoi-do) và gợi ý trên trang sản phẩm. */
+/** 4 cách quàng khăn — dùng ở trang /phoi-khan và gợi ý trên trang sản phẩm. */
 export const STYLES: readonly TyingStyle[] = [
   {
     key: "no-co",

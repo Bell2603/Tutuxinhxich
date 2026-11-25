@@ -18,13 +18,14 @@ import { useCatalogStore } from "@/features/catalog/client-store";
 import { formatVND } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { CouponField } from "@/features/coupons/components/coupon-field";
+import { isBankConfigured } from "@/features/payments/bank-transfer";
 import { couponDiscount, type CouponTerms } from "@/features/coupons/domain";
 import { placeOrderAction } from "../actions";
 import { PROVINCES, shippingSchema, type ShippingInput, type ShippingValues } from "../schemas";
 
 type PaymentMethod = "cod" | "bank_transfer_mock";
 
-const PAYMENT_OPTIONS: {
+const ALL_PAYMENT_OPTIONS: {
   value: PaymentMethod;
   title: string;
   text: string;
@@ -37,12 +38,18 @@ const PAYMENT_OPTIONS: {
     Icon: Banknote,
   },
   {
+    // Giá trị enum giữ tên cũ trong database; nay là chuyển khoản thật do khách tự thực hiện.
     value: "bank_transfer_mock",
-    title: "Chuyển khoản (giả lập)",
-    text: "Mô phỏng thanh toán chuyển khoản — không trừ tiền thật.",
+    title: "Chuyển khoản ngân hàng",
+    text: "Số tài khoản, nội dung và mã QR hiện ngay sau khi đặt hàng.",
     Icon: QrCode,
   },
 ];
+
+// Chưa điền tài khoản ngân hàng thật (src/config/bank.ts) → chỉ còn COD.
+const PAYMENT_OPTIONS = ALL_PAYMENT_OPTIONS.filter(
+  (option) => option.value !== "bank_transfer_mock" || isBankConfigured(),
+);
 
 export function CheckoutForm({
   defaults,
@@ -290,8 +297,8 @@ export function CheckoutForm({
           </div>
           <p className="mt-4 flex items-center gap-2 rounded-2xl bg-sun-100 px-4 py-3 text-sm font-semibold text-warning">
             <Lock className="size-4 shrink-0" aria-hidden />
-            Môi trường thử nghiệm: đơn hàng là thật trong hệ thống nhưng không phát sinh thanh toán
-            thật.
+            Tu Tu không thu tiền online: COD trả khi nhận hàng; chuyển khoản do bạn tự thực hiện
+            theo thông tin trên trang đơn hàng.
           </p>
         </section>
       </div>

@@ -27,6 +27,17 @@ Trạng thái chi tiết nằm ở `docs/PROGRESS.md`.
 | M12 | Đánh giá thật      | Bảng `product_reviews`, chỉ khách có đơn **đã giao** chứa sản phẩm được đánh giá (DB kiểm tra), admin ẩn/hiện, điểm trung bình trên thẻ/trang sản phẩm + JSON-LD, trang chủ dùng đánh giá thật khi có                    | Integration RLS/RPC; E2E viết & duyệt đánh giá                        |
 | M13 | Mã giảm giá        | Bảng `coupons` (giảm %/số tiền, đơn tối thiểu, hạn dùng, giới hạn lượt), admin quản lý, áp mã ở checkout, `place_order` tính giảm giá trong DB                                                                           | Unit; integration (giá trị giảm, hết hạn, hết lượt, đồng thời); E2E   |
 
+## Giai đoạn 3 — Nội dung, đối tác, chuyển khoản, chatbot (phiên 3)
+
+Làm theo từng giai đoạn, trình kế hoạch và chờ chủ cửa hàng duyệt trước khi code. **Phiên này không commit** (theo yêu cầu).
+
+| #   | Milestone                          | Nội dung chính                                                                                                                             | Kiểm thử                                      |
+| --- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------- |
+| M14 | Trang Về chúng tôi, Phối khăn, FAQ | `/ve-chung-toi` (câu chuyện + liên hệ + Google Maps), `/phoi-khan`, `/hoi-dap`; bỏ 2 section khỏi trang chủ; nội dung chính sách một nguồn | Unit nội dung chính sách; E2E trang mới, a11y |
+| M15 | Đối tác                            | Lookbook → khu vực đối tác (giữ parallax), dữ liệu `src/config/partners.ts`, ảnh `public/partners/`                                        | E2E link tab mới                              |
+| M16 | Chuyển khoản ngân hàng             | `bank_transfer_mock` → chuyển khoản thật (hiện thông tin + QR ở trang đơn), ẩn khi config còn placeholder; giữ COD                         | Unit nội dung CK; E2E                         |
+| M17 | Chatbot + live chat                | Chatbot Gemini qua API route server (rate limit, giới hạn, chống prompt injection), nút "Chat với nhân viên"                               | Unit; E2E (mock Gemini)                       |
+
 ## Definition of Done (mỗi milestone)
 
 - `npm run lint`, `npm run typecheck`, `npm run format:check`, `npm run test:unit` xanh

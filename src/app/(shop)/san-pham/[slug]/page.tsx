@@ -16,6 +16,7 @@ import { MobileBuyBar, PurchasePanel } from "@/features/catalog/components/purch
 import { productImages } from "@/features/catalog/domain";
 import { getProductBySlug, getVisibleProducts } from "@/features/catalog/queries";
 import { FABRIC_LABELS } from "@/features/catalog/types";
+import { SHIPPING_RETURN_SUMMARY } from "@/features/policies/content";
 import { siteUrl } from "@/lib/env";
 import { toaLabel } from "@/lib/format";
 
@@ -178,8 +179,11 @@ async function ProductView({ params }: { params: PageProps<"/san-pham/[slug]">["
               </AccordionItem>
               <AccordionItem title="Giao hàng & đổi trả">
                 <p>
-                  Miễn phí giao hàng cho đơn từ 500.000₫ (dưới mức này phí 30.000₫). Đổi mẫu trong 7
-                  ngày nếu khăn còn nguyên tem. Chính sách mẫu — xem thêm tại trang Chính sách.
+                  {SHIPPING_RETURN_SUMMARY} Xem thêm tại trang{" "}
+                  <Link href="/chinh-sach" className="font-semibold text-berry hover:underline">
+                    Chính sách
+                  </Link>
+                  .
                 </p>
               </AccordionItem>
             </div>

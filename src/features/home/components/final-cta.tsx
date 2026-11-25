@@ -3,6 +3,8 @@ import { Reveal } from "@/components/motion/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { Sparkle } from "@/components/ui/sparkle";
 import { LogoMark } from "@/components/brand/logo";
+import { FREE_SHIPPING_THRESHOLD } from "@/features/cart/domain";
+import { formatVND } from "@/lib/format";
 
 export function FinalCta() {
   return (
@@ -23,7 +25,8 @@ export function FinalCta() {
           thôi!
         </h2>
         <p className="mx-auto mt-5 max-w-xl text-lg font-medium text-ink/80">
-          Miễn phí giao hàng cho đơn từ 500.000₫ và gói quà xinh cho mọi đơn.
+          Miễn phí giao hàng cho đơn từ {formatVND(FREE_SHIPPING_THRESHOLD)} và gói quà xinh cho mọi
+          đơn.
         </p>
         <ButtonLink href="/bo-suu-tap" size="lg" variant="primary" className="group mt-8">
           Mua ngay

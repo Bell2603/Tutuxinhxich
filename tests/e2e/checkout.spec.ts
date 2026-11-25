@@ -8,6 +8,10 @@ import {
   updateProduct,
   visible,
 } from "./support";
+import { bank } from "../../src/config/bank";
+import { isBankConfigured, transferContent } from "../../src/features/payments/bank-transfer";
+
+const BANK_READY = isBankConfigured();
 
 async function addToCart(page: Page, slug: string, quantity = 1) {
   await page.goto(`/san-pham/${slug}`);
@@ -57,7 +61,10 @@ test.describe("Thanh toán (thử nghiệm)", () => {
     await expect(page.getByTestId("checkout-total")).toHaveText(formatVND(subtotal));
 
     await fillShipping(page);
-    await page.getByTestId("payment-bank_transfer_mock").check({ force: true });
+    // Chưa điền tài khoản ngân hàng thật (src/config/bank.ts) → chỉ có COD.
+    const payment = BANK_READY ? "bank_transfer_mock" : "cod";
+    await expect(page.getByTestId("payment-bank_transfer_mock")).toHaveCount(BANK_READY ? 1 : 0);
+    await page.getByTestId(`payment-${payment}`).check({ force: true });
     await page.getByTestId("place-order").click();
 
     await expect(page).toHaveURL(/\/tai-khoan\/don-hang\/TT\d{10}\?moi=1$/);
@@ -76,7 +83,7 @@ test.describe("Thanh toán (thử nghiệm)", () => {
       .single();
     expect(order).toMatchObject({
       total: subtotal,
-      payment_method: "bank_transfer_mock",
+      payment_method: payment,
       phone: "0912345678",
       user_id: customer.id,
     });
@@ -90,6 +97,55 @@ test.describe("Thanh toán (thử nghiệm)", () => {
     await expect(visible(page.getByTestId("order-status")).first()).toHaveText("Đã hủy");
     expect((await dbProduct("TTXX-003")).stock).toBe(hoaCuc.stock);
     expect((await dbProduct("TTXX-001")).stock).toBe(mayHong.stock);
+  });
+
+  test("chuyển khoản: thông tin tài khoản, nội dung, QR và nút sao chép trên trang đơn @mobile", async ({
+    page,
+    context,
+    browserName,
+  }) => {
+    test.skip(!BANK_READY, "Chưa điền tài khoản ngân hàng thật trong src/config/bank.ts");
+    test.skip(browserName !== "chromium", "Quyền clipboard chỉ cấp được trên Chromium");
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+    const customer = await createCustomer();
+    await login(page, customer.email, customer.password);
+    const hoaCuc = await dbProduct("TTXX-003");
+    await addToCart(page, hoaCuc.slug, 1);
+    await page.goto("/thanh-toan");
+    await fillShipping(page);
+    await page.getByTestId("payment-bank_transfer_mock").check({ force: true });
+    await page.getByTestId("place-order").click();
+    await expect(page).toHaveURL(/\/tai-khoan\/don-hang\/TT\d{10}\?moi=1$/);
+
+    const code = (await page.getByTestId("order-code").textContent())!.replace("Đơn #", "").trim();
+    const content = transferContent(code, "Nguyễn Thị Xinh", "0912345678");
+    expect(content).toBe(`${code} - NGUYEN THI XINH - 0912345678`);
+    const panel = visible(page.getByTestId("bank-transfer"));
+    await expect(panel.getByTestId("bank-account")).toHaveText(bank.accountNumber);
+    await expect(panel.getByTestId("bank-amount")).toHaveText(formatVND(hoaCuc.price + 30_000));
+    await expect(panel.getByTestId("bank-content")).toHaveText(content);
+    await expect(panel.getByTestId("bank-qr")).toHaveAttribute("src", /^data:image\/svg\+xml/);
+    await panel.getByRole("button", { name: "Sao chép nội dung chuyển khoản" }).click();
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(content);
+
+    // Hủy đơn → không còn hướng dẫn chuyển khoản.
+    await visible(page.getByTestId("cancel-order")).click();
+    await visible(page.getByTestId("confirm-cancel")).click();
+    await expect(visible(page.getByTestId("order-status")).first()).toHaveText("Đã hủy");
+    await expect(page.getByTestId("bank-transfer")).toHaveCount(0);
+  });
+
+  test("đơn COD không có khối chuyển khoản", async ({ page }) => {
+    const customer = await createCustomer();
+    await login(page, customer.email, customer.password);
+    await addToCart(page, "hoa-cuc-san-ga", 1);
+    await page.goto("/thanh-toan");
+    await fillShipping(page);
+    await page.getByTestId("payment-cod").check({ force: true });
+    await page.getByTestId("place-order").click();
+    await expect(page).toHaveURL(/\/tai-khoan\/don-hang\/TT\d{10}\?moi=1$/);
+    await expect(page.getByTestId("order-success")).toBeVisible();
+    await expect(page.getByTestId("bank-transfer")).toHaveCount(0);
   });
 
   test("kiểm tra dữ liệu nhận hàng và phí ship dưới 500.000₫", async ({ page }) => {

@@ -1,5 +1,9 @@
 import { expect, test } from "@playwright/test";
 import { dbProducts, formatVND, trackErrors, updateProduct, visible } from "./support";
+import { PARTNERS } from "../../src/config/partners";
+import { site } from "../../src/config/site";
+import { FREE_SHIPPING_THRESHOLD } from "../../src/features/cart/domain";
+import { FAQS, RETURN_DAYS } from "../../src/features/policies/content";
 
 test.describe("Trang chủ", () => {
   test("hiển thị thương hiệu và đúng 6 SKU với giá chính xác @mobile", async ({ page }) => {
@@ -35,13 +39,13 @@ test.describe("Trang chủ", () => {
 
   test("các section chính có mặt", async ({ page }) => {
     await page.goto("/");
-    for (const id of ["#bo-suu-tap", "#lookbook", "#cau-chuyen", "#phoi-do"]) {
-      await expect(page.locator(id)).toHaveCount(1);
+    await expect(page.locator("#bo-suu-tap")).toHaveCount(1);
+    // Câu chuyện & phối khăn đã tách thành trang riêng; Lookbook đã thành khu vực đối tác.
+    for (const id of ["#cau-chuyen", "#phoi-do", "#lookbook"]) {
+      await expect(page.locator(id)).toHaveCount(0);
     }
+    await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
     await expect(page.getByRole("heading", { name: "Ngân Hà Lấp Lánh", level: 2 })).toBeVisible();
-    const tabs = page.getByRole("tablist", { name: "Cách quàng khăn" });
-    await tabs.getByRole("tab", { name: "Băng đô tóc" }).click();
-    await expect(page.getByRole("heading", { name: "Băng đô tóc", level: 3 })).toBeVisible();
   });
 
   test("menu di động mở được và điều hướng tới bộ sưu tập @mobile", async ({ page, isMobile }) => {
@@ -64,6 +68,39 @@ test.describe("Trang chủ", () => {
     await dialog.getByLabel("Từ khóa tìm kiếm").press("Enter");
     await expect(page).toHaveURL(/\/bo-suu-tap\?q=ngan(\+|%20)ha/);
     await expect(visible(page.getByTestId("product-card"))).toHaveCount(1);
+  });
+});
+
+test.describe("Đối tác", () => {
+  test("khu vực đối tác và link menu/footer khớp config (ẩn khi chưa có đối tác) @mobile", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const section = page.locator("#doi-tac");
+    const navLinks = page.locator('a[href="/#doi-tac"]');
+    if (PARTNERS.length === 0) {
+      await expect(section).toHaveCount(0);
+      await expect(navLinks).toHaveCount(0);
+      return;
+    }
+    await expect(section).toHaveCount(1);
+    await expect(navLinks.first()).toBeAttached();
+    const links = section.getByTestId("partner-link");
+    await expect(links).toHaveCount(PARTNERS.length);
+    for (const partner of PARTNERS) {
+      const link = section.locator(`a[href="${partner.url}"]`);
+      await expect(link).toHaveAttribute("target", "_blank");
+      await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+      await expect(link).toContainText(partner.name);
+      await link.scrollIntoViewIfNeeded();
+      await expect(link).toBeVisible();
+    }
+  });
+
+  test("nút phụ ở hero dẫn tới trang phối khăn", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("link", { name: "Cách phối khăn" }).first().click();
+    await expect(page).toHaveURL(/\/phoi-khan$/);
   });
 });
 
@@ -170,5 +207,85 @@ test.describe("Trang chi tiết sản phẩm", () => {
     } finally {
       await updateProduct("TTXX-006", { is_visible: true });
     }
+  });
+});
+
+test.describe("Trang nội dung", () => {
+  test.beforeEach(async ({ page }) => {
+    // Không phụ thuộc mạng ngoài: trả trang giả cho iframe Google Maps (CSP vẫn được kiểm tra thật).
+    await page.route("https://www.google.com/**", (route) =>
+      route.fulfill({ contentType: "text/html; charset=utf-8", body: "<p>Bản đồ</p>" }),
+    );
+  });
+
+  test("menu và footer dẫn tới các trang mới", async ({ page, isMobile }) => {
+    test.skip(isMobile, "Menu desktop");
+    await page.goto("/");
+    const header = page.getByRole("banner");
+    await header.getByRole("link", { name: "Phối khăn" }).click();
+    await expect(page).toHaveURL(/\/phoi-khan$/);
+    await header.getByRole("link", { name: "Về chúng tôi" }).click();
+    await expect(page).toHaveURL(/\/ve-chung-toi$/);
+
+    const footer = page.getByRole("contentinfo");
+    await expect(footer.getByRole("link", { name: "Cách phối khăn" })).toHaveAttribute(
+      "href",
+      "/phoi-khan",
+    );
+    await expect(footer.getByRole("link", { name: "Về chúng tôi" })).toHaveAttribute(
+      "href",
+      "/ve-chung-toi",
+    );
+    await footer.getByRole("link", { name: "Câu hỏi thường gặp" }).click();
+    await expect(page).toHaveURL(/\/hoi-dap$/);
+  });
+
+  test("Về chúng tôi: câu chuyện, liên hệ và bản đồ @mobile", async ({ page }) => {
+    const errors = trackErrors(page);
+    await page.goto("/ve-chung-toi");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
+    await expect(
+      page.getByRole("heading", { name: /Vì sao lại là Tu Tu Xình Xịch/, level: 2 }),
+    ).toBeVisible();
+    const contact = page.getByTestId("contact-info");
+    await expect(contact).toContainText(site.contact.phone);
+    await expect(contact).toContainText(site.contact.email);
+    await expect(contact).toContainText(site.contact.address);
+    const map = page.locator("#lien-he iframe");
+    await map.scrollIntoViewIfNeeded();
+    await expect(map).toHaveAttribute("src", site.contact.mapEmbedUrl);
+    await expect(map.contentFrame().getByText("Bản đồ")).toBeVisible();
+    expect(errors).toEqual([]);
+  });
+
+  test("Phối khăn: chuyển tab cách quàng @mobile", async ({ page }) => {
+    await page.goto("/phoi-khan");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
+    const tabs = page.getByRole("tablist", { name: "Cách quàng khăn" });
+    await tabs.getByRole("tab", { name: "Băng đô tóc" }).click();
+    await expect(page.getByRole("heading", { name: "Băng đô tóc", level: 3 })).toBeVisible();
+  });
+
+  test("trang sản phẩm dẫn tới trang phối khăn", async ({ page }) => {
+    await page.goto("/san-pham/may-hong-keo-bong");
+    await page.getByRole("link", { name: "Xem cả 4 cách quàng" }).click();
+    await expect(page).toHaveURL(/\/phoi-khan$/);
+  });
+
+  test("Hỏi đáp: accordion mở được, nội dung khớp trang chính sách @mobile", async ({ page }) => {
+    const freeShip = formatVND(FREE_SHIPPING_THRESHOLD);
+    await page.goto("/hoi-dap");
+    const faq = page.getByTestId("faq-list");
+    await expect(faq.locator("details")).toHaveCount(FAQS.length);
+    const returns = faq.locator("details", { hasText: "Mình có được đổi mẫu khác không?" });
+    await expect(returns).not.toHaveAttribute("open");
+    await returns.locator("summary").click();
+    await expect(returns).toHaveAttribute("open");
+    await expect(returns).toContainText(`${RETURN_DAYS} ngày`);
+    await expect(faq.locator("details").first()).toContainText(freeShip);
+
+    await page.goto("/chinh-sach");
+    await expect(page.locator("#giao-hang")).toContainText(freeShip);
+    await expect(page.locator("#doi-tra")).toContainText(`${RETURN_DAYS} ngày`);
   });
 });

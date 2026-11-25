@@ -2,9 +2,28 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { ADMIN, createCustomer, dbProduct, login, settleAnimations, trackErrors } from "./support";
 
-const PAGES = ["/", "/bo-suu-tap", "/san-pham/may-hong-keo-bong", "/dang-nhap", "/chinh-sach"];
+const PAGES = [
+  "/",
+  "/bo-suu-tap",
+  "/san-pham/may-hong-keo-bong",
+  "/dang-nhap",
+  "/chinh-sach",
+  "/ve-chung-toi",
+  "/phoi-khan",
+  "/hoi-dap",
+];
 
 test.describe("Chất lượng", () => {
+  test.beforeEach(async ({ page }) => {
+    // Iframe Google Maps (/ve-chung-toi): trả trang giả để axe không quét nội dung của Google và không cần mạng.
+    await page.route("https://www.google.com/**", (route) =>
+      route.fulfill({
+        contentType: "text/html; charset=utf-8",
+        body: '<!doctype html><html lang="vi"><title>Bản đồ</title><p>Bản đồ</p></html>',
+      }),
+    );
+  });
+
   for (const path of PAGES) {
     test(`không có lỗi a11y nghiêm trọng: ${path}`, async ({ page }) => {
       await page.emulateMedia({ reducedMotion: "reduce" });

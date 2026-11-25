@@ -5,7 +5,8 @@ import { ProductCardSkeleton } from "@/features/catalog/components/product-card"
 import { CollectionExplorer } from "@/features/catalog/components/collection-explorer";
 import { parseFilters, serializeFilters } from "@/features/catalog/domain";
 import { getVisibleProducts } from "@/features/catalog/queries";
-import { Accent, Eyebrow } from "@/components/ui/section-heading";
+import { PageHero } from "@/components/layout/page-hero";
+import { Accent } from "@/components/ui/section-heading";
 import { site } from "@/config/site";
 
 export const metadata: Metadata = {
@@ -49,19 +50,15 @@ export default function CollectionPage({ searchParams }: PageProps<"/bo-suu-tap"
   return (
     <PageTransition>
       <>
-        <section className="relative overflow-hidden pt-8 pb-10">
-          <div aria-hidden className="absolute inset-0 -z-10 bg-candy" />
-          <div className="container-page">
-            <Eyebrow>{site.collectionName}</Eyebrow>
-            <h1 className="mt-5 max-w-3xl text-5xl leading-[1.02] font-extrabold sm:text-7xl">
+        <PageHero
+          eyebrow={site.collectionName}
+          title={
+            <>
               Chọn toa khăn <Accent>hợp gu</Accent> bạn
-            </h1>
-            <p className="mt-4 max-w-2xl text-lg text-ink-soft">
-              Đúng 6 mẫu khăn — mỗi mẫu một cá tính. Lọc theo màu, chất liệu, mức giá hoặc gõ tìm
-              không cần dấu.
-            </p>
-          </div>
-        </section>
+            </>
+          }
+          description="Đúng 6 mẫu khăn — mỗi mẫu một cá tính. Lọc theo màu, chất liệu, mức giá hoặc gõ tìm không cần dấu."
+        />
         <Suspense
           fallback={
             <SkeletonExit>
